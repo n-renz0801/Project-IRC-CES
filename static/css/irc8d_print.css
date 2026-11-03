@@ -1,0 +1,175 @@
+/* IRC8D print layout -- long bond (8.5 x 13 in), landscape, one page.
+   Follows "Part IV print format" template. Only affects printing: the
+   print root is hidden on screen. */
+
+@page {
+  size: 13in 8.5in;
+  margin: 0.35in;
+}
+
+#irc8d-print-root {
+  display: none;
+}
+
+@media print {
+  /* Hide the whole app chrome without needing to know base.html's markup. */
+  body > *:not(#irc8d-print-root) {
+    display: none !important;
+  }
+  html::before,
+  html::after,
+  body::before,
+  body::after {
+    display: none !important;
+    content: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+
+  #irc8d-print-root {
+    display: block;
+    color: #000;
+    font-size: 6.5pt;
+    line-height: 1.2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #irc8d-print-root,
+  #irc8d-print-root *,
+  #irc8d-print-root *::before,
+  #irc8d-print-root *::after {
+    box-sizing: border-box;
+    font-family: "Arial Narrow", Arial, "Liberation Sans Narrow", sans-serif;
+    font-stretch: condensed;
+    box-shadow: none;
+  }
+
+  /* ---------- Top: page label (left) + title (centered) ---------- */
+  .r-page-label {
+    font-size: 6.5pt;
+    font-weight: 700;
+  }
+  .r-title {
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: -2px 0 6px;
+  }
+
+  /* ---------- Parts ---------- */
+  .r-part {
+    margin-top: 6px;
+    break-inside: avoid;
+  }
+  .r-part h3 {
+    margin: 0 0 2px;
+    padding: 0 0 0 8px;
+    border: 0;
+    font-size: 8pt;
+    font-weight: 700;
+    break-after: avoid;
+  }
+
+  .r-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  .r-table th,
+  .r-table td {
+    border: 0.5pt solid #000;
+    padding: 2px 4px;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+    font-size: 6.5pt;
+  }
+  .r-table th {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 700;
+    white-space: normal;
+    background: none;
+  }
+  .r-table thead tr.r-band th {
+    height: 12px;
+    padding: 1px 4px;
+    font-size: 6.5pt;
+    line-height: 1.1;
+  }
+  .r-table thead tr.r-cols th {
+    height: 22px;
+  }
+  .r-sub {
+    font-weight: 700;
+  }
+  .r-table tr {
+    break-inside: avoid;
+  }
+  .r-table tbody td {
+    height: 0.52in; /* blank rows keep body, like the paper form */
+  }
+  .r-table.r-table-a tbody td {
+    height: 0.6in;
+  }
+  .r-ref-main {
+    font-weight: 700;
+  }
+  .r-ref-meta {
+    margin-top: 1px;
+    font-size: 5.5pt;
+    font-style: italic;
+  }
+
+  /* ---------- Feedback boxes ---------- */
+  .r-feedback {
+    border: 0.5pt solid #000;
+    margin-top: 6px;
+    padding: 1px 3px;
+    min-height: 0.62in;
+    font-size: 6.5pt;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    break-inside: avoid;
+  }
+  .r-feedback-label {
+    display: block;
+  }
+
+  /* ---------- Signatories ---------- */
+  .r-signs {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.12in;
+    margin-top: 12px;
+    break-inside: avoid;
+  }
+  .r-sign {
+    flex: 1 1 0;
+    border: 0.5pt solid #000;
+    text-align: center;
+  }
+  .r-sign-name {
+    min-height: 15px;
+    padding: 2px 4px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .r-sign-role {
+    border-top: 0.5pt solid #000;
+    font-size: 6.5pt;
+    padding: 0 4px;
+  }
+}

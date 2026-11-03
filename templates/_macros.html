@@ -1,0 +1,96 @@
+{# Shared signatory macros. signatory_date(role, label): calendar-date control
+shown under a signatory's position (see /api/signatory-date/<tab_id
+  >/<role>
+    in app.py and the click/save wiring in index.js). `role` is one of
+    prepared_by / checked_by / approving_authority. signatories(roles, labels,
+    framed): the signature block used by OPCRF I-IV (irc8a-irc8d). `roles` is a
+    list drawn from 'ratee' name and position editable (default DR. JONATHAN P.
+    DOMINGO, SGOD Chief) 'rater' name editable (default DR. RODRIGO M. RODRIGUEZ
+    JR., CESO VI), position fixed: Assistant Schools Division Superintendent
+    'authority' name editable (default LERMA L. FLANDEZ, CESO VI), position
+    fixed: Schools Division Superintendent Editable fields are loaded / saved by
+    static/js/signatories.js. They are the same records as OPCRF I's "Form
+    details" fields and are shared by every page, so a change made in any of
+    those places shows up in all the others. Dates keep their existing per-tab
+    roles: ratee = prepared_by, rater = checked_by, authority =
+    approving_authority. `labels` overrides the heading per role; `framed=false`
+    omits the outer "Report signatories" frame (irc8c renders it inside its own
+    card). #} {% macro signatory_date(role, label) %}
+    <div class="report-signatory-date" data-signatory-role="{{ role }}">
+      <button
+        type="button"
+        class="report-signatory-date-btn"
+        aria-label="Set date for {{ label }}"
+      >
+        <span class="report-signatory-date-text">Set date</span>
+      </button>
+      <input
+        type="date"
+        class="report-signatory-date-input"
+        tabindex="-1"
+        aria-hidden="true"
+      />
+    </div>
+    {% endmacro %} {% macro signatories(roles, labels={}, framed=True) %} {% set
+    defs = { 'ratee': {'label': 'Ratee', 'date_role': 'prepared_by', 'editable':
+    True, 'position_editable': True, 'position': 'SGOD Chief'}, 'rater':
+    {'label': 'Rater', 'date_role': 'checked_by', 'editable': True, 'position':
+    'Assistant Schools Division Superintendent'}, 'authority': {'label':
+    'Approving Authority', 'date_role': 'approving_authority', 'editable': True,
+    'position': 'Schools Division Superintendent'} } %} {% if framed %}
+    <div class="report-signatory">
+      <div class="report-signatory-title">
+        <i class="ti ti-clipboard-text" aria-hidden="true"></i>
+        <span>Report signatories</span>
+      </div>
+      {% endif %}
+      <div
+        class="report-signatory-grid{% if roles|length == 3 %} report-signatory-grid--three{% endif %}"
+      >
+        {% for r in roles %} {% set d = defs[r] %} {% set lbl = labels.get(r,
+        d.label) %}
+        <div class="report-signatory-block" data-sig-role="{{ r }}">
+          <p class="report-signatory-label">{{ lbl }}</p>
+          <div class="report-signatory-person">
+            <span class="report-signatory-avatar" aria-hidden="true"
+              ><i class="ti ti-user"></i
+            ></span>
+            <div class="report-signatory-info">
+              <input
+                type="text"
+                class="report-signatory-name-input"
+                data-sig="{{ r }}-name"
+                placeholder="Full name"
+                autocomplete="off"
+                aria-label="{{ lbl }} name"
+              />
+              {% if d.position_editable %}
+              <input
+                type="text"
+                class="report-signatory-name-input report-signatory-position-input"
+                data-sig="{{ r }}-position"
+                placeholder="Position"
+                autocomplete="off"
+                aria-label="{{ lbl }} position"
+              />
+              {% else %}
+              <p class="report-signatory-position">{{ d.position }}</p>
+              {% endif %} {{ signatory_date(d.date_role, lbl) }}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if framed %}
+    </div>
+    {% endif %}
+    <style>
+      .report-signatory-position-input {
+        margin-top: 2px;
+        font-size: 0.9em;
+      }
+    </style>
+    <script src="{{ url_for('static', filename='js/signatories.js') }}"></script>
+    {% endmacro %}</role
+  ></tab_id
+>

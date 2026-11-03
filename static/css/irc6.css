@@ -1,0 +1,1117 @@
+/* IRC6 - Monitoring & Evaluation Plan - CSS Stylesheet */
+
+/* Theme colors live at :root (not on .irc6-panel) on purpose: the
+   Add/Edit modal and the delete-confirmation dialog are siblings of
+   <section class="irc6-panel">, not descendants of it. CSS custom
+   properties only inherit down the DOM tree, so scoping them to
+   .irc6-panel would make them invisible inside the modal (see IRC5's
+   note on the same issue). */
+:root {
+  --irc6-dedp: rgb(29, 78, 216);
+  --irc6-dedp-light: rgb(59, 130, 246);
+  --irc6-dedp-dark: #0b3a75;
+}
+
+/* ------------------------------------------------------------------
+   1. Page Header — badge + divider + title/subtitle, same structure
+   as IRC5's header.
+------------------------------------------------------------------ */
+
+.irc6-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc6-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc6-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc6-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc6-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc6-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc6-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc6-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc6-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc6-subtitle strong {
+  color: #1f2937;
+}
+
+.irc6-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button — same design as IRC1a/IRC3/IRC5's Save to PDF
+   button */
+.irc6-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc6-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc6-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc6-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.irc6-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc6-reset-btn i {
+  font-size: 13px;
+}
+
+.irc6-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc6-reset-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail tying the page's organized sections
+   together as a top-to-bottom sequence. Only one section lives here
+   (Output entries) since IRC6 has no performance-overview dashboard,
+   but the rail is kept so the page still reads as part of the same
+   guided-flow family as IRC1a/IRC3/IRC5.
+------------------------------------------------------------------ */
+
+.irc6-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc6-flow-rail {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc6-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc6-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc6-flow-section-1 {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.irc6-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* Shared dark analytics header band. */
+.irc6-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc6-dark-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc6-subtitle-dark {
+  color: #9aa7b8;
+}
+
+/* Variant for a dark header that also hosts an action button (Add
+   Output) at its rightmost edge -- title/subtitle wrap in their own
+   block so the button can sit beside them instead of below. */
+.irc6-dark-header-with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc6-dark-header-text {
+  min-width: 0;
+}
+
+/* Add Output: solid white pill against the dark gradient header so it
+   pops instead of blending into the same dark family the header
+   itself uses. */
+.irc6-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: #fff;
+  color: var(--irc6-dedp);
+  border: none;
+  border-radius: 7px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc6-add-btn:hover {
+  background: #eaf2fb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.irc6-add-btn:active {
+  transform: scale(0.97);
+}
+
+.irc6-add-icon {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------
+   Output entries — main table, inside a dark-header card
+------------------------------------------------------------------ */
+
+.irc6-table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc6-table-wrapper {
+  background: white;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.irc6-table {
+  width: 100%;
+  min-width: 2000px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.irc6-table thead th {
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #f3f4f6;
+  background: #1f2937;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  vertical-align: middle;
+}
+
+.irc6-table thead tr:last-child th {
+  border-bottom: 3px solid #4a6fa5;
+}
+
+.irc6-table thead th:last-child {
+  border-right: none;
+}
+
+.irc6-group-th {
+  background: #172033;
+}
+
+.irc6-col-sub {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #d1d5db;
+}
+
+.irc6-col-no {
+  width: 44px;
+}
+.irc6-col-title {
+  width: 7%;
+  text-align: left !important;
+}
+.irc6-col-objectives,
+.irc6-col-indicators,
+.irc6-col-definition,
+.irc6-col-users {
+  width: 9%;
+}
+.irc6-col-actions {
+  width: 80px;
+}
+
+.irc6-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.irc6-table tbody tr:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.irc6-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.irc6-table tbody tr:hover {
+  background: #f0f5ff;
+}
+
+.irc6-table tbody td {
+  padding: 10px 8px;
+  border-right: 1px solid #e8e8e8;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+.irc6-table tbody td:last-child {
+  border-right: none;
+}
+
+.irc6-cell-title {
+  text-align: left !important;
+}
+
+.irc6-cell-text {
+  color: #374151;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* Empty-cell placeholder on the main table -- a light gray dash reads
+   as "nothing entered" without the visual weight of a full "N/A"
+   label. The Add/Edit modal doesn't use this at all; a blank field
+   there just stays blank. */
+.irc6-empty-value {
+  color: #b0b7c3;
+}
+
+/* ------------------------------------------------------------------
+   Project title cell: kind badge + (for outputs) title beneath
+------------------------------------------------------------------ */
+
+.irc6-title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.irc6-kind-badge {
+  display: inline-block;
+  background: none;
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 0;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.irc6-output-title {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.irc6-actions-cell {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.irc6-icon-btn {
+  border: none;
+  background: #f3f4f6;
+  color: #4b5563;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc6-icon-btn:hover {
+  background: #e5e7eb;
+}
+
+.irc6-icon-btn.irc6-delete-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.irc6-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.irc6-icon-btn:disabled:hover {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+/* ------------------------------------------------------------------
+   Modal
+------------------------------------------------------------------ */
+
+.irc6-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+
+.irc6-modal-overlay.visible {
+  display: flex;
+}
+
+.irc6-modal {
+  display: flex;
+  flex-direction: column;
+  max-height: min(90vh, 900px);
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.irc6-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+.irc6-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.irc6-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.irc6-modal-close:hover {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+.irc6-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 22px;
+  overflow-y: auto;
+}
+
+.irc6-form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.irc6-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.irc6-field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.irc6-field-hint {
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+.irc6-field input[type="text"],
+.irc6-field textarea {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 13.5px;
+  color: #1f2937;
+  font-family: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Textareas: fixed height by default, grow automatically via JS as
+   content needs more room. No manual drag-resize handle. */
+.irc6-field textarea {
+  resize: none;
+  overflow: hidden;
+  height: 44px;
+  min-height: 44px;
+}
+
+.irc6-field input:focus,
+.irc6-field textarea:focus {
+  outline: none;
+  border-color: var(--irc6-dedp-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.irc6-field input:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Grouped fields: Data Collection, Data Analysis, and Reporting each
+   bundle 2-3 related inputs, so they get a bordered card with an icon
+   + label header. Standalone single fields (Objectives, Indicators,
+   Definition, Users of M&E Results) are NOT wrapped in a card — they
+   sit plainly in the stack, since there's nothing to group them with.
+   The contrast between "plain field" and "card" is what signals which
+   fields are part of a set. */
+.irc6-group-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.irc6-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--irc6-dedp);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.irc6-group-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.irc6-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.irc6-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.irc6-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 16px 22px;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.irc6-btn-secondary,
+.irc6-btn-primary,
+.irc6-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc6-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc6-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc6-btn-primary {
+  background: var(--irc6-dedp);
+  color: #fff;
+}
+
+.irc6-btn-primary:hover {
+  background: var(--irc6-dedp-light);
+}
+
+.irc6-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc6-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Delete confirmation modal
+------------------------------------------------------------------ */
+
+.irc6-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc6-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc6-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc6-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc6-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc6-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 1400px) {
+  .irc6-dark-header {
+    padding: 12px 14px;
+  }
+
+  .irc6-dark-header h3 {
+    font-size: 14px;
+  }
+
+  .irc6-subtitle,
+  .irc6-subtitle-dark {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .irc6-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .irc6-header-actions {
+    width: 100%;
+  }
+
+  .irc6-pdf-btn,
+  .irc6-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc6-header h2 {
+    font-size: 22px;
+  }
+
+  .irc6-group-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc6-header h2 {
+    font-size: 22px;
+  }
+
+  .irc6-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc6-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc6-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc6-header-divider {
+    height: 44px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Print / Save-to-PDF
+   Triggered by #irc6-pdf-btn -> window.print() (see irc6.js). Only
+   ever active on this page since irc6.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a's,
+   IRC3's, and IRC5's own "Print / Save-to-PDF" section (same paper
+   size, same unclip / color-adjust / scale-down approach) minus
+   whatever pieces don't exist here (dashboard, Legend modal, etc)
+   plus IRC6-specific pieces those pages don't have (the two-row
+   grouped table header, the Add Output button, the Actions column,
+   the Output entry modal).
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in, landscape (so
+     width/height are swapped from the portrait 8.5in x 13in: the
+     first @page size value is always the page's width). */
+  @page {
+    size: 13in 8.5in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html), this page's own header action
+     buttons (Save to PDF / Reset), and the table's Add Output button
+     -- none of these belong in a printed report. */
+  header,
+  nav,
+  .irc6-header-actions,
+  .irc6-add-btn {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: these are only ever visible via a
+     ".visible" class toggle and default to display:none already, but
+     force them off in case a print is triggered while one is open. */
+  #irc6-modal-overlay,
+  #irc6-confirm-overlay,
+  #irc6-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling table needs to render in full instead of
+     scrolling. */
+  .irc6-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers
+     and the grouped-column header band were all coming out
+     flat/white. This forces every background to print as it looks on
+     screen. "Background graphics" still needs to be left ON in the
+     print dialog -- this can't override that toggle, only make sure
+     nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen (this
+     table's on-screen min-width is 2000px, wider than IRC5's), so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints.
+  --------------------------------------------------------------- */
+
+  .irc6-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc6-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc6-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc6-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc6-header-divider {
+    height: 38px;
+  }
+
+  .irc6-header h2 {
+    font-size: 18px;
+  }
+
+  .irc6-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc6-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc6-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc6-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  .irc6-flow {
+    row-gap: 14px;
+  }
+
+  .irc6-dark-header {
+    padding: 8px 10px !important;
+  }
+
+  .irc6-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc6-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Output entries table. The Actions column (Edit/Delete buttons)
+     doesn't belong in a printed report, so it's dropped entirely.
+     Per the fixed-table-layout spec, column widths are read from the
+     FIRST row of cells only -- the grouped Data Collection/Data
+     Analysis/Reporting header cells (row 1, colspan 3/3/2) are what
+     actually control their sub-columns' widths, not the Source/
+     Methods-style labels underneath them in row 2 -- so the group
+     headers get the explicit print widths below (divided evenly
+     across however many sub-columns each spans) and the individual
+     row-2 labels are left alone. The 9 remaining top-level widths
+     (No./Title/Objectives/Indicators/Definition/Users + the 3 grouped
+     widths) sum to 100% once Actions is gone.
+  --------------------------------------------------------------- */
+
+  .irc6-table {
+    min-width: 0 !important;
+    width: 100% !important;
+    font-size: 6.5px !important;
+  }
+
+  .irc6-table thead th,
+  .irc6-table tbody td {
+    padding: 3px 2px !important;
+    font-size: 6.5px !important;
+  }
+
+  .irc6-col-no {
+    width: 3% !important;
+  }
+  .irc6-col-title {
+    width: 8% !important;
+  }
+  .irc6-col-objectives,
+  .irc6-col-indicators,
+  .irc6-col-definition,
+  .irc6-col-users {
+    width: 8% !important;
+  }
+
+  /* Data Collection (colspan 3) and Data Analysis (colspan 3) group
+     headers are the 6th and 7th cells of row 1; Reporting (colspan 2)
+     is the 9th. See the column-width note above for why row 1 is what
+     matters here. */
+  .irc6-table thead tr:first-child th:nth-child(6),
+  .irc6-table thead tr:first-child th:nth-child(7) {
+    width: 21% !important;
+  }
+
+  .irc6-table thead tr:first-child th:nth-child(9) {
+    width: 15% !important;
+  }
+
+  /* Actions is the last cell of row 1 (rowspan 2, so it never
+     reappears in row 2) and the last cell of every body row. */
+  .irc6-table thead tr:first-child th:last-child,
+  .irc6-table tbody td:last-child {
+    display: none !important;
+  }
+
+  .irc6-col-sub {
+    font-size: 6px !important;
+  }
+
+  .irc6-cell-text {
+    font-size: 6.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  .irc6-title-cell {
+    gap: 2px !important;
+  }
+
+  .irc6-kind-badge {
+    font-size: 8px !important;
+  }
+
+  .irc6-output-title {
+    font-size: 6.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Long unbroken text in the free-text columns needs somewhere to
+     break besides existing spaces once the columns are this narrow.
+     Same hyphenation approach as IRC1a's indicator column and IRC5's
+     text columns. Needs the page's lang attribute to work, which
+     base.html already sets (<html lang="en">). */
+  .irc6-cell-text,
+  .irc6-output-title {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
+  /* Avoid splitting a table row awkwardly across a page break. */
+  .irc6-table tr {
+    break-inside: avoid;
+  }
+}

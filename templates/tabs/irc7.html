@@ -1,0 +1,380 @@
+{% extends "base.html" %} {% block title %}IRC7 - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc7.css') }}"
+/>
+
+<section id="irc7-tab" class="tab-panel irc7-panel">
+  <!-- Opaque sticky strip that recreates the page's normal top spacing
+       (see the "Sticky-header / navbar gap" comment in irc7.css) -- it
+       sticks flush against the navbar and paints over that space so
+       scrolled table rows never show through it. -->
+  <div id="irc7StickyTopGap" aria-hidden="true"></div>
+
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc7-header">
+    <div class="irc7-header-top">
+      <div class="irc7-header-title-main">
+        <span class="irc7-header-badge">
+          <span class="irc7-header-badge-group">IRC</span>
+          <span class="irc7-header-badge-page">7</span>
+        </span>
+        <div class="irc7-header-divider"></div>
+        <div>
+          <h2>SGOD Dashboard Data</h2>
+          <p class="irc7-subtitle">
+            Provide the needed data for the SGOD Dashboard. Use the column
+            button above the table to add, rename, or remove fields, grouped or
+            standalone.
+          </p>
+        </div>
+      </div>
+      <div class="irc7-header-actions">
+        <button type="button" id="irc7-pdf-btn" class="irc7-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc7-reset-btn" class="irc7-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: Dashboard table ================= -->
+  <div class="irc7-flow">
+    <div class="irc7-flow-rail" aria-hidden="true">
+      <span class="irc7-flow-badge">1</span>
+    </div>
+
+    <div class="irc7-flow-section irc7-flow-section-1">
+      <p class="irc7-flow-label">Dashboard table</p>
+
+      <div class="irc7-table-card">
+        <div class="irc7-dark-header irc7-dark-header-with-action">
+          <div class="irc7-dark-header-text">
+            <h3>SGOD Dashboard Table</h3>
+            <p class="irc7-subtitle irc7-subtitle-dark">
+              School-level indicator data for the dashboard, editable per year.
+            </p>
+          </div>
+          <div class="irc7-toolbar-actions">
+            <button
+              type="button"
+              class="irc7-add-column-toolbar-btn"
+              id="addColumnBtn"
+            >
+              <svg
+                class="irc7-inline-icon"
+                id="addColumnBtnIcon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v14M5 12h14"></path>
+              </svg>
+              <span id="addColumnBtnLabel">Add Column</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="irc7-table-wrapper" id="irc7TableWrapper">
+          <!-- Sticky header: lives in its own small table, separate from
+               the horizontally-scrolling body table below -- see the
+               "Sticky header (separate table)" comment in irc7.css for
+               why this has to be a separate table rather than a <thead>
+               inside #irc7-table. Column widths are mirrored 1:1 from
+               the body table's colgroup (recalcLayout() in irc7.js);
+               horizontal scroll position is driven by JS, not native
+               overflow, via #irc7StickyHeaderClip. -->
+          <div class="irc7-sticky-header" id="irc7StickyHeader">
+            <div class="irc7-sticky-header-clip" id="irc7StickyHeaderClip">
+              <table id="irc7-header-table" class="irc7-table">
+                <colgroup id="irc7-header-colgroup"></colgroup>
+
+                <thead>
+                  <!-- data-frozen-index drives each frozen cell's `left`
+                       offset (see the "Frozen reference columns" block in
+                       irc7.css). The offsets themselves are measured and
+                       published as CSS variables by updateFrozenOffsets()
+                       in irc7.js, since column widths are dynamic. -->
+                  <tr id="irc7-group-row">
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-wrap-header irc7-frozen-col"
+                      data-frozen-index="0"
+                    >
+                      School ID
+                    </th>
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-wrap-header irc7-frozen-col"
+                      data-frozen-index="1"
+                    >
+                      School Name
+                    </th>
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-wrap-header irc7-frozen-col"
+                      data-frozen-index="2"
+                    >
+                      Curricular Offering
+                    </th>
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-wrap-header irc7-frozen-col"
+                      data-frozen-index="3"
+                    >
+                      District Learning Cluster (DLC)
+                    </th>
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-frozen-col"
+                      data-frozen-index="4"
+                    >
+                      Status
+                    </th>
+                    <th
+                      rowspan="2"
+                      class="irc7-fixed-col irc7-wrap-header irc7-frozen-col irc7-frozen-col--last"
+                      data-frozen-index="5"
+                    >
+                      School Classification (2024)
+                    </th>
+                  </tr>
+                  <tr id="irc7-col-row"></tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sticky duplicate scrollbar: sits just below #irc7StickyHeader
+               (see updateStickyOffsets() in irc7.js) and mirrors
+               horizontal scroll position with the real scroll container
+               below. Hidden automatically whenever the real scrollbar
+               (at the bottom edge of #irc7TableScroll) is already
+               on-screen, so only one is ever visible at once -- see the
+               IntersectionObserver on #irc7BottomSentinel. -->
+          <div class="irc7-top-scrollbar" id="irc7TopScrollbar">
+            <div
+              class="irc7-top-scrollbar-inner"
+              id="irc7TopScrollbarInner"
+            ></div>
+          </div>
+
+          <div class="irc7-table-scroll" id="irc7TableScroll">
+            <table id="irc7-table" class="irc7-table">
+              <colgroup id="irc7-colgroup">
+                <col data-min-width="90" />
+                <col data-min-width="240" />
+                <col data-min-width="130" />
+                <col data-min-width="110" />
+                <col data-min-width="90" />
+                <col data-min-width="130" />
+              </colgroup>
+
+              <tbody id="irc7-tbody">
+                <!-- Fixed reference rows (school / curricular offering) are
+                     rendered here by irc7.js from GET /irc/irc7/data, since
+                     they now live in the IRC7Row table instead of being
+                     hardcoded here. -->
+              </tbody>
+
+              <tfoot id="irc7-tfoot">
+                <tr id="irc7-totals-row">
+                  <!-- 6 = number of fixed leading columns above (School ID
+                       through School Classification), same hardcoded count
+                       used by their colgroup/thead entries and by
+                       FROZEN_COLUMN_COUNT in irc7.js. One totals cell
+                       per added column is appended here by irc7.js
+                       (buildTotalsCell in appendCellToRows) -- only "number"
+                       columns get a running sum, others stay blank.
+                       This label spans the whole frozen block, so it
+                       freezes as a single cell at left: 0. -->
+                  <td
+                    class="irc7-totals-label irc7-frozen-col irc7-frozen-col--last"
+                    data-frozen-index="0"
+                    colspan="6"
+                  >
+                    Total
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Zero-height marker at the true bottom edge of the scroll
+               container -- observed via IntersectionObserver so the JS
+               knows when the real (bottom) horizontal scrollbar is
+               visible on-screen. -->
+          <div
+            class="irc7-bottom-sentinel"
+            id="irc7BottomSentinel"
+            aria-hidden="true"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <!-- /.irc7-flow -->
+  </div>
+
+  <!-- Add Column Modal -->
+  <div id="addColumnModal" class="irc7-modal" style="display: none">
+    <div class="irc7-modal-content">
+      <div class="irc7-modal-header">
+        <h2 id="irc7ModalTitle">Add Columns</h2>
+        <button type="button" class="irc7-modal-close" id="irc7ModalClose">
+          &times;
+        </button>
+      </div>
+      <div class="irc7-modal-body">
+        <p class="irc7-modal-hint" id="irc7ModalHint">
+          Add standalone or grouped columns below. Existing columns and groups
+          can be renamed here too — removing one takes effect right away and
+          can't be undone.
+        </p>
+
+        <div id="irc7-columns-manage-list"></div>
+
+        <div class="irc7-manage-add-row">
+          <button
+            type="button"
+            class="irc7-add-column-btn"
+            id="irc7AddStandaloneBtn"
+          >
+            <i class="ti ti-plus" style="margin-right: 4px"></i> Add Standalone
+            Column
+          </button>
+          <button
+            type="button"
+            class="irc7-add-column-btn"
+            id="irc7AddGroupBtn"
+          >
+            <i class="ti ti-plus" style="margin-right: 4px"></i> Add Group
+          </button>
+        </div>
+      </div>
+      <div class="irc7-modal-footer">
+        <button
+          type="button"
+          class="irc7-modal-btn irc7-modal-btn-cancel"
+          id="irc7ModalCancel"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="irc7-modal-btn irc7-modal-btn-submit"
+          id="irc7ModalSubmit"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+    <div class="irc7-modal-overlay" id="irc7ModalOverlay"></div>
+  </div>
+</section>
+
+<!-- ================= DELETE COLUMN/GROUP CONFIRMATION ================= -->
+<!-- Shares the same visual pattern as the reset-confirmation modal below,
+     but its message is filled in dynamically from irc7.js for whichever
+     column or group the user just tried to remove. Sits above the
+     Add/Edit Columns modal (z-index) so it reads as a confirmation on top
+     of it rather than replacing it. -->
+<div id="irc7-delete-confirm-overlay" class="irc7-confirm-overlay">
+  <div class="irc7-confirm-box">
+    <h4 id="irc7-delete-confirm-title">Remove this?</h4>
+    <p id="irc7-delete-confirm-message">This cannot be undone.</p>
+    <div class="irc7-confirm-actions">
+      <button
+        type="button"
+        id="irc7-delete-confirm-cancel"
+        class="irc7-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc7-delete-confirm-confirm"
+        class="irc7-btn-danger"
+      >
+        Yes, Remove
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESET-PAGE CONFIRMATION MODAL ================= -->
+<!-- Same visual pattern/markup as IRC5's reset-confirmation modal (see
+     irc5.html), extended with a choice of reset scope -- ids are
+     namespaced to irc7 so it doesn't share state with anything else on
+     this page. -->
+<div id="irc7-reset-confirm-overlay" class="irc7-confirm-overlay">
+  <div class="irc7-confirm-box irc7-confirm-box--reset">
+    <h4>Reset the contents of this page?</h4>
+
+    <div class="irc7-reset-options">
+      <label class="irc7-reset-option">
+        <input
+          type="radio"
+          name="irc7-reset-scope"
+          value="values"
+          id="irc7-reset-scope-values"
+          checked
+        />
+        <span class="irc7-reset-option-text">
+          <strong>Clear entered values only</strong>
+          <small
+            >Empties every cell. Columns, groups, and their titles stay exactly
+            as they are.</small
+          >
+        </span>
+      </label>
+      <label class="irc7-reset-option">
+        <input
+          type="radio"
+          name="irc7-reset-scope"
+          value="all"
+          id="irc7-reset-scope-all"
+        />
+        <span class="irc7-reset-option-text">
+          <strong>Reset entire table</strong>
+          <small
+            >Also removes every added column and group, back to a blank
+            table.</small
+          >
+        </span>
+      </label>
+    </div>
+
+    <p id="irc7-reset-confirm-warning">
+      This will clear all entered values in every column, but keeps the columns
+      and their titles. This cannot be undone.
+    </p>
+
+    <div class="irc7-confirm-actions">
+      <button
+        type="button"
+        id="irc7-reset-confirm-cancel"
+        class="irc7-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc7-reset-confirm-confirm"
+        class="irc7-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc7.js') }}"></script>
+
+{% endblock %}

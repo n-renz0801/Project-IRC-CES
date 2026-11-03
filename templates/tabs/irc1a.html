@@ -1,0 +1,450 @@
+{% extends "base.html" %} {% block title %}IRC1a - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc1a.css') }}"
+/>
+
+{% set irc1a_months = [ ("jan", "Jan"), ("feb", "Feb"), ("mar", "Mar"), ("apr",
+"Apr"), ("may", "May"), ("jun", "Jun"), ("jul", "Jul"), ("aug", "Aug"), ("sep",
+"Sep"), ("oct", "Oct"), ("nov", "Nov"), ("dec", "Dec") ] %} {% set
+irc1a_indicators = [ (1, "Observes the schedule."), (2, "Establishes the
+objectives of the Technical Assistance."), (3, "Uses necessary
+tools/process/procedure for the conduct of TA."), (4, "Provide relevant, timely
+and appropriate Technical Assistance."), (5, "Understand the situation of
+schools in case may be, their needs, aspirations, plans, strength and
+weaknesses."), (6, "Recommends/suggests points for improvement."), (7, "Provides
+constructive feedback and establishes a cordial atmosphere in giving of
+feedback."), (8, "Skills and competencies of the TA provider."), (9, "Processes
+the results of the Technical Assistance."), (10, "General view of the provision
+of the Technical Assistance.") ] %}
+
+<section id="irc1a-tab" class="tab-panel irc1a-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc1a-header">
+    <div class="irc1a-header-top">
+      <div class="irc1a-header-title-main">
+        <span class="irc1a-header-badge">
+          <span class="irc1a-header-badge-group">IRC</span>
+          <span class="irc1a-header-badge-page">1A</span>
+        </span>
+        <div class="irc1a-header-divider"></div>
+        <div>
+          <h2>Monthly Customers Feedback Rating</h2>
+          <p class="irc1a-subtitle">
+            Rate each Technical Assistance (TA) indicator for every month.
+          </p>
+        </div>
+      </div>
+      <div class="irc1a-header-actions">
+        <button type="button" id="irc1a-legend-btn" class="irc1a-legend-btn">
+          <i class="ti ti-info-circle" aria-hidden="true"></i> Legend
+        </button>
+        <button type="button" id="irc1a-pdf-btn" class="irc1a-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc1a-reset-btn" class="irc1a-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: 1. Review -> 2. Remarks -> 3. Rate ================= -->
+  <div class="irc1a-flow">
+    <div class="irc1a-flow-rail" aria-hidden="true">
+      <span class="irc1a-flow-badge">1</span>
+      <span class="irc1a-flow-badge">2</span>
+      <span class="irc1a-flow-badge">3</span>
+    </div>
+
+    <!-- 2. TOP ANALYTICS SECTION (HERO) -->
+    <div class="irc1a-flow-section irc1a-flow-section-1">
+      <p class="irc1a-flow-label">Performance overview</p>
+      <div class="irc1a-hero-row">
+        <!-- Left Block (75%) -->
+        <div class="irc1a-trend-card">
+          <div class="irc1a-trend-header irc1a-dark-header">
+            <div>
+              <h3>Monthly Rating Trend</h3>
+              <p class="irc1a-subtitle irc1a-subtitle-dark">
+                Overall average rating over time.
+              </p>
+            </div>
+            <div class="irc1a-trend-toggle" id="irc1a-trend-toggle">
+              <button
+                type="button"
+                class="irc1a-toggle-btn active"
+                data-mode="monthly"
+              >
+                Monthly
+              </button>
+              <button
+                type="button"
+                class="irc1a-toggle-btn"
+                data-mode="quarterly"
+              >
+                Quarterly
+              </button>
+            </div>
+          </div>
+          <div class="irc1a-card-body">
+            <div class="irc1a-trend-chart-wrap" id="irc1a-trend-chart-wrap">
+              <p class="irc1a-lowest-placeholder" id="irc1a-trend-placeholder">
+                Enter ratings below to see the trend.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Block (25%) -->
+        <div class="irc1a-badge-card">
+          <span class="irc1a-badge-label">Overall Performance</span>
+          <span class="irc1a-badge-score" id="irc1a-overall-avg">&mdash;</span>
+          <span class="irc1a-badge-scale">out of 4</span>
+          <span class="irc1a-badge-pill" id="irc1a-overall-desc"
+            >No data yet</span
+          >
+
+          <div class="irc1a-badge-lowest">
+            <span class="irc1a-badge-lowest-title"
+              >Three Lowest Indicators</span
+            >
+            <ol id="irc1a-lowest-list" class="irc1a-lowest-list">
+              <li class="irc1a-lowest-placeholder">
+                Enter ratings below to see results.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. MIDDLE SECTION (SUMMARY INSIGHTS) -->
+    <div class="irc1a-flow-section irc1a-flow-section-2">
+      <p class="irc1a-flow-label">Feedback remarks</p>
+      <div class="irc1a-insights-row">
+        <div class="irc1a-insight-card">
+          <div class="irc1a-dark-header irc1a-insight-header">
+            <div class="irc1a-insight-header-text">
+              <p class="irc1a-remarks-label">Positive Aspects</p>
+              <p class="irc1a-subtitle irc1a-subtitle-dark">
+                Key strengths observed this period.
+              </p>
+            </div>
+            <!-- Single entry per card (see IRC1ARemark in models.py) --
+                 this button reads "Add" while empty and "Edit" once a
+                 value exists (see updateRemarkActionLabel() in
+                 irc1a.js), and always opens the Add/Edit Remark modal
+                 (#irc1a-remark-modal-overlay below). Same
+                 label-swap idea as irc4's single-field action buttons
+                 (see FIELD_MODAL_CONFIG/updateFieldActionLabel in
+                 irc4.js), but scoped to this one entry instead of a
+                 whole list. -->
+            <button
+              type="button"
+              class="irc1a-header-action-btn"
+              id="irc1aAddPositiveBtn"
+            >
+              <svg
+                class="irc1a-icon"
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span data-role="action-label">Add</span>
+            </button>
+          </div>
+          <div class="irc1a-card-body">
+            <!-- Plain, non-interactive text -- no outline/box, no
+                 click handler, no remove button. Add/Edit/Delete only
+                 happen through the modal (see the action button above
+                 and irc1a.js's openRemarkModal()/deleteRemarkModal()). -->
+            <p
+              class="irc1a-remark-field-text is-placeholder"
+              id="irc1aPositiveText"
+            >
+              No entry yet.
+            </p>
+          </div>
+        </div>
+        <div class="irc1a-insight-card">
+          <div class="irc1a-dark-header irc1a-insight-header">
+            <div class="irc1a-insight-header-text">
+              <p class="irc1a-remarks-label">
+                Opportunities for Improvement (OFI)
+              </p>
+              <p class="irc1a-subtitle irc1a-subtitle-dark">
+                Key areas of growth to address.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="irc1a-header-action-btn"
+              id="irc1aAddOfiBtn"
+            >
+              <svg
+                class="irc1a-icon"
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span data-role="action-label">Add</span>
+            </button>
+          </div>
+          <div class="irc1a-card-body">
+            <p class="irc1a-remark-field-text is-placeholder" id="irc1aOfiText">
+              No entry yet.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. BOTTOM SECTION (DETAILED DATA TABLE) -->
+    <div class="irc1a-flow-section irc1a-flow-section-3">
+      <p class="irc1a-flow-label">Indicator ratings</p>
+      <div class="irc1a-table-card">
+        <div class="irc1a-table-card-header irc1a-dark-header">
+          <div>
+            <h3>TA Indicator Ratings</h3>
+            <p class="irc1a-subtitle irc1a-subtitle-dark">
+              Enter a rating (1&ndash;4) for each indicator, per month.
+            </p>
+          </div>
+          <ul class="irc1a-inline-legend" aria-label="Rating scale">
+            <li>
+              <i class="irc1a-legend-dot irc1a-band-poor"></i>Poor
+              1.00&ndash;1.50
+            </li>
+            <li>
+              <i class="irc1a-legend-dot irc1a-band-fair"></i>Fair
+              1.51&ndash;2.50
+            </li>
+            <li>
+              <i class="irc1a-legend-dot irc1a-band-satisfactory"></i
+              >Satisfactory 2.51&ndash;3.50
+            </li>
+            <li>
+              <i class="irc1a-legend-dot irc1a-band-very-satisfactory"></i>Very
+              Satisfactory 3.51+
+            </li>
+          </ul>
+        </div>
+        <div class="irc1a-table-wrapper">
+          <table id="irc1a-table" class="irc1a-table">
+            <thead>
+              <tr>
+                <th class="irc1a-sr-only">TA Indicator</th>
+                {% for key, label in irc1a_months %}
+                <th>{{ label }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for id, label in irc1a_indicators %}
+              <tr data-indicator="{{ id }}">
+                <td class="irc1a-indicator-col">
+                  <span class="irc1a-indicator-wrap">
+                    <span class="irc1a-indicator-num">{{ id }}</span>
+                    <span class="irc1a-indicator-text">{{ label }}</span>
+                  </span>
+                  <span class="irc1a-row-result">
+                    <span class="irc1a-row-avg" data-indicator="{{ id }}"
+                      >&mdash;</span
+                    >
+                    <span class="irc1a-row-desc" data-indicator="{{ id }}"
+                      >&mdash;</span
+                    >
+                  </span>
+                </td>
+                {% for key, month_label in irc1a_months %}
+                <td class="irc1a-month-cell" data-label="{{ month_label }}">
+                  <input
+                    type="number"
+                    class="irc1a-rating"
+                    data-month="{{ key }}"
+                    min="1"
+                    max="5"
+                    step="0.01"
+                    placeholder="&ndash;"
+                    aria-label="Indicator {{ id }}, {{ month_label }}"
+                  />
+                </td>
+                {% endfor %}
+                <td class="irc1a-meter-cell" aria-hidden="true">
+                  <span class="irc1a-meter"
+                    ><span
+                      class="irc1a-meter-fill"
+                      data-indicator="{{ id }}"
+                    ></span
+                  ></span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+
+            <tfoot>
+              <tr class="irc1a-average-row">
+                <td class="irc1a-indicator-col">
+                  <span class="irc1a-foot-label">Overall Average</span>
+                  <span class="irc1a-row-result">
+                    <span class="irc1a-row-avg" id="irc1a-footer-annual-avg"
+                      >&mdash;</span
+                    >
+                    <span class="irc1a-row-desc" id="irc1a-footer-annual-desc"
+                      >&mdash;</span
+                    >
+                  </span>
+                </td>
+                {% for key, month_label in irc1a_months %}
+                <td class="irc1a-month-cell" data-label="{{ month_label }}">
+                  <span class="irc1a-avg" data-month="{{ key }}">&mdash;</span>
+                </td>
+                {% endfor %}
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.irc1a-flow -->
+  </div>
+</section>
+
+<!-- ================= ADD/EDIT REMARK MODAL ================= -->
+<!-- Shared by both the Positive Aspects and OFI cards -- each card holds
+     a single entry (see IRC1ARemark in models.py), so this same modal
+     handles both creating it the first time and editing/deleting it
+     afterward (see irc1a.js's openRemarkModal()/saveRemarkModal()/
+     deleteRemarkModal()). Same "Add"-header-button-opens-a-popup-modal
+     pattern as irc4's single-field modal (Activity/TA Receiver/MOV's).
+     This modal reuses the confirm-modal shell
+     (.irc1a-confirm-overlay/.irc1a-confirm-box) already used by the
+     Legend and Reset modals above -- see irc1a.css. -->
+<div id="irc1a-remark-modal-overlay" class="irc1a-confirm-overlay">
+  <div class="irc1a-confirm-box irc1a-remark-modal-box">
+    <div class="irc1a-remark-modal-header">
+      <h4 id="irc1a-remark-modal-title">Add Entry</h4>
+      <button
+        type="button"
+        id="irc1a-remark-modal-close"
+        class="irc1a-remark-modal-close"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+    </div>
+    <textarea
+      id="irc1a-remark-modal-input"
+      class="irc1a-remarks-textarea irc1a-remark-modal-textarea"
+      rows="5"
+      placeholder="Type here..."
+    ></textarea>
+    <div class="irc1a-confirm-actions irc1a-remark-modal-actions">
+      <button
+        type="button"
+        id="irc1a-remark-modal-delete"
+        class="irc1a-btn-danger"
+        hidden
+      >
+        Delete
+      </button>
+      <div class="irc1a-remark-modal-actions-right">
+        <button
+          type="button"
+          id="irc1a-remark-modal-cancel"
+          class="irc1a-btn-secondary"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="irc1a-remark-modal-save"
+          class="irc1a-btn-primary"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LEGEND MODAL ================= -->
+<div id="irc1a-legend-overlay" class="irc1a-confirm-overlay">
+  <div class="irc1a-confirm-box irc1a-legend-box">
+    <h4>Descriptive Rating Scale</h4>
+    <ul class="irc1a-legend-list">
+      <li class="irc1a-legend-item">
+        <span class="irc1a-legend-dot irc1a-band-poor"></span>
+        Poor (1.00&ndash;1.50)
+      </li>
+      <li class="irc1a-legend-item">
+        <span class="irc1a-legend-dot irc1a-band-fair"></span>
+        Fair (1.51&ndash;2.50)
+      </li>
+      <li class="irc1a-legend-item">
+        <span class="irc1a-legend-dot irc1a-band-satisfactory"></span>
+        Satisfactory (2.51&ndash;3.50)
+      </li>
+      <li class="irc1a-legend-item">
+        <span class="irc1a-legend-dot irc1a-band-very-satisfactory"></span>
+        Very Satisfactory (3.51 and above)
+      </li>
+    </ul>
+    <div class="irc1a-confirm-actions">
+      <button type="button" id="irc1a-legend-close" class="irc1a-btn-secondary">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc1a-reset-confirm-overlay" class="irc1a-confirm-overlay">
+  <div class="irc1a-confirm-box">
+    <h4>Reset all data?</h4>
+    <p>
+      This will permanently delete every saved IRC1a rating for this year. This
+      cannot be undone.
+    </p>
+    <div class="irc1a-confirm-actions">
+      <button
+        type="button"
+        id="irc1a-reset-confirm-cancel"
+        class="irc1a-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc1a-reset-confirm-confirm"
+        class="irc1a-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc1a.js') }}"></script>
+
+{% endblock %}

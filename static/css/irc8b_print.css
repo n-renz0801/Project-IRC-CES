@@ -1,0 +1,184 @@
+/* IRC8B print layout -- long bond (8.5 x 13 in), landscape.
+   Only affects printing: the print root is hidden on screen. */
+
+@page {
+  size: 13in 8.5in;
+  margin: 0.35in;
+}
+
+#irc8b-print-root {
+  display: none;
+}
+
+@media print {
+  /* Hide the whole app chrome without needing to know base.html's markup. */
+  body > *:not(#irc8b-print-root) {
+    display: none !important;
+  }
+  html::before,
+  html::after,
+  body::before,
+  body::after {
+    display: none !important;
+    content: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+
+  #irc8b-print-root {
+    display: block;
+    color: #000;
+    font-size: 6.5pt;
+    line-height: 1.2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #irc8b-print-root,
+  #irc8b-print-root *,
+  #irc8b-print-root *::before,
+  #irc8b-print-root *::after {
+    box-sizing: border-box;
+    font-family: "Arial Narrow", Arial, "Liberation Sans Narrow", sans-serif;
+    font-stretch: condensed;
+    box-shadow: none;
+  }
+
+  /* ---------- Top: page label (left) + competencies scale (right) ---------- */
+  .q-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+  .q-page-label {
+    font-size: 7pt;
+    font-weight: 700;
+    font-style: italic;
+  }
+  .q-scale {
+    width: 4.6in;
+  }
+  .q-scale-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 7.5pt;
+    margin-bottom: 2px;
+  }
+
+  /* ---------- Parts ---------- */
+  .q-part {
+    margin-top: 6px;
+  }
+  .q-part h3 {
+    margin: 0 0 1px;
+    padding: 0;
+    border: 0;
+    font-size: 8pt;
+    font-weight: 700;
+    text-decoration: underline;
+    break-after: avoid;
+  }
+  .q-intro {
+    margin: 0 0 3px;
+    font-size: 6.5pt;
+    font-style: italic;
+    font-weight: 700;
+    break-after: avoid;
+  }
+
+  .q-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  .q-table th,
+  .q-table td {
+    border: 0.5pt solid #000;
+    padding: 1px 3px;
+    vertical-align: middle;
+    text-align: left;
+    overflow-wrap: anywhere;
+    font-size: 6.5pt;
+  }
+  .q-table th {
+    background: #d9d9d9;
+    text-align: center;
+    font-weight: 700;
+    padding: 3px;
+  }
+  .q-table thead {
+    display: table-header-group; /* repeat headers on every page */
+  }
+  .q-table tbody.qb-comp,
+  .q-table tbody.qb-total,
+  .q-table tr {
+    break-inside: avoid;
+  }
+  .q-main td {
+    height: 15px;
+  }
+  .q-table .q-comp {
+    text-align: center;
+    font-weight: 700;
+  }
+  .q-table .q-c {
+    text-align: center;
+  }
+  .q-table .q-avg {
+    font-size: 8pt;
+  }
+  .q-table .q-total-label {
+    text-align: right;
+    font-weight: 700;
+    font-size: 8pt;
+    height: auto;
+    padding: 2px 4px;
+  }
+  .q-table .q-total-val {
+    font-weight: 700;
+    font-size: 8.5pt;
+  }
+  .q-scale-table td,
+  .q-scale-table th {
+    font-size: 6pt;
+  }
+  .q-scale-table td {
+    padding: 1px 3px;
+  }
+
+  /* ---------- Signatories ---------- */
+  .q-signs {
+    margin-top: 22px;
+    break-inside: avoid;
+  }
+  .q-signs-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.2in;
+    margin-bottom: 18px;
+  }
+  .q-sign {
+    width: 3in;
+    text-align: center;
+  }
+  .q-sign-name {
+    border-bottom: 0.5pt solid #000;
+    min-height: 14px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .q-sign-role {
+    font-size: 7pt;
+    margin-top: 1px;
+  }
+}

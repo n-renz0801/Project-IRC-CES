@@ -1,0 +1,1846 @@
+/* IRC5 - Post Program Evaluation Results - CSS Stylesheet */
+
+/* Theme colors live at :root (not on .irc5-panel) on purpose: the
+   Add/Edit modal, its calendar, and the delete-confirmation dialog are
+   all siblings of <section class="irc5-panel">, not descendants of it.
+   CSS custom properties only inherit down the DOM tree, so scoping
+   them to .irc5-panel made them invisible inside the modal — that was
+   the root cause of the "invisible" Save button (transparent
+   background) and the calendar selection only showing its outline
+   (the fill color silently failed to resolve). */
+:root {
+  --irc5-dedp: rgb(29, 78, 216);
+  --irc5-dedp-light: rgb(59, 130, 246);
+  --irc5-dedp-dark: #0b3a75;
+  --irc5-accent: #185fa5;
+}
+
+/* ------------------------------------------------------------------
+   1. Page Header — badge + divider + title/subtitle, same structure
+   as IRC1a/IRC3's header.
+------------------------------------------------------------------ */
+
+.irc5-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc5-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc5-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc5-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc5-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc5-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc5-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc5-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc5-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.irc5-subtitle strong {
+  color: #1f2937;
+}
+
+.irc5-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button — same design as IRC1a/IRC3's Save to PDF button */
+.irc5-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc5-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc5-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc5-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.irc5-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc5-reset-btn i {
+  font-size: 13px;
+}
+
+.irc5-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2) tying the overview dashboard and
+   the entries table together as a top-to-bottom sequence. Structure
+   matches IRC1a/IRC3's .irc1a-flow / .irc3-flow.
+------------------------------------------------------------------ */
+
+.irc5-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc5-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc5-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc5-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc5-flow-section-1,
+.irc5-flow-section-2 {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.irc5-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc5-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc5-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* Shared dark analytics header band. */
+.irc5-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc5-dark-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc5-subtitle-dark {
+  color: #9aa7b8;
+}
+
+/* Variant for a dark header that also hosts an action button (Add Entry)
+   at its rightmost edge -- title/subtitle wrap in their own block so the
+   button can sit beside them instead of below. */
+.irc5-dark-header-with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc5-dark-header-text {
+  min-width: 0;
+}
+
+/* Add Entry: solid white pill against the dark gradient header so it
+   pops instead of blending into the same dark family the header itself
+   uses -- same "active toggle on dark bg" contrast trick as IRC1a's
+   trend-toggle buttons. */
+.irc5-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: #fff;
+  color: var(--irc5-dedp);
+  border: none;
+  border-radius: 7px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc5-add-btn:hover {
+  background: #eaf2fb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.irc5-add-btn:active {
+  transform: scale(0.97);
+}
+
+.irc5-add-icon {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.irc5-card-body {
+  padding: 14px 20px;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   2. Performance Overview (Hero Block - 2 Column Split)
+------------------------------------------------------------------ */
+
+.irc5-hero-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1.6fr 0.8fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.irc5-donut-card,
+.irc5-dist-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.irc5-donut-card > .irc5-card-body,
+.irc5-dist-card > .irc5-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+/* Donut card is now the narrow left column, so its content stacks
+   vertically (ring above, legend below) instead of sitting side by
+   side the way it did when this card spanned 3fr of the row. */
+.irc5-donut-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc5-donut-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.irc5-donut-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.irc5-donut-track {
+  fill: none;
+  stroke: #eef0f2;
+  stroke-width: 18;
+}
+
+.irc5-donut-seg {
+  fill: none;
+  stroke-width: 18;
+  stroke-linecap: butt;
+  transform: rotate(-90deg);
+  transform-origin: 80px 80px;
+  transition:
+    stroke-dasharray 0.3s ease,
+    stroke-dashoffset 0.3s ease;
+}
+
+.irc5-donut-seg-funded {
+  stroke: #059669;
+}
+
+.irc5-donut-seg-nonfunded {
+  stroke: #6b7280;
+}
+
+.irc5-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.irc5-donut-center-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.1;
+}
+
+.irc5-donut-center-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.irc5-donut-legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.irc5-donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: #374151;
+}
+
+.irc5-donut-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.irc5-donut-dot-funded {
+  background: #059669;
+}
+
+.irc5-donut-dot-nonfunded {
+  background: #6b7280;
+}
+
+.irc5-donut-legend-label {
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.irc5-donut-legend-value {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Overall Performance Badge (right block) — same look as IRC1a/IRC3's
+   badge card. */
+.irc5-badge-card {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  min-width: 0;
+}
+
+.irc5-badge-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc5-badge-score {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.irc5-badge-scale {
+  font-size: 12px;
+  color: #9aa7b8;
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+.irc5-badge-pill {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: #4b5a70;
+  color: #e5eaf0;
+}
+
+.irc5-badge-pill.sa {
+  background: #059669;
+  color: #fff;
+}
+.irc5-badge-pill.a {
+  background: #65a30d;
+  color: #fff;
+}
+.irc5-badge-pill.d {
+  background: #ea580c;
+  color: #fff;
+}
+.irc5-badge-pill.sd {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------
+   Rating Distribution (middle block) — four bars, one per descriptive
+   band, using the same 1.00-1.75 / 1.76-2.50 / 2.51-3.25 / 3.26-4.00
+   ranges as computeDescVal() so decimal ratings (e.g. 3.75) still
+   land in exactly one bucket.
+------------------------------------------------------------------ */
+
+.irc5-dist-body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 12px;
+  height: 100%;
+  min-height: 150px;
+}
+
+.irc5-dist-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.irc5-dist-count {
+  height: 18px;
+  line-height: 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.irc5-dist-track {
+  width: 100%;
+  max-width: 42px;
+  height: 90px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.irc5-dist-fill {
+  width: 100%;
+  height: 0%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.irc5-dist-fill-sd {
+  background: #dc2626;
+}
+
+.irc5-dist-fill-d {
+  background: #ea580c;
+}
+
+.irc5-dist-fill-a {
+  background: #65a30d;
+}
+
+.irc5-dist-fill-sa {
+  background: #059669;
+}
+
+/* Fixed height reserves room for two lines ("Strongly Disagree" /
+   "Strongly Agree") so every column is the same total height whether
+   its label wraps or not -- that's what keeps the track bottoms,
+   label tops, and ranges below all lining up across the four bars. */
+.irc5-dist-label {
+  min-height: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.irc5-dist-range {
+  min-height: 14px;
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+/* ------------------------------------------------------------------
+   3. Activity Entries — main table, inside a dark-header card
+------------------------------------------------------------------ */
+
+.irc5-table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   Main table
+------------------------------------------------------------------ */
+
+.irc5-table-wrapper {
+  background: white;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.irc5-table {
+  width: 100%;
+  min-width: 1400px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.irc5-table thead th {
+  padding: 12px 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #f3f4f6;
+  background: #1f2937;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 3px solid #4a6fa5;
+  vertical-align: middle;
+}
+
+.irc5-table thead th:last-child {
+  border-right: none;
+}
+
+.irc5-col-no {
+  width: 44px;
+}
+.irc5-col-title {
+  width: 13%;
+  text-align: left !important;
+}
+.irc5-col-nature {
+  width: 8%;
+}
+.irc5-col-date {
+  width: 12%;
+}
+.irc5-col-participants {
+  width: 10%;
+}
+.irc5-col-rating {
+  width: 7%;
+}
+.irc5-col-descval {
+  width: 9%;
+}
+.irc5-col-indicator {
+  width: 12%;
+}
+.irc5-col-cause {
+  width: 12%;
+}
+.irc5-col-measures {
+  width: 12%;
+}
+.irc5-col-actions {
+  width: 92px;
+}
+
+.irc5-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.irc5-table tbody tr:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.irc5-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.irc5-table tbody tr:hover {
+  background: #f0f5ff;
+}
+
+.irc5-table tbody td {
+  padding: 10px 10px;
+  border-right: 1px solid #e8e8e8;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+.irc5-table tbody td:last-child {
+  border-right: none;
+}
+
+.irc5-cell-title {
+  text-align: left !important;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.irc5-cell-text {
+  color: #374151;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.irc5-nature-badge {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.irc5-nature-badge.funded {
+  background: #059669;
+}
+
+.irc5-nature-badge.non-funded {
+  background: #6b7280;
+}
+
+.irc5-rating-value {
+  display: inline-block;
+  font-weight: 700;
+  color: #185fa5;
+  background: #e6f1fb;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.irc5-descval-badge {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.irc5-descval-badge.sa {
+  background: #059669;
+}
+.irc5-descval-badge.a {
+  background: #65a30d;
+}
+.irc5-descval-badge.d {
+  background: #ea580c;
+}
+.irc5-descval-badge.sd {
+  background: #dc2626;
+}
+
+.irc5-actions-cell {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+/* Action buttons — colored + bordered so Edit/Delete read clearly at
+   a glance instead of blending into the row as flat gray squares. */
+.irc5-icon-btn {
+  border: 1.5px solid transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.irc5-icon-btn:active {
+  transform: scale(0.94);
+}
+
+.irc5-icon-btn.irc5-edit-btn {
+  background: #eaf2fb;
+  color: #185fa5;
+  border-color: #bcd8f2;
+}
+
+.irc5-icon-btn.irc5-edit-btn:hover {
+  background: #185fa5;
+  color: #fff;
+  border-color: #185fa5;
+}
+
+.irc5-icon-btn.irc5-delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #f3b4b4;
+}
+
+.irc5-icon-btn.irc5-delete-btn:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+.irc5-empty-state {
+  display: none;
+  text-align: center;
+  padding: 24px 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.irc5-empty-state.visible {
+  display: block;
+}
+
+/* ------------------------------------------------------------------
+   Modal
+------------------------------------------------------------------ */
+
+.irc5-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+
+.irc5-modal-overlay.visible {
+  display: flex;
+}
+
+/* The modal itself is a capped-height flex column: header (auto),
+   body (flexes + scrolls internally), footer (auto, always visible). */
+.irc5-modal {
+  display: flex;
+  flex-direction: column;
+  max-height: min(90vh, 900px);
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 760px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.irc5-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+.irc5-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.irc5-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.irc5-modal-close:hover {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+/* The only scrolling region inside the modal. flex:1 consumes the
+   space left after header/footer; min-height:0 lets a flex child
+   actually shrink and scroll instead of overflowing its parent. */
+.irc5-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 22px;
+  overflow-y: auto;
+}
+
+.irc5-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.irc5-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.irc5-field-span2 {
+  grid-column: span 2;
+}
+
+.irc5-field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.irc5-field input[type="text"],
+.irc5-field input[type="number"],
+.irc5-field select,
+.irc5-field textarea {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 13.5px;
+  color: #1f2937;
+  font-family: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Overall Rating: keep it a numeric field but hide the native
+   increment/decrement spinner so the user can only type into it. */
+.irc5-field input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.irc5-field input[type="number"]::-webkit-outer-spin-button,
+.irc5-field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Potential Cause / Corrective Measures: fixed height by default,
+   no manual drag-resize handle. Height only grows automatically
+   (via JS) when the typed content needs more room. */
+.irc5-field textarea {
+  resize: none;
+  overflow: hidden;
+  height: 44px;
+  min-height: 44px;
+}
+
+.irc5-field input:focus,
+.irc5-field select:focus,
+.irc5-field textarea:focus {
+  outline: none;
+  border-color: var(--irc5-dedp-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Descriptive Value: read-only, auto-filled, and color-coded to match
+   the same categories used in the table's badges. Neutral/gray until
+   a rating has been entered. */
+.irc5-descval-display {
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-weight: 700;
+  text-align: center;
+  cursor: default;
+}
+
+.irc5-descval-display.sa {
+  background: #059669;
+  border-color: #059669;
+  color: #fff;
+}
+
+.irc5-descval-display.a {
+  background: #65a30d;
+  border-color: #65a30d;
+  color: #fff;
+}
+
+.irc5-descval-display.d {
+  background: #ea580c;
+  border-color: #ea580c;
+  color: #fff;
+}
+
+.irc5-descval-display.sd {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+/* Date field */
+
+.irc5-date-field {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.irc5-date-hint {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.irc5-calendar {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  background: #f9fafb;
+  user-select: none;
+}
+
+.irc5-calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.irc5-cal-nav-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #374151;
+}
+
+.irc5-cal-nav-btn:hover {
+  background: #f0f5ff;
+  border-color: var(--irc5-dedp-light);
+}
+
+.irc5-cal-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.irc5-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.irc5-cal-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  padding: 4px 0;
+}
+
+.irc5-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.irc5-cal-day {
+  position: relative;
+  text-align: center;
+  padding: 7px 0;
+  font-size: 12.5px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #1f2937;
+  background: #fff;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.irc5-cal-day:hover {
+  background: #e6f1fb;
+}
+
+.irc5-cal-day.irc5-cal-outside {
+  color: #c1c7d0;
+}
+
+.irc5-cal-day.irc5-cal-today {
+  border-color: var(--irc5-dedp-light);
+  font-weight: 700;
+}
+
+/* Selected dates: solid dark-navy fill covering the whole cell, with
+   bold white text — a full color swap, not just an outline/ring, so
+   selection is unmistakable at a glance. Declared last (and repeated
+   for the outside/hover/today combos) so it always wins no matter
+   what other state classes are also present on the cell. */
+.irc5-cal-day.irc5-cal-selected {
+  background-color: var(--irc5-dedp-dark);
+  color: #ffffff;
+  font-weight: 700;
+  border-color: var(--irc5-dedp-dark);
+}
+
+.irc5-cal-day.irc5-cal-selected.irc5-cal-outside {
+  color: #ffffff;
+}
+
+.irc5-cal-day.irc5-cal-selected.irc5-cal-today {
+  border-color: #ffffff;
+}
+
+.irc5-cal-day.irc5-cal-selected:hover {
+  background-color: #0f478f;
+  border-color: #0f478f;
+  color: #ffffff;
+}
+
+.irc5-date-preview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.irc5-date-preview {
+  flex: 1;
+  min-width: 200px;
+  background: #e6f1fb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+}
+
+.irc5-date-preview-label {
+  font-weight: 600;
+  color: #185fa5;
+  margin-right: 6px;
+}
+
+.irc5-date-preview-text {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.irc5-cal-clear-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.irc5-cal-clear-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+/* Modal footer: a normal (non-sticky) flex item pinned to the bottom
+   of the .irc5-modal flex column. Because .irc5-modal is height-capped
+   and flex-column, this element always renders at the modal's true
+   bottom edge, and because --irc5-dedp now resolves correctly (see
+   the :root block up top), the Save Entry button is finally visible
+   instead of rendering with a transparent/unset background. */
+.irc5-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 16px 22px;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.irc5-btn-secondary,
+.irc5-btn-primary,
+.irc5-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc5-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc5-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc5-btn-primary {
+  background: var(--irc5-dedp);
+  color: #fff;
+}
+
+.irc5-btn-primary:hover {
+  background: var(--irc5-dedp-light);
+}
+
+.irc5-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc5-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Delete confirmation modal
+------------------------------------------------------------------ */
+
+.irc5-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc5-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc5-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc5-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc5-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc5-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 1400px) {
+  .irc5-dark-header,
+  .irc5-card-body {
+    padding: 12px 14px;
+  }
+
+  .irc5-dark-header h3 {
+    font-size: 14px;
+  }
+
+  .irc5-subtitle,
+  .irc5-subtitle-dark {
+    font-size: 12px;
+  }
+
+  .irc5-badge-card {
+    padding: 18px 14px;
+  }
+
+  .irc5-badge-score {
+    font-size: 34px;
+  }
+
+  .irc5-badge-label,
+  .irc5-badge-scale,
+  .irc5-badge-pill {
+    font-size: 11px;
+  }
+
+  .irc5-donut-wrap {
+    width: 100px;
+    height: 100px;
+  }
+
+  .irc5-donut-center-value {
+    font-size: 20px;
+  }
+
+  .irc5-dist-track {
+    height: 70px;
+    max-width: 34px;
+  }
+
+  .irc5-dist-count {
+    font-size: 13px;
+  }
+
+  .irc5-dist-label,
+  .irc5-dist-range {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .irc5-hero-row {
+    grid-template-columns: 1.3fr 1.4fr 0.8fr;
+    gap: 1rem;
+  }
+
+  .irc5-badge-card {
+    padding: 16px 12px;
+  }
+
+  .irc5-badge-score {
+    font-size: 28px;
+  }
+
+  .irc5-donut-body {
+    gap: 12px;
+  }
+
+  .irc5-dist-body {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 950px) {
+  .irc5-hero-row {
+    grid-template-columns: 1fr;
+  }
+
+  .irc5-badge-card {
+    padding: 16px 12px;
+  }
+
+  .irc5-donut-body {
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .irc5-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .irc5-header-actions {
+    width: 100%;
+  }
+
+  .irc5-pdf-btn,
+  .irc5-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc5-header h2 {
+    font-size: 22px;
+  }
+
+  .irc5-subtitle {
+    white-space: normal;
+  }
+
+  .irc5-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .irc5-field-span2 {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc5-header h2 {
+    font-size: 22px;
+  }
+
+  .irc5-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc5-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc5-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc5-header-divider {
+    height: 44px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Print / Save-to-PDF
+   Triggered by #irc5-pdf-btn -> window.print() (see irc5.js). Only
+   ever active on this page since irc5.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a's and
+   IRC3's own "Print / Save-to-PDF" section (same paper size, same
+   unclip / color-adjust / scale-down approach) minus whatever
+   pieces don't exist here (Legend modal, rating-basis cards, etc)
+   plus IRC5-specific pieces those pages don't have (the dashboard's
+   donut/distribution/badge trio, the Add Entry button, the Actions
+   column, the entry modal + its calendar).
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html), this page's own header action
+     buttons (Save to PDF / Reset), and the table's Add Entry button
+     -- none of these belong in a printed report. */
+  header,
+  nav,
+  .irc5-header-actions,
+  .irc5-add-btn {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: these are only ever visible via a
+     ".visible" class toggle and default to display:none already, but
+     force them off in case a print is triggered while one is open. */
+  #irc5-modal-overlay,
+  #irc5-confirm-overlay,
+  #irc5-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling table needs to render in full instead of
+     scrolling. */
+  .irc5-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers,
+     the donut ring, the distribution bars, and the various colored
+     badges were all coming out flat/white. This forces every
+     background to print as it looks on screen. "Background graphics"
+     still needs to be left ON in the print dialog -- this can't
+     override that toggle, only make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers --
+     several of IRC5's own breakpoints, e.g. the hero row collapsing
+     to one column and the donut going side-by-side below 950px,
+     would otherwise fire here too since the printed page is narrower
+     than that, so they're explicitly overridden back below).
+  --------------------------------------------------------------- */
+
+  .irc5-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc5-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc5-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc5-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc5-header-divider {
+    height: 38px;
+  }
+
+  .irc5-header h2 {
+    font-size: 18px;
+  }
+
+  .irc5-subtitle {
+    font-size: 10px;
+    white-space: normal !important;
+  }
+
+  /* Height + top margin have to mirror .irc5-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc5-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc5-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between the 2 flow rows: this has to live on .irc5-flow's
+     own row-gap, NOT as margin-top on each .irc5-flow-section. A
+     per-section margin-top pushes that section's content down inside
+     its own grid row without the rail (a separate grid item) moving
+     with it, which is exactly what would knock the second label out
+     of alignment with its badge (the first has no preceding sibling,
+     so no extra margin to begin with). row-gap instead adds space
+     strictly between rows, so it can't create that offset. */
+  .irc5-flow {
+    row-gap: 14px;
+  }
+
+  .irc5-dark-header,
+  .irc5-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc5-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc5-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  /* Performance overview: keep the on-screen 3-column split instead
+     of letting it collapse to a single stacked column the way it
+     does on an actual narrow/mobile screen. */
+  .irc5-hero-row {
+    grid-template-columns: 1.4fr 1.6fr 0.8fr !important;
+    gap: 8px !important;
+  }
+
+  /* Donut card: stay in its vertical (ring-above-legend) layout
+     rather than the row layout the ≤950px screen breakpoint would
+     otherwise switch it to, and shrink the ring itself. */
+  .irc5-donut-body {
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+
+  .irc5-donut-wrap {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .irc5-donut-center-value {
+    font-size: 13px !important;
+  }
+
+  .irc5-donut-center-label {
+    font-size: 6px !important;
+  }
+
+  .irc5-donut-legend {
+    gap: 4px !important;
+  }
+
+  .irc5-donut-legend-item {
+    font-size: 8px !important;
+    gap: 5px !important;
+  }
+
+  .irc5-donut-dot {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  .irc5-donut-legend-label {
+    min-width: 50px !important;
+  }
+
+  /* Rating distribution bars */
+  .irc5-dist-body {
+    gap: 6px !important;
+    min-height: 80px !important;
+  }
+
+  .irc5-dist-track {
+    height: 50px !important;
+    max-width: 26px !important;
+  }
+
+  .irc5-dist-count {
+    font-size: 9px !important;
+    height: 12px !important;
+    line-height: 12px !important;
+  }
+
+  .irc5-dist-label {
+    font-size: 7px !important;
+    min-height: 16px !important;
+  }
+
+  .irc5-dist-range {
+    font-size: 6px !important;
+    min-height: 9px !important;
+  }
+
+  /* Average Overall Rating badge */
+  .irc5-badge-card {
+    padding: 8px 8px !important;
+  }
+
+  .irc5-badge-label {
+    font-size: 8px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .irc5-badge-score {
+    font-size: 20px !important;
+  }
+
+  .irc5-badge-scale {
+    font-size: 8px !important;
+    margin-top: 2px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .irc5-badge-pill {
+    font-size: 8px !important;
+    padding: 2px 8px !important;
+  }
+
+  /* Activity entries table. The Actions column (Edit/Delete buttons)
+     doesn't belong in a printed report, so it's dropped entirely --
+     table-layout:fixed then redistributes its width among the
+     remaining 9 columns, whose print-only widths below already sum
+     to 100% assuming it's gone. */
+  .irc5-table {
+    min-width: 0 !important;
+    width: 100% !important;
+    font-size: 7px !important;
+  }
+
+  .irc5-table thead th,
+  .irc5-table tbody td {
+    padding: 3px 3px !important;
+    font-size: 7px !important;
+  }
+
+  .irc5-table thead th:last-child,
+  .irc5-table tbody td:last-child {
+    display: none !important;
+  }
+
+  .irc5-col-no {
+    width: 3% !important;
+  }
+  .irc5-col-title {
+    width: 14% !important;
+  }
+  .irc5-col-nature {
+    width: 7% !important;
+  }
+  .irc5-col-date {
+    width: 10% !important;
+  }
+  .irc5-col-participants {
+    width: 9% !important;
+  }
+  .irc5-col-rating {
+    width: 6% !important;
+  }
+  .irc5-col-descval {
+    width: 8% !important;
+  }
+  .irc5-col-indicator {
+    width: 14% !important;
+  }
+  .irc5-col-cause {
+    width: 14% !important;
+  }
+  .irc5-col-measures {
+    width: 15% !important;
+  }
+
+  .irc5-cell-text {
+    font-size: 7px !important;
+    line-height: 1.3 !important;
+  }
+
+  .irc5-nature-badge,
+  .irc5-descval-badge {
+    font-size: 6px !important;
+    padding: 2px 5px !important;
+  }
+
+  .irc5-rating-value {
+    font-size: 7px !important;
+    padding: 2px 6px !important;
+  }
+
+  /* Long unbroken text in the title/indicator/cause/measures columns
+     needs somewhere to break besides existing spaces once the columns
+     are this narrow. Same hyphenation approach as IRC1a's indicator
+     column. Needs the page's lang attribute to work, which base.html
+     already sets (<html lang="en">). */
+  .irc5-cell-title,
+  .irc5-cell-text {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
+  /* Avoid splitting a table row or a dashboard card awkwardly across
+     a page break. */
+  .irc5-table tr,
+  .irc5-donut-card,
+  .irc5-dist-card,
+  .irc5-badge-card {
+    break-inside: avoid;
+  }
+}

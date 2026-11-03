@@ -1,0 +1,1453 @@
+/* IRC2a - Number of Schools Provided with TA - CSS Stylesheet */
+/* Restyled to match IRC1a's analytics-first, guided-flow design language. */
+
+.irc2a-panel {
+  --irc2a-elementary: rgb(180, 83, 9);
+  --irc2a-secondary: rgb(4, 120, 87);
+
+  --irc2a-elementary-tint: rgba(180, 83, 9, 0.1);
+  --irc2a-secondary-tint: rgba(4, 120, 87, 0.1);
+}
+
+/* ------------------------------------------------------------------
+   1. Page Header — same title-badge + divider layout as IRC1a
+------------------------------------------------------------------ */
+
+.irc2a-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc2a-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc2a-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc2a-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc2a-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc2a-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc2a-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc2a-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc2a-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc2a-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button */
+.irc2a-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc2a-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc2a-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc2a-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reset-all-data button — same design as IRC1a's reset button */
+.irc2a-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc2a-reset-btn i {
+  font-size: 13px;
+}
+
+.irc2a-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc2a-reset-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   Reset confirmation modal — same look as IRC1a's confirm dialog
+------------------------------------------------------------------ */
+
+.irc2a-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc2a-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc2a-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc2a-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc2a-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc2a-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.irc2a-btn-secondary,
+.irc2a-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc2a-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc2a-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc2a-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc2a-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2-3) tying the coverage dashboard,
+   filters, and assignment board together as a top-to-bottom sequence.
+------------------------------------------------------------------ */
+
+.irc2a-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc2a-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc2a-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc2a-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* Badges are subgrid children with no explicit grid-row, so they normally
+   rely on document-order auto-placement (1st child -> row 1, 2nd -> row 2,
+   3rd -> row 3) to land on the same row as their .irc2a-flow-section-N
+   counterpart, which IS explicitly pinned via grid-row. That works only
+   as long as every badge participates in auto-placement. In print,
+   .irc2a-flow-badge:nth-child(2) is display:none, so it no longer reserves
+   a slot -- auto-placement then shifts the 3rd badge up into row 2 while
+   .irc2a-flow-section-3 stays explicitly pinned to row 3, throwing the
+   "School assignment" badge and label out of alignment. Pinning every
+   badge to its row explicitly removes the dependency on auto-placement
+   entirely, so hiding any one badge can never shift another. */
+.irc2a-flow-badge:nth-child(1) {
+  grid-row: 1;
+}
+
+.irc2a-flow-badge:nth-child(2) {
+  grid-row: 2;
+}
+
+.irc2a-flow-badge:nth-child(3) {
+  grid-row: 3;
+}
+
+.irc2a-flow-section-1,
+.irc2a-flow-section-2,
+.irc2a-flow-section-3 {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.irc2a-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc2a-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc2a-flow-section-3 {
+  grid-row: 3;
+}
+
+.irc2a-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   Shared dark analytics header band — marks a card as
+   "analytics/summary" (as opposed to the light data-entry board below).
+------------------------------------------------------------------ */
+
+.irc2a-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc2a-dark-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc2a-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc2a-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   1. Coverage overview — dashboard/plot section (shown first)
+   ========================================================================== */
+
+.irc2a-hero-row {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.irc2a-trend-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.irc2a-trend-card > .irc2a-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-height: 0;
+}
+
+/* Overall Coverage badge card (right block) */
+.irc2a-badge-card {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  min-width: 0;
+}
+
+.irc2a-badge-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc2a-badge-score {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.irc2a-badge-scale {
+  font-size: 12px;
+  color: #9aa7b8;
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+.irc2a-badge-pill {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: #4b5a70;
+  color: #e5eaf0;
+}
+
+.irc2a-badge-lowest {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.irc2a-badge-lowest-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc2a-lowest-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.irc2a-lowest-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  color: #e5eaf0;
+  min-width: 0;
+}
+
+.irc2a-lowest-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.irc2a-lowest-dot--elementary {
+  background: var(--irc2a-elementary);
+}
+
+.irc2a-lowest-dot--secondary {
+  background: var(--irc2a-secondary);
+}
+
+.irc2a-lowest-label {
+  flex: 1;
+  min-width: 0;
+  color: #cbd5e1;
+}
+
+.irc2a-lowest-avg {
+  font-weight: 600;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+/* ---- coverage rows (DEDP / non-DEDP), nested inside the trend card ---- */
+
+.irc2a-coverage-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 6px 0;
+}
+
+.irc2a-coverage-hero {
+  flex: 0 0 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.irc2a-coverage-hero-value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.irc2a-coverage-hero--dedp .irc2a-coverage-hero-value {
+  color: #b5534d;
+}
+
+.irc2a-coverage-hero--nondedp .irc2a-coverage-hero-value {
+  color: #4a6fa5;
+}
+
+.irc2a-coverage-hero-label {
+  font-size: 12.5px;
+  line-height: 16px;
+  color: #5b6b80;
+  margin-top: 6px;
+}
+
+.irc2a-coverage-bar-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.irc2a-coverage-bar-track {
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  overflow: hidden;
+}
+
+.irc2a-coverage-bar-track--dedp {
+  background: rgba(181, 83, 77, 0.12);
+}
+
+.irc2a-coverage-bar-track--nondedp {
+  background: rgba(74, 111, 165, 0.12);
+}
+
+.irc2a-coverage-bar-seg {
+  height: 100%;
+  min-width: 0;
+  transition: width 0.25s ease;
+}
+
+.irc2a-coverage-bar-track--dedp .irc2a-coverage-bar-seg--elementary {
+  background: #b5534d;
+}
+
+.irc2a-coverage-bar-track--dedp .irc2a-coverage-bar-seg--secondary {
+  background: #d98c86;
+}
+
+.irc2a-coverage-bar-track--nondedp .irc2a-coverage-bar-seg--elementary {
+  background: #4a6fa5;
+}
+
+.irc2a-coverage-bar-track--nondedp .irc2a-coverage-bar-seg--secondary {
+  background: #8fabce;
+}
+
+.irc2a-coverage-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.irc2a-coverage-meta-breakdown {
+  line-height: 16px;
+  color: #5b6b80;
+}
+
+.irc2a-coverage-meta-total {
+  line-height: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+.irc2a-coverage-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.irc2a-coverage-legend-dot--dedp-elementary {
+  background: #b5534d;
+}
+
+.irc2a-coverage-legend-dot--dedp-secondary {
+  background: #d98c86;
+}
+
+.irc2a-coverage-legend-dot--nondedp-elementary {
+  background: #4a6fa5;
+}
+
+.irc2a-coverage-legend-dot--nondedp-secondary {
+  background: #8fabce;
+}
+
+.irc2a-coverage-divider {
+  height: 1px;
+  background: #eee;
+  margin: 4px 0;
+}
+
+/* ==========================================================================
+   2. Filter & search
+   ========================================================================== */
+
+.irc2a-filter-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc2a-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.irc2a-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.irc2a-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #e2e5ea;
+  background: white;
+  color: #555;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc2a-chip:hover {
+  border-color: #4a6fa5;
+}
+
+.irc2a-chip.is-active {
+  background: #1f2937;
+  border-color: #1f2937;
+  color: white;
+}
+
+.irc2a-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.irc2a-chip--elementary .irc2a-chip-dot {
+  background: var(--irc2a-elementary);
+}
+
+.irc2a-chip--secondary .irc2a-chip-dot {
+  background: var(--irc2a-secondary);
+}
+
+.irc2a-chip.is-active .irc2a-chip-dot {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 1px;
+}
+
+.irc2a-dedp-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.irc2a-dedp-toggle input {
+  accent-color: #92400e;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ---- badges (DEDP priority — colored to match the school's level) ------ */
+
+.irc2a-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* Default (used standalone, e.g. the filter-toggle label) */
+.irc2a-badge--dedp {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* When attached to a school item, take on that school's level color */
+.irc2a-item[data-level="elementary"] .irc2a-badge--dedp {
+  background: var(--irc2a-elementary);
+  color: #fff;
+}
+
+.irc2a-item[data-level="secondary"] .irc2a-badge--dedp {
+  background: var(--irc2a-secondary);
+  color: #fff;
+}
+
+.irc2a-badge--dedp::before {
+  content: "\2605"; /* star */
+  font-size: 10px;
+}
+
+/* ==========================================================================
+   3. School assignment — two-column board (data input)
+   ========================================================================== */
+
+.irc2a-columns {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.irc2a-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 40px;
+  color: #a8b8d8;
+  font-size: 18px;
+}
+
+@media (max-width: 860px) {
+  .irc2a-columns {
+    grid-template-columns: 1fr;
+  }
+  .irc2a-divider {
+    display: none;
+  }
+}
+
+/* ---- individual column ------------------------------------------------ */
+
+.irc2a-column {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.irc2a-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  border-bottom: 3px solid #4a6fa5;
+}
+
+.irc2a-column-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  color: #f3f4f6;
+}
+
+.irc2a-count-badge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  color: #185fa5;
+  background: #e6f1fb;
+  padding: 3px 10px;
+  border-radius: 999px;
+  min-width: 1.6em;
+  text-align: center;
+}
+
+.irc2a-search-wrap {
+  padding: 10px 10px 0;
+}
+
+.irc2a-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border: 1px solid #e2e5ea;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.irc2a-search:focus {
+  outline: none;
+  border-color: #4a6fa5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+/* ---- list & items ------------------------------------------------------ */
+
+.irc2a-list {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  /* Hide the scrollbar visually — mousewheel/touch scrolling still works */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge/IE */
+}
+
+.irc2a-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, new Edge */
+}
+
+.irc2a-empty {
+  color: #999;
+  font-size: 13px;
+  font-style: italic;
+  padding: 4px 12px 12px;
+  margin: 0;
+}
+
+.irc2a-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 11px;
+  border: 1px solid #e8e8e8;
+  border-left: 3px solid #e8e8e8;
+  border-radius: 6px;
+  background: #fafbfc;
+  font-size: 12.5px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+  transform: scale(1);
+  opacity: 1;
+  /* Subtle, quick, no overshoot/bounce */
+  transition:
+    background-color 0.12s ease-out,
+    border-color 0.12s ease-out,
+    transform 0.12s ease-out,
+    opacity 0.12s ease-out;
+}
+
+/* Click animation: shrink inward as it leaves the current column... */
+.irc2a-item.is-leaving {
+  transform: scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ...then grow back outward once it lands in the new column.
+   This uses a real @keyframes animation (not a transition) because the
+   entrance element is freshly created — a transition would need a
+   forced-reflow trick to fake an initial state, which is unreliable
+   across browsers. An animation just plays as soon as the class lands. */
+.irc2a-item.is-entering {
+  animation: irc2a-item-enter 0.15s ease-out;
+}
+
+@keyframes irc2a-item-enter {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .irc2a-item {
+    transition:
+      background-color 0.12s ease-out,
+      border-color 0.12s ease-out;
+  }
+  .irc2a-item.is-leaving {
+    transform: none;
+  }
+  .irc2a-item.is-entering {
+    animation: none;
+  }
+}
+
+.irc2a-item[data-level="elementary"] {
+  border-left-color: var(--irc2a-elementary);
+}
+
+.irc2a-item[data-level="secondary"] {
+  border-left-color: var(--irc2a-secondary);
+}
+
+.irc2a-item[data-level="elementary"]:hover {
+  background: var(--irc2a-elementary-tint);
+  border-color: var(--irc2a-elementary);
+}
+
+.irc2a-item[data-level="secondary"]:hover {
+  background: var(--irc2a-secondary-tint);
+  border-color: var(--irc2a-secondary);
+}
+
+.irc2a-item.is-hidden-by-filter {
+  display: none;
+}
+
+.irc2a-item-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.irc2a-item .irc2a-badge--dedp {
+  flex-shrink: 0;
+}
+
+.irc2a-item-action {
+  flex-shrink: 0;
+}
+
+.irc2a-item:focus-visible {
+  outline: none;
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc2a-item-action {
+  font-size: 13px;
+  color: #a8b8d8;
+  flex-shrink: 0;
+}
+
+.irc2a-column[data-status="unprovided"] .irc2a-item-action::before {
+  content: "\2192";
+}
+
+.irc2a-column[data-status="provided"] .irc2a-item-action::before {
+  content: "\2190";
+}
+
+/* ------------------------------------------------------------------
+   Responsive adjustments
+------------------------------------------------------------------ */
+
+@media (max-width: 950px) {
+  .irc2a-hero-row {
+    grid-template-columns: 2.2fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .irc2a-badge-card {
+    padding: 16px 12px;
+  }
+
+  .irc2a-badge-score {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 700px) {
+  .irc2a-hero-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .irc2a-coverage-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .irc2a-coverage-hero {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc2a-header h2 {
+    font-size: 22px;
+  }
+
+  .irc2a-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc2a-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc2a-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc2a-header-divider {
+    height: 44px;
+  }
+
+  .irc2a-header-actions {
+    width: 100%;
+  }
+
+  .irc2a-pdf-btn,
+  .irc2a-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc2a-dark-header,
+  .irc2a-card-body {
+    padding: 14px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   4. Print / Save-to-PDF
+   Triggered by #irc2a-pdf-btn -> window.print() (see irc2a.js). Only
+   ever active on this page since irc2a.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a/IRC1b's
+   own "Print / Save-to-PDF" section, adapted to this page's
+   dashboard + filter + two-column board layout.
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Save to PDF / Reset) -- none of these belong in a
+     printed report. */
+  header,
+  nav,
+  .irc2a-header-actions {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: only ever visible via a ".visible" class
+     toggle and defaults to display:none already, but force it off in
+     case a print is triggered while it's open. */
+  #irc2a-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  /* "Filter & search" (flow-section-2): filter chips, the DEDP
+     toggle, and the two search boxes are pure on-screen interaction
+     with nothing to show once printed -- window.print() gets triggered
+     with the board reset to fully unfiltered/unsearched anyway (see
+     saveToPdf() in irc2a.js), so this whole section and its flow
+     label are dropped rather than left showing controls nobody can
+     click on paper. Its "2" rail badge is hidden along with it, but
+     the rail itself still has to read a clean "1, 2" -- so School
+     assignment's badge (the 3rd child, normally labeled "3") has its
+     own text swapped out for a "2" below instead of leaving a "1, 3"
+     gap where the filter step used to be. */
+  .irc2a-flow-section-2,
+  .irc2a-flow-badge:nth-child(2) {
+    display: none !important;
+  }
+
+  /* Blank out the literal "3" text node and substitute "2" via
+     generated content -- the badge is a centered flex container, so
+     the pseudo-element lands in the same spot the original digit did. */
+  .irc2a-flow-badge:nth-child(3) {
+    font-size: 0 !important;
+  }
+
+  .irc2a-flow-badge:nth-child(3)::after {
+    content: "2";
+    font-size: 10px !important;
+  }
+
+  /* Per-column search boxes (unprovided/provided lists): same reasoning
+     as the filter section above -- irrelevant once printed, and
+     saveToPdf() already clears their values before this stylesheet ever
+     applies. */
+  .irc2a-search-wrap {
+    display: none !important;
+  }
+
+  /* Click-to-move affordance (the "->"/"<-" glyph on each school row):
+     meaningless on a static page. */
+  .irc2a-item-action {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Each column's school list is capped at 350px with its own scrollbar
+     on screen -- both need to fall away so the full list renders
+     instead of clipping/scrolling. */
+  .irc2a-list {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers,
+     the coverage bars, the count badges, and the DEDP tint colors
+     were all coming out flat/white. This forces every background to
+     print as it looks on screen. "Background graphics" still needs
+     to be left ON in the print dialog -- this can't override that
+     toggle, only make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers).
+  --------------------------------------------------------------- */
+
+  .irc2a-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc2a-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc2a-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc2a-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc2a-header-divider {
+    height: 38px;
+  }
+
+  .irc2a-header h2 {
+    font-size: 18px;
+  }
+
+  .irc2a-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc2a-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. Same fix as IRC1a/b. */
+  .irc2a-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc2a-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between flow rows: this has to live on .irc2a-flow's own
+     row-gap, NOT as margin-top on each .irc2a-flow-section -- see the
+     matching note in irc1a.css for why. Row 2 (Filter & search) is
+     hidden above, so this now only visibly separates the coverage
+     dashboard from the assignment board, but the row-gap still has to
+     be set here for that remaining space to come out at print scale
+     instead of the larger on-screen 1.25rem. */
+  .irc2a-flow {
+    row-gap: 14px;
+  }
+
+  /* Coverage chart / Overall Coverage summary: same 70/30 split as the
+     on-screen layout. */
+  .irc2a-hero-row {
+    grid-template-columns: 7fr 3fr !important;
+    gap: 10px;
+  }
+
+  .irc2a-dark-header,
+  .irc2a-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc2a-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc2a-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  /* ---- Coverage dashboard (DEDP / Non-DEDP bars) ---- */
+
+  .irc2a-coverage-row {
+    gap: 12px !important;
+    padding: 3px 0 !important;
+  }
+
+  .irc2a-coverage-hero {
+    flex: 0 0 60px !important;
+  }
+
+  .irc2a-coverage-hero-value {
+    font-size: 18px !important;
+    line-height: 20px !important;
+  }
+
+  .irc2a-coverage-hero-label {
+    font-size: 8px !important;
+    line-height: 10px !important;
+    margin-top: 2px !important;
+  }
+
+  .irc2a-coverage-bar-track {
+    height: 16px !important;
+  }
+
+  .irc2a-coverage-meta {
+    font-size: 8px !important;
+    gap: 6px !important;
+  }
+
+  .irc2a-coverage-legend-dot {
+    width: 6px !important;
+    height: 6px !important;
+    margin-right: 3px !important;
+  }
+
+  /* ---- Overall Coverage badge card ---- */
+
+  .irc2a-badge-card {
+    padding: 10px 8px !important;
+  }
+
+  .irc2a-badge-label {
+    font-size: 9px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .irc2a-badge-score {
+    font-size: 22px !important;
+  }
+
+  .irc2a-badge-scale {
+    font-size: 9px !important;
+    margin-top: 2px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .irc2a-badge-pill {
+    font-size: 8.5px !important;
+    padding: 3px 10px !important;
+  }
+
+  .irc2a-badge-lowest {
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+  }
+
+  .irc2a-badge-lowest-title {
+    font-size: 8.5px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .irc2a-lowest-list {
+    gap: 6px !important;
+  }
+
+  .irc2a-lowest-item {
+    font-size: 8.5px !important;
+    gap: 6px !important;
+  }
+
+  .irc2a-lowest-dot {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  /* ---- School assignment board ---- */
+
+  .irc2a-column-header {
+    padding: 6px 10px !important;
+  }
+
+  .irc2a-column-header h3 {
+    font-size: 10px !important;
+  }
+
+  .irc2a-count-badge {
+    font-size: 9px !important;
+    padding: 2px 8px !important;
+  }
+
+  .irc2a-list {
+    padding: 6px !important;
+    gap: 3px !important;
+  }
+
+  .irc2a-item {
+    padding: 4px 7px !important;
+    font-size: 9px !important;
+  }
+
+  .irc2a-badge {
+    font-size: 7px !important;
+    padding: 1px 5px !important;
+  }
+
+  .irc2a-divider {
+    padding-top: 20px !important;
+    font-size: 12px !important;
+  }
+
+  /* Avoid splitting a school row or a summary card awkwardly across a
+     page break. Deliberately NOT applied to .irc2a-column itself --
+     with dozens of schools potentially printed unfiltered (see
+     saveToPdf() in irc2a.js), a column's full list is often taller
+     than a single page, so forcing the whole card to avoid breaking
+     just pushes it entirely onto the next page and leaves a large
+     blank gap behind it. Letting the column break normally (while
+     each .irc2a-item inside it still won't split) is what keeps
+     "Not Yet Provided" flowing directly into "Provided with TA"
+     instead of leaving that gap. */
+  .irc2a-item,
+  .irc2a-trend-card,
+  .irc2a-badge-card {
+    break-inside: avoid;
+  }
+}

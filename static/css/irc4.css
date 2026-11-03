@@ -1,0 +1,1748 @@
+/* IRC4 - TA Catch-up Plan - CSS Stylesheet */
+
+.irc4-panel {
+  --irc4-accent: #4a6fa5;
+  --irc4-accent-dark: #3d5a8a;
+  --irc4-accent-tint: #eef4fb;
+  --irc4-border: #e0e0e0;
+  --irc4-field-border: #e2e5ea;
+
+  /* Same level colors as IRC2a, so a school reads the same way on both
+     tabs regardless of which page you're looking at. */
+  --irc4-elementary: rgb(180, 83, 9);
+  --irc4-secondary: rgb(4, 120, 87);
+  --irc4-elementary-tint: rgba(180, 83, 9, 0.1);
+  --irc4-secondary-tint: rgba(4, 120, 87, 0.1);
+}
+
+/* Default rule: every clickable button anywhere in this panel (Edit,
+   Delete, Add, Remove, suggestion items, modal actions, etc.) shows a
+   pointer cursor on hover. Individual buttons can still override this if
+   ever needed, but nothing here should require it. */
+.irc4-panel button:not(:disabled) {
+  cursor: pointer;
+}
+
+.irc4-panel button:disabled {
+  cursor: not-allowed;
+}
+
+.irc4-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc4-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Title block: badge + divider + title/subtitle, matching IRC1a's
+   .irc1a-header-title-main. */
+.irc4-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc4-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc4-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc4-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc4-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc4-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  /* Tightened from 4px so the title sits closer to its subtitle. */
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc4-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc4-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button — same look/sizing as IRC1a's .irc1a-pdf-btn. */
+.irc4-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc4-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc4-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc4-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reset button — sized down to match IRC1a's compact header actions
+   (was 10px/18px padding, 14px/15px font/icon). */
+.irc4-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  appearance: none;
+  background: #fff;
+  border: 1.5px solid #f3b4b4;
+  color: #dc2626;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc4-reset-btn i {
+  font-size: 13px;
+}
+
+.irc4-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+/* ---- overall page layout: guided flow ------------------------------------
+   Same numbered-rail pattern as IRC1a: a 1-2-3 rail ties three stacked
+   sections together top-to-bottom. The School/Schedule groups (the plan's
+   centerpiece) come first as the "dashboard" section, then Activity +
+   Objectives, then TA Receiver + MOV's — each later pair laid out as a
+   side-by-side cards row. ---------------------------------------------- */
+
+.irc4-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc4-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc4-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc4-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc4-flow-section-1,
+.irc4-flow-section-2,
+.irc4-flow-section-3 {
+  grid-column: 2;
+  /* Keeps this column a well-behaved shrinking track at every screen
+     size — see the identical note on IRC1a's .irc1a-flow-section-*. */
+  min-width: 0;
+}
+
+.irc4-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc4-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc4-flow-section-3 {
+  grid-row: 3;
+}
+
+.irc4-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* Side-by-side card pairs (Activity+Objectives, Receiver+MOV's). */
+.irc4-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 780px) {
+  .irc4-cards-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- plain field cards ---------------------------------------------------- */
+
+.irc4-card {
+  background: white;
+  border: 1px solid var(--irc4-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Shared dark header band — every numbered section title (card or zone)
+   uses this same gradient band, matching IRC1a's .irc1a-dark-header.
+   Laid out as a row so each section's action button always sits at the
+   far right of its header. */
+.irc4-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.irc4-dark-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.irc4-dark-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc4-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc4-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* ---- header action buttons ------------------------------------------------
+   One consistent look for every clickable action that lives inside a dark
+   header: the Activity/TA Receiver/MOV's Add-or-Edit button, Add Objective,
+   and Add Group. Solid white against the dark gradient so it visibly reads
+   as a button (not a ghost/outline), with a lift on hover for feedback. */
+.irc4-header-action-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid #fff;
+  color: var(--irc4-accent-dark);
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc4-header-action-btn:hover {
+  background: #eef4fb;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.irc4-header-action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.irc4-header-action-btn .irc4-icon {
+  flex-shrink: 0;
+}
+
+/* ---- icons ------------------------------------------------------------ */
+/* All icons are inline SVG (not an icon font), so they always render
+   regardless of what's linked in base.html. */
+.irc4-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ---- level / DEDP badges -----------------------------------------------
+   Same visual language as IRC2a: a gold star "DEDP" pill by default, which
+   flips to a solid level color once it's sitting inside a level-coded row
+   (see the .irc4-school-row / .irc4-group-school-item overrides below). */
+
+.irc4-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.irc4-badge--dedp {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.irc4-badge--dedp::before {
+  content: "\2605"; /* star */
+  font-size: 9px;
+}
+
+/* ---- TA-provided indicator (modal only) --------------------------------
+   Solid, fixed-width, full-height box sitting flush against the left edge
+   of a school row/suggestion item (see the .irc4-school-row /
+   .irc4-school-suggestion-item restructuring above, which strips the
+   row's own left padding so this box owns that edge outright). Always
+   shows the school's level color, even when TA hasn't been provided yet
+   -- it's just empty in that case, same width as every other box so the
+   column of boxes stays visually aligned down the list. Not used on the
+   main page's read-only group cards (.irc4-group-school-item) -- only
+   inside the Add/Edit Group modal, via irc4.js's buildTaIndicatorBox().
+
+   Everything below is scoped under #irc4GroupModal (rather than just the
+   bare class) so its specificity beats any same-specificity rule a
+   shared/global stylesheet elsewhere in the app might declare later in
+   the cascade -- these boxes need to render identically no matter what
+   else is loaded on the page. `box-sizing`/min-height/explicit svg size
+   are all belt-and-suspenders against exactly that kind of collision. */
+#irc4GroupModal .irc4-ta-indicator {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 40px;
+  min-width: 40px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #fff;
+  background: #9aa4b2; /* fallback if a level is somehow missing */
+}
+
+#irc4GroupModal .irc4-ta-indicator[data-level="elementary"] {
+  background: var(--irc4-elementary);
+}
+
+#irc4GroupModal .irc4-ta-indicator[data-level="secondary"] {
+  background: var(--irc4-secondary);
+}
+
+#irc4GroupModal .irc4-ta-indicator-icon {
+  box-sizing: border-box;
+  width: 11px !important;
+  height: 11px !important;
+  flex-shrink: 0;
+  display: block;
+}
+
+#irc4GroupModal .irc4-ta-indicator-label {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---- view/edit field pattern ------------------------------------------
+   Every text input (Activity, each Objective, TA Receiver, MOV's) shows
+   as plain, non-clickable text with a pencil "Edit" button by default.
+   Clicking Edit swaps in the textarea; blurring out of the textarea
+   commits the value and swaps back to plain text. ----------------------- */
+
+.irc4-field {
+  width: 100%;
+}
+
+.irc4-field-view {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.irc4-field-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 7px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #222;
+  white-space: pre-wrap;
+  word-break: break-word;
+  cursor: default;
+}
+
+.irc4-field-text.is-placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.irc4-field-edit-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 3px;
+  background: transparent;
+  border: 1px solid var(--irc4-field-border);
+  color: #999;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc4-field-edit-btn:hover {
+  background: #eff4f9;
+  border-color: var(--irc4-accent);
+  color: var(--irc4-accent-dark);
+}
+
+/* Forces the edit button closed when [hidden] is set. Without this, this
+   rule's own `display: inline-flex` above wins the specificity/origin tie
+   against the browser's built-in [hidden] rule, so the pencil button
+   would keep showing (alongside the check button) instead of disappearing
+   once enterEdit() sets editBtn.hidden = true. */
+.irc4-field-edit-btn[hidden] {
+  display: none;
+}
+
+.irc4-field-save-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 3px;
+  background: #eaf7ef;
+  border: 1px solid #bfe6cc;
+  color: #1a7f43;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc4-field-save-btn:hover {
+  background: #dcf3e3;
+  border-color: #8fd6a8;
+  color: #14622f;
+}
+
+/* Same fix as the edit button above: without this, the save button would
+   show by default (its own `display: inline-flex` beating [hidden]),
+   instead of staying hidden until enterEdit() reveals it. */
+.irc4-field-save-btn[hidden] {
+  display: none;
+}
+
+/* ---- text inputs (edit mode) ---------------------------------------------- */
+
+/* Non-resizable: height is driven entirely by JS (autoGrow) based on
+   content length, so there's no drag handle for the user to fight with. */
+.irc4-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.45;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.irc4-textarea:focus {
+  outline: none;
+  border-color: var(--irc4-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc4-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.irc4-select:focus {
+  outline: none;
+  border-color: var(--irc4-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+/* ---- objectives list ------------------------------------------------- */
+
+.irc4-objectives-list {
+  list-style: none;
+  margin: 0 0 8px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.irc4-objective-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.irc4-objective-label {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--irc4-accent);
+  padding-top: 7px;
+  min-width: 1.4em;
+}
+
+.irc4-objective-field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Same non-resizable, auto-growing behavior as the plain textareas above. */
+.irc4-objective-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden;
+  min-height: 30px;
+  padding: 7px 9px;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.4;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.irc4-objective-input:focus {
+  outline: none;
+  border-color: var(--irc4-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc4-objective-remove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 3px;
+  background: transparent;
+  border: 1px solid var(--irc4-field-border);
+  color: #999;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc4-objective-remove:hover {
+  background: #fee2e2;
+  border-color: #f5b5b5;
+  color: #991b1b;
+}
+
+.irc4-objectives-warning {
+  font-size: 11px;
+  color: #92400e;
+  margin: 4px 0 0 0;
+}
+
+/* Read-only objective text on the main page (no edit/remove controls
+   live here anymore — see .irc4-objective-item's simplified markup). A
+   couple pixels less bottom padding than .irc4-field-text alone since
+   there's no adjacent icon button to vertically balance against. */
+.irc4-objective-view-text {
+  padding: 5px 0;
+}
+
+/* ---- Objectives modal: editable rows + "add another" button ---------- */
+
+/* Rows reuse .irc4-objective-item/-label/-input/-remove (already styled
+   above) so the modal's rows look identical to the old inline-editable
+   ones; this just adds the small amount the modal-specific list needs. */
+.irc4-objectives-modal-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  margin-top: 2px;
+  background: white;
+  border: 1px dashed var(--irc4-field-border);
+  border-radius: 6px;
+  color: var(--irc4-accent-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc4-objectives-modal-add-btn:hover {
+  background: #eff4f9;
+  border-color: var(--irc4-accent);
+}
+
+/* ---- centerpiece zone: School + Schedule groups ---------------------------
+   Visually distinct from the plain cards above/below it — tinted
+   background, accent border, more generous padding — since it's the
+   most interactive part of the form. ------------------------------------ */
+
+.irc4-zone--groups {
+  background: white;
+  border: 1px solid var(--irc4-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+/* The zone's own body keeps the accent tint so the groups list still
+   reads as the highlighted centerpiece under its dark header. */
+.irc4-zone--groups > .irc4-card-body {
+  background: var(--irc4-accent-tint);
+}
+
+.irc4-groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.irc4-groups-empty {
+  text-align: center;
+  padding: 20px 12px;
+  color: #7a8ba5;
+  font-size: 12.5px;
+  font-style: italic;
+  border: 2px dashed #b9cde4;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  margin: 0 0 12px 0;
+}
+
+/* ---- read-only group view cards (rendered on the page after Save) -------- */
+
+.irc4-group-view {
+  position: relative;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 10px;
+  background: white;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.irc4-group-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--irc4-field-border);
+}
+
+.irc4-group-view-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--irc4-accent-dark);
+}
+
+.irc4-group-view-title.is-unset {
+  color: #999;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.irc4-group-view-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.irc4-group-edit-btn,
+.irc4-group-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: 1px solid var(--irc4-field-border);
+  color: #999;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc4-group-edit-btn:hover {
+  background: #eff4f9;
+  border-color: var(--irc4-accent);
+  color: var(--irc4-accent-dark);
+}
+
+.irc4-group-delete-btn:hover {
+  background: #fee2e2;
+  border-color: #f5b5b5;
+  color: #991b1b;
+}
+
+/* Selected-school rows on the main page — deliberately the same visual
+   language as the modal's .irc4-school-row chips below (colored by level,
+   DEDP badge included), just without the remove button since this list is
+   read-only. */
+.irc4-group-view-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  counter-reset: irc4-group-school-index;
+}
+
+.irc4-group-view-empty {
+  color: #999;
+  font-style: italic;
+  font-size: 12.5px;
+  padding: 4px 2px;
+}
+
+.irc4-group-school-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--irc4-field-border);
+  border-left: 3px solid var(--irc4-field-border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  background: #fafbfc;
+  font-size: 12.5px;
+  color: #333;
+  line-height: 1.4;
+  counter-increment: irc4-group-school-index;
+}
+
+.irc4-group-school-item[data-level="elementary"] {
+  background: var(--irc4-elementary-tint);
+  border-color: rgba(180, 83, 9, 0.25);
+  border-left-color: var(--irc4-elementary);
+  color: #7a3c05;
+}
+
+.irc4-group-school-item[data-level="secondary"] {
+  background: var(--irc4-secondary-tint);
+  border-color: rgba(4, 120, 87, 0.25);
+  border-left-color: var(--irc4-secondary);
+  color: #036045;
+}
+
+.irc4-group-school-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.irc4-group-school-name::before {
+  content: counter(irc4-group-school-index) ". ";
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+/* ---- Add/Edit Group modal -------------------------------------------- */
+
+.irc4-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.irc4-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 30, 45, 0.45);
+}
+
+.irc4-modal-content {
+  position: relative;
+  width: min(520px, 92vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+}
+
+.irc4-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--irc4-border);
+}
+
+.irc4-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc4-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.irc4-modal-close:hover {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.irc4-modal-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow: visible;
+}
+
+.irc4-group-sublabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #7a8494;
+  margin-bottom: 6px;
+}
+
+/* ---- searchable school picker / schedule combobox -----------------------
+   Both the school search and the Schedule of TA field share these classes
+   so they look and behave the same: click to browse the full dropdown,
+   or type to filter it down. ---------------------------------------------- */
+
+.irc4-school-search {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.irc4-school-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-family: inherit;
+  background: #fbfbfc;
+  cursor: pointer;
+}
+
+.irc4-school-search-input:focus {
+  outline: none;
+  border-color: var(--irc4-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+/* ---- Suggestion dropdown (school search + schedule combobox) ----------
+   Everything here is scoped under #irc4GroupModal, and every interactive
+   row uses `all: unset` before re-declaring the handful of properties it
+   actually needs. Both are deliberate hardening against a shared/global
+   stylesheet elsewhere in the app applying its own `button` defaults (or
+   a same-specificity `.irc4-school-suggestion-item` rule loaded later in
+   the cascade) and silently shrinking these rows down to a sliver --
+   `all: unset` + an explicit min-height means there is nothing left for
+   an outside rule to partially override. */
+#irc4GroupModal .irc4-school-suggestions {
+  box-sizing: border-box;
+  position: fixed; /* irc4.js sets the real left/top/width/max-height once open */
+  max-height: 190px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  background: white;
+  border: 1px solid var(--irc4-field-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+  z-index: 2000; /* above .irc4-modal's own z-index: 1000 */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px;
+}
+
+#irc4GroupModal .irc4-school-suggestions * {
+  box-sizing: border-box;
+}
+
+/* Forces the panel closed when [hidden] is set. Without this,
+   .irc4-school-suggestions' own `display: flex` above wins the
+   specificity tie against the browser's built-in [hidden] rule, so the
+   panel would stay visibly open even while the `hidden` attribute is
+   present on the element. */
+#irc4GroupModal .irc4-school-suggestions[hidden] {
+  display: none !important;
+}
+
+/* Zero-padding, stretch-aligned outer container: the TA indicator box
+   (see .irc4-ta-indicator) is the first child and needs to sit flush
+   against the left edge at the row's full height, with nothing else
+   introducing padding/gap ahead of it. Everything else (name, DEDP
+   badge) lives inside .irc4-school-suggestion-content, which carries the
+   padding/layout this element used to have on its own. `overflow: hidden`
+   keeps the indicator box's square corners from poking past the item's
+   rounded ones. Month entries in the schedule combobox (no data-level,
+   no indicator box) use the same two-layer structure for consistency —
+   see irc4.js's renderScheduleSuggestions. `all: unset` strips whatever
+   a browser (or an outside stylesheet targeting `button`) would
+   otherwise impose, so only the properties re-declared below apply. */
+#irc4GroupModal .irc4-school-suggestion-item {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 40px;
+  gap: 0;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-left: 3px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: #222;
+  cursor: pointer;
+}
+
+#irc4GroupModal .irc4-school-suggestion-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+#irc4GroupModal .irc4-school-suggestion-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+/* Plain items (e.g. months in the schedule combobox, which have no
+   level) keep the original neutral hover. */
+#irc4GroupModal .irc4-school-suggestion-item:not([data-level]):hover,
+#irc4GroupModal .irc4-school-suggestion-item:not([data-level]):focus {
+  background: #eef4fb;
+  color: var(--irc4-accent-dark);
+  outline: none;
+}
+
+/* School items are color-coded by level, same as the selected-school
+   rows and IRC2a. */
+#irc4GroupModal .irc4-school-suggestion-item[data-level="elementary"] {
+  background: var(--irc4-elementary-tint);
+  border-left-color: var(--irc4-elementary);
+  color: #7a3c05;
+}
+
+#irc4GroupModal .irc4-school-suggestion-item[data-level="secondary"] {
+  background: var(--irc4-secondary-tint);
+  border-left-color: var(--irc4-secondary);
+  color: #036045;
+}
+
+#irc4GroupModal .irc4-school-suggestion-item[data-level="elementary"]:hover,
+#irc4GroupModal .irc4-school-suggestion-item[data-level="elementary"]:focus {
+  background: rgba(180, 83, 9, 0.2);
+  outline: none;
+}
+
+#irc4GroupModal .irc4-school-suggestion-item[data-level="secondary"]:hover,
+#irc4GroupModal .irc4-school-suggestion-item[data-level="secondary"]:focus {
+  background: rgba(4, 120, 87, 0.2);
+  outline: none;
+}
+
+#irc4GroupModal
+  .irc4-school-suggestion-item[data-level="elementary"]
+  .irc4-badge--dedp {
+  background: var(--irc4-elementary);
+  color: #fff;
+}
+
+#irc4GroupModal
+  .irc4-school-suggestion-item[data-level="secondary"]
+  .irc4-badge--dedp {
+  background: var(--irc4-secondary);
+  color: #fff;
+}
+
+/* Wraps the school list + its empty-state hint so both share one
+   footprint: the hint is positioned absolutely over the (fixed-height)
+   list below, centered, so it reads naturally inside the box instead of
+   trailing below an empty area. */
+.irc4-school-list-wrap {
+  position: relative;
+  flex-shrink: 0; /* same reasoning as .irc4-school-row below: never let
+                      the fixed-height list itself get squeezed if the
+                      modal body ever runs short on space */
+  margin-bottom: 6px;
+}
+
+/* Selected schools rendered as a single vertical column, one per row.
+   Fixed (not max-) height, set from the start — even with zero schools —
+   so the box never grows or shrinks as schools are added/removed; it just
+   scrolls internally once content exceeds this height. scrollbar-gutter
+   reserves the scrollbar's space permanently so its appearance never
+   shifts the row content left/right. A numeric prefix is added in front
+   of each school name via a CSS counter, so the count updates
+   automatically as rows are added/removed with no JS involved. */
+.irc4-school-list {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 6px;
+  height: 240px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  padding-right: 4px;
+  counter-reset: irc4-school-index;
+}
+
+/* Base (unmatched/neutral) styling; level-specific colors below override
+   this once a school's level is known. Zero-padding, stretch-aligned
+   outer container: the TA indicator box (see .irc4-ta-indicator) is the
+   first child and needs to sit flush against the left edge at the row's
+   full height. Everything else (name, DEDP badge, remove button) lives
+   inside .irc4-school-row-content, which carries the padding/layout this
+   element used to have on its own. `overflow: hidden` keeps the
+   indicator box's square corners from poking past the row's rounded
+   ones. */
+.irc4-school-row {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0; /* keeps every row at its natural height as more schools
+                      are added, instead of the flex column squeezing rows
+                      shorter to fit them all -- the list scrolls instead
+                      (see .irc4-school-list's fixed height above) */
+  gap: 0;
+  border: 1px solid var(--irc4-field-border);
+  border-left: 3px solid var(--irc4-field-border);
+  border-radius: 6px;
+  padding: 0;
+  overflow: hidden;
+  background: #fafbfc;
+  color: #333;
+  counter-increment: irc4-school-index;
+}
+
+.irc4-school-row-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 8px 7px 10px;
+}
+
+.irc4-school-row[data-level="elementary"] {
+  background: var(--irc4-elementary-tint);
+  border-color: rgba(180, 83, 9, 0.25);
+  border-left-color: var(--irc4-elementary);
+  color: #7a3c05;
+}
+
+.irc4-school-row[data-level="secondary"] {
+  background: var(--irc4-secondary-tint);
+  border-color: rgba(4, 120, 87, 0.25);
+  border-left-color: var(--irc4-secondary);
+  color: #036045;
+}
+
+/* DEDP badge takes on the row's level color, same as IRC2a. */
+.irc4-school-row[data-level="elementary"] .irc4-badge--dedp,
+.irc4-group-school-item[data-level="elementary"] .irc4-badge--dedp {
+  background: var(--irc4-elementary);
+  color: #fff;
+}
+
+.irc4-school-row[data-level="secondary"] .irc4-badge--dedp,
+.irc4-group-school-item[data-level="secondary"] .irc4-badge--dedp {
+  background: var(--irc4-secondary);
+  color: #fff;
+}
+
+.irc4-school-row-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: inherit;
+}
+
+/* Numeric prefix — "1. ", "2. ", etc. — driven purely by the counter set
+   up on .irc4-school-list / .irc4-school-row above. */
+.irc4-school-row-name::before {
+  content: counter(irc4-school-index) ". ";
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+/* Groups the DEDP badge and the remove button together on the right side
+   of the row, so the badge always sits directly next to the trash icon
+   instead of floating in the middle of the row (which is what happened
+   when badge + button were separate flex siblings under
+   justify-content: space-between). */
+.irc4-school-row-end {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.irc4-chip-remove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(24, 95, 165, 0.12);
+  border: none;
+  border-radius: 50%;
+  color: #185fa5;
+  cursor: pointer;
+  padding: 0;
+}
+
+.irc4-school-row[data-level="elementary"] .irc4-chip-remove {
+  background: rgba(180, 83, 9, 0.12);
+  color: var(--irc4-elementary);
+}
+
+.irc4-school-row[data-level="secondary"] .irc4-chip-remove {
+  background: rgba(4, 120, 87, 0.12);
+  color: var(--irc4-secondary);
+}
+
+.irc4-chip-remove:hover,
+.irc4-school-row[data-level="elementary"] .irc4-chip-remove:hover,
+.irc4-school-row[data-level="secondary"] .irc4-chip-remove:hover {
+  background: rgba(153, 27, 27, 0.15);
+  color: #991b1b;
+}
+
+.irc4-group-empty-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11.5px;
+  color: #999;
+  font-style: italic;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* Forces the hint closed when [hidden] is set. Without this, this rule's
+   own `display: flex` above wins the specificity/origin tie against the
+   browser's built-in [hidden] rule, so the hint would keep showing even
+   after schools have been selected and JS sets el.hidden = true. */
+.irc4-group-empty-hint[hidden] {
+  display: none;
+}
+
+.irc4-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--irc4-border);
+}
+
+/* Field modal (Activity/TA Receiver/MOV's): Delete sits on its own at the
+   left, Cancel + Apply stay grouped together on the right. */
+.irc4-modal-footer--split {
+  justify-content: space-between;
+}
+
+.irc4-modal-footer-group {
+  display: flex;
+  gap: 8px;
+}
+
+/* Hidden (add-mode, nothing to delete yet) but keeps the footer's
+   space-between layout intact via this empty flex item.
+   IMPORTANT: the browser's built-in `[hidden] { display: none; }` rule
+   still applies here, since `visibility` alone never overrides `display`
+   -- an author rule only beats a UA rule on properties it actually sets.
+   Without an explicit `display` below, the button drops out of the flex
+   layout entirely, leaving Cancel/Apply as the footer's only flex item;
+   with a single item, `justify-content: space-between` collapses to
+   flex-start, so Cancel/Apply end up pinned to the LEFT instead of the
+   right. Restoring `display` keeps it a real (invisible) flex item so
+   the two-item space-between layout -- and Cancel/Apply's right-aligned
+   position -- holds in both add- and edit-mode. */
+.irc4-modal-btn-danger[hidden] {
+  display: revert;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.irc4-field-modal-textarea {
+  min-height: 110px;
+}
+
+.irc4-modal-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--irc4-field-border);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc4-modal-btn-cancel {
+  background: white;
+  color: #555;
+}
+
+.irc4-modal-btn-cancel:hover {
+  background: #f2f2f2;
+}
+
+.irc4-modal-btn-save {
+  background: var(--irc4-accent);
+  border-color: var(--irc4-accent);
+  color: white;
+}
+
+.irc4-modal-btn-save:hover {
+  background: var(--irc4-accent-dark);
+  border-color: var(--irc4-accent-dark);
+}
+
+.irc4-modal-btn-danger {
+  background: #d33d33;
+  border-color: #d33d33;
+  color: white;
+}
+
+.irc4-modal-btn-danger:hover {
+  background: #b3261e;
+  border-color: #b3261e;
+}
+
+/* ---- Reset-confirmation modal ----------------------------------------
+   Copied 1:1 from IRC5's .irc5-confirm-overlay / .irc5-confirm-box /
+   .irc5-confirm-actions so this dialog looks visually identical on both
+   pages: a single centered box, no header/footer divider lines, no
+   close-X button. */
+
+.irc4-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc4-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc4-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc4-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc4-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .irc4-header h2 {
+    font-size: 22px;
+  }
+
+  .irc4-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc4-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc4-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc4-header-divider {
+    height: 44px;
+  }
+
+  .irc4-header-actions {
+    width: 100%;
+  }
+
+  .irc4-pdf-btn,
+  .irc4-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc4-dark-header,
+  .irc4-card-body {
+    padding: 14px 16px;
+  }
+
+  .irc4-dark-header {
+    flex-wrap: wrap;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Print / Save-to-PDF
+   Triggered by #irc4PdfBtn -> window.print() (see irc4.js). Mirrors
+   IRC1a's print section 1:1 (same page size, same unclip/scale-down
+   approach) adapted to IRC4's markup. Only ever active on this page
+   since irc4.css is only loaded here, so these rules can safely
+   target the shared <header>/<nav> from base.html without leaking
+   into other tabs.
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Save to PDF / Reset, and every dark-header Add/Edit/Add
+     Group button) -- none of these belong in a printed report. */
+  header,
+  nav,
+  .irc4-header-actions,
+  .irc4-header-action-btn {
+    display: none !important;
+  }
+
+  /* Per-group Edit/Delete icon buttons on the read-only group cards --
+     screen-only controls, same reasoning as the header action buttons
+     above. */
+  .irc4-group-view-actions {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: every modal/confirm dialog is opened by
+     toggling an inline style.display (see irc4.js), which normally
+     beats a plain stylesheet rule -- !important is required here so
+     a modal left open mid-print never ends up in the PDF. */
+  .irc4-modal,
+  .irc4-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark section headers, the
+     tinted groups zone, and the level-colored school rows were all
+     coming out flat/white. This forces every background to print as
+     it looks on screen. "Background graphics" still needs to be left
+     ON in the print dialog -- this can't override that toggle, only
+     make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers).
+  --------------------------------------------------------------- */
+
+  .irc4-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc4-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc4-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc4-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc4-header-divider {
+    height: 38px;
+  }
+
+  .irc4-header h2 {
+    font-size: 18px;
+  }
+
+  .irc4-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc4-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc4-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc4-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between the 3 flow rows: this has to live on .irc4-flow's
+     own row-gap, NOT as margin-top on each .irc4-flow-section -- see
+     the identical note on IRC1a's print block. */
+  .irc4-flow {
+    row-gap: 14px;
+  }
+
+  /* Activity+Objectives / TA Receiver+MOV's: keep the even 50/50 split
+     instead of falling back to the single-column mobile layout, which
+     would otherwise kick in once the printed page's content width
+     (7.5in, after margins) drops below the 780px responsive
+     breakpoint. */
+  .irc4-cards-row {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px;
+  }
+
+  .irc4-dark-header,
+  .irc4-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc4-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc4-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  .irc4-field-text {
+    font-size: 9.5px !important;
+    padding: 4px 0;
+  }
+
+  .irc4-objective-view-text {
+    padding: 3px 0;
+  }
+
+  .irc4-objective-label {
+    font-size: 9.5px !important;
+    padding-top: 3px;
+  }
+
+  .irc4-objectives-list {
+    gap: 4px;
+  }
+
+  .irc4-groups-list {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .irc4-group-view {
+    padding: 8px 10px;
+  }
+
+  .irc4-group-view-header {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+
+  .irc4-group-view-title {
+    font-size: 10.5px !important;
+  }
+
+  .irc4-group-view-list {
+    gap: 3px;
+  }
+
+  .irc4-group-school-item {
+    font-size: 9px !important;
+    padding: 4px 7px;
+  }
+
+  .irc4-groups-empty,
+  .irc4-group-view-empty {
+    font-size: 9.5px !important;
+  }
+
+  /* "At least three objectives are recommended" is a live-editing
+     nudge for whoever is filling out the plan on screen -- it doesn't
+     belong in the printed/PDF report. */
+  .irc4-objectives-warning {
+    display: none !important;
+  }
+
+  /* Avoid splitting a card or group row awkwardly across a page
+     break. */
+  .irc4-card,
+  .irc4-zone--groups,
+  .irc4-group-view {
+    break-inside: avoid;
+  }
+}

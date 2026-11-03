@@ -1,0 +1,335 @@
+{% extends "base.html" %} {% block title %}IRC1b - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc1b.css') }}"
+/>
+
+<section id="irc1b-tab" class="tab-panel irc1b-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc1b-header">
+    <div class="irc1b-header-top">
+      <div class="irc1b-header-title-main">
+        <span class="irc1b-header-badge">
+          <span class="irc1b-header-badge-group">IRC</span>
+          <span class="irc1b-header-badge-page">1B</span>
+        </span>
+        <div class="irc1b-header-divider"></div>
+        <div>
+          <h2>Number of Customers Served</h2>
+          <p class="irc1b-subtitle">
+            Indicate the number of customers served for each month.
+          </p>
+        </div>
+      </div>
+      <div class="irc1b-header-actions">
+        <button type="button" id="irc1b-pdf-btn" class="irc1b-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" class="irc1b-reset-btn" id="resetAllBtn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: 1. Review -> 2. Record ================= -->
+  <div class="irc1b-flow">
+    <div class="irc1b-flow-rail" aria-hidden="true">
+      <span class="irc1b-flow-badge">1</span>
+      <span class="irc1b-flow-badge">2</span>
+    </div>
+
+    <!-- 2. TOP ANALYTICS SECTION (HERO) -->
+    <div class="irc1b-flow-section irc1b-flow-section-1">
+      <p class="irc1b-flow-label">Performance overview</p>
+      <div class="irc1b-hero-row">
+        <div class="irc1b-trend-card">
+          <div class="irc1b-trend-header irc1b-dark-header">
+            <div>
+              <h3>Customers Served Trend</h3>
+              <p class="irc1b-subtitle irc1b-subtitle-dark">
+                Total customers served over time.
+              </p>
+            </div>
+            <div class="irc1b-trend-toggle" id="irc1b-trend-toggle">
+              <button
+                type="button"
+                class="irc1b-toggle-btn active"
+                data-mode="monthly"
+              >
+                Monthly
+              </button>
+              <button
+                type="button"
+                class="irc1b-toggle-btn"
+                data-mode="quarterly"
+              >
+                Quarterly
+              </button>
+            </div>
+          </div>
+          <div class="irc1b-card-body">
+            <div class="irc1b-trend-chart-wrap" id="irc1b-trend-chart-wrap">
+              <p class="irc1b-lowest-placeholder" id="irc1b-trend-placeholder">
+                Enter customer counts below to see the trend.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Block (25%) — overall performance summary -->
+        <div class="irc1b-badge-card">
+          <span class="irc1b-badge-label">Total Customers Served</span>
+          <span class="irc1b-badge-score" id="irc1b-badge-total">&mdash;</span>
+          <span class="irc1b-badge-scale">customers this year</span>
+
+          <div class="irc1b-badge-stats">
+            <span class="irc1b-badge-stats-title">Recorded Highlights</span>
+            <ul class="irc1b-stat-list">
+              <li class="irc1b-stat-item">
+                <span
+                  class="irc1b-stat-marker irc1b-stat-marker-high"
+                  aria-hidden="true"
+                >
+                  <i class="ti ti-arrow-up-right"></i>
+                </span>
+                <span class="irc1b-stat-text">
+                  <span class="irc1b-stat-name">Highest</span>
+                  <span class="irc1b-stat-sub" id="irc1b-highest-month"
+                    >No data yet</span
+                  >
+                </span>
+                <span
+                  class="irc1b-stat-value irc1b-stat-value-high"
+                  id="irc1b-highest-value"
+                  >&mdash;</span
+                >
+              </li>
+              <li class="irc1b-stat-item">
+                <span
+                  class="irc1b-stat-marker irc1b-stat-marker-low"
+                  aria-hidden="true"
+                >
+                  <i class="ti ti-arrow-down-right"></i>
+                </span>
+                <span class="irc1b-stat-text">
+                  <span class="irc1b-stat-name">Lowest</span>
+                  <span class="irc1b-stat-sub" id="irc1b-lowest-month"
+                    >No data yet</span
+                  >
+                </span>
+                <span
+                  class="irc1b-stat-value irc1b-stat-value-low"
+                  id="irc1b-lowest-value"
+                  >&mdash;</span
+                >
+              </li>
+              <li class="irc1b-stat-item">
+                <span
+                  class="irc1b-stat-marker irc1b-stat-marker-months"
+                  aria-hidden="true"
+                >
+                  <i class="ti ti-calendar-check"></i>
+                </span>
+                <span class="irc1b-stat-text">
+                  <span class="irc1b-stat-name">Months with TA</span>
+                  <span class="irc1b-stat-sub">out of 12 months</span>
+                </span>
+                <span
+                  class="irc1b-stat-value irc1b-stat-value-months"
+                  id="irc1b-months-count"
+                  >0</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. BOTTOM SECTION (DATA ENTRY TABLE) -->
+    <div class="irc1b-flow-section irc1b-flow-section-2">
+      <p class="irc1b-flow-label">Monthly data entry</p>
+      <div class="irc1b-table-card">
+        <div class="irc1b-table-card-header irc1b-dark-header">
+          <h3>Number of Customers Served</h3>
+          <p class="irc1b-subtitle irc1b-subtitle-dark">
+            Enter the number of customers served for each month.
+          </p>
+        </div>
+        <div class="irc1b-table-wrapper">
+          <table id="irc1b-table" class="irc1b-table">
+            <thead>
+              <tr>
+                <th class="irc1b-label-col">Indicator</th>
+                <th>Jan</th>
+                <th>Feb</th>
+                <th>Mar</th>
+                <th>Apr</th>
+                <th>May</th>
+                <th>Jun</th>
+                <th>Jul</th>
+                <th>Aug</th>
+                <th>Sep</th>
+                <th>Oct</th>
+                <th>Nov</th>
+                <th>Dec</th>
+                <th class="irc1b-total-col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="irc1b-label-col">No. of Customers Served</td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="jan"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="feb"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="mar"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="apr"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="may"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="jun"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="jul"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="aug"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="sep"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="oct"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="nov"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="irc1b-customers"
+                    data-month="dec"
+                    min="0"
+                    step="1"
+                  />
+                </td>
+                <td class="irc1b-total-cell">
+                  <span id="irc1b-total">0</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.irc1b-flow -->
+  </div>
+</section>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc1b-reset-confirm-overlay" class="irc1b-confirm-overlay">
+  <div class="irc1b-confirm-box">
+    <h4>Reset all data?</h4>
+    <p>
+      This will permanently delete every month's customer count for this year.
+      This cannot be undone.
+    </p>
+    <div class="irc1b-confirm-actions">
+      <button
+        type="button"
+        id="irc1b-reset-confirm-cancel"
+        class="irc1b-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc1b-reset-confirm-confirm"
+        class="irc1b-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc1b.js') }}"></script>
+
+{% endblock %}

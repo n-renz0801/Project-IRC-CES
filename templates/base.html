@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}SGOD PMES{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css"
+    />
+    <!-- Base styles (header, navbar, layout) -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <!-- Page-specific styles (inserted by child templates) -->
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body data-active-tab="{{ active_tab.id if active_tab else '' }}">
+    <!-- ===== HEADER: Logos ===== -->
+    <header>
+      <div id="logo-bar">
+        <img
+          src="{{ url_for('static', filename='images/deped.png') }}"
+          alt="DepEd Logo"
+        />
+        <img
+          src="{{ url_for('static', filename='images/antipolo_division.png') }}"
+          alt="City Schools Division Office of Antipolo Logo"
+        />
+        <img
+          src="{{ url_for('static', filename='images/i_love_sgod.png') }}"
+          alt="I Love SGOD Logo"
+        />
+        <img
+          src="{{ url_for('static', filename='images/project_irc.png') }}"
+          alt="Project IRC Logo"
+        />
+      </div>
+    </header>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <nav>
+      {% if active_tab is none %}
+      <button
+        type="button"
+        class="home-upload-hamburger-btn"
+        id="homeUploadHamburgerBtn"
+        aria-expanded="false"
+        aria-controls="homeUploadHamburgerPanel"
+      >
+        <i class="ti ti-menu-2" aria-hidden="true"></i>
+        <span>Uploads</span>
+      </button>
+      {% endif %}
+      <ul>
+        <li>
+          <!-- prettier-ignore -->
+          <a href="{{ url_for('home') }}"
+                   {% if active_tab is none %}class="active"{% endif %}>
+                    Home
+                </a>
+        </li>
+        {% for tab in tabs %}
+        <li>
+          <!-- prettier-ignore -->
+          <a href="{{ url_for('view_tab', tab_id=tab.id) }}"
+                   title="{{ tab.name }}"
+                   {% if active_tab and active_tab.id == tab.id %}class="active"{% endif %}>
+                    {{ tab.short }}
+                </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <!-- ===== PAGE CONTENT ===== -->
+    <main class="content">
+      {% block content %}{% endblock %}
+
+      <!-- ===== REPORT SIGNATORY FOOTER =====
+           Shown at the bottom of every IRC1a-IRC9 page (active_tab is set
+           by view_tab()) except OPCRF I-IV (irc8a-irc8d), which render their own
+           Ratee / Rater / Approving Authority block through the
+           `signatories` macro in _macros.html. Hidden on Home, which has no report to
+           sign. "Prepared by" is populated client-side from /api/preparer
+           (see index.js) so it always reflects whatever was last saved on
+           the Home page. "Checked by" never changes, so it's hardcoded
+           here. -->
+      {% if active_tab and active_tab.id not in ['irc8a', 'irc8b', 'irc8c',
+      'irc8d'] %}
+      <!-- Small reusable snippet for the calendar-date control shown under
+           each signatory's position (see /api/signatory-date/<tab>/<role>
+           in app.py, and the click/save wiring in index.js). `role` must
+           be one of prepared_by / checked_by / approving_authority. -->
+      {% macro signatory_date(role, label) %}
+      <div class="report-signatory-date" data-signatory-role="{{ role }}">
+        <button
+          type="button"
+          class="report-signatory-date-btn"
+          aria-label="Set date for {{ label }}"
+        >
+          <span class="report-signatory-date-text">Set date</span>
+        </button>
+        <input
+          type="date"
+          class="report-signatory-date-input"
+          tabindex="-1"
+          aria-hidden="true"
+        />
+      </div>
+      {% endmacro %}
+      <div class="report-signatory">
+        <div class="report-signatory-title">
+          <i class="ti ti-clipboard-text" aria-hidden="true"></i>
+          <span>Report signatories</span>
+        </div>
+        <div class="report-signatory-grid">
+          <div class="report-signatory-block">
+            <p class="report-signatory-label">Prepared by</p>
+            <div class="report-signatory-person">
+              <span class="report-signatory-avatar" aria-hidden="true">
+                <i class="ti ti-user"></i>
+              </span>
+              <div class="report-signatory-info">
+                <p class="report-signatory-name" id="reportPreparedByName">
+                  &nbsp;
+                </p>
+                <p
+                  class="report-signatory-position"
+                  id="reportPreparedByPosition"
+                ></p>
+                {{ signatory_date('prepared_by', 'Prepared by') }}
+              </div>
+            </div>
+          </div>
+          <div class="report-signatory-block">
+            <p class="report-signatory-label">Checked by</p>
+            <div class="report-signatory-person">
+              <span class="report-signatory-avatar" aria-hidden="true">
+                <i class="ti ti-user"></i>
+              </span>
+              <div class="report-signatory-info">
+                <p class="report-signatory-name">DR. JONATHAN P. DOMINGO</p>
+                <p class="report-signatory-position">SGOD Chief</p>
+                {{ signatory_date('checked_by', 'Checked by') }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

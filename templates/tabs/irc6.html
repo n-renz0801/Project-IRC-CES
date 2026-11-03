@@ -1,0 +1,304 @@
+{% extends "base.html" %} {% block title %}IRC6 - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc6.css') }}"
+/>
+
+<section id="irc6-tab" class="tab-panel irc6-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc6-header">
+    <div class="irc6-header-top">
+      <div class="irc6-header-title-main">
+        <span class="irc6-header-badge">
+          <span class="irc6-header-badge-group">IRC</span>
+          <span class="irc6-header-badge-page">6</span>
+        </span>
+        <div class="irc6-header-divider"></div>
+        <div>
+          <h2>Monitoring &amp; Evaluation Plan</h2>
+          <p class="irc6-subtitle">
+            Supply the needed data for your Monitoring &amp; Evaluation
+            (M&amp;E) Plan.
+          </p>
+        </div>
+      </div>
+      <div class="irc6-header-actions">
+        <button type="button" id="irc6-pdf-btn" class="irc6-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc6-reset-btn" class="irc6-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: Output Entries ================= -->
+  <div class="irc6-flow">
+    <div class="irc6-flow-rail" aria-hidden="true">
+      <span class="irc6-flow-badge">1</span>
+    </div>
+
+    <!-- 1. M&E ENTRIES (DATA TABLE) -->
+    <div class="irc6-flow-section irc6-flow-section-1">
+      <p class="irc6-flow-label">Output entries</p>
+      <div class="irc6-table-card">
+        <div class="irc6-dark-header irc6-dark-header-with-action">
+          <div class="irc6-dark-header-text">
+            <h3>Monitoring &amp; Evaluation Entries</h3>
+            <p class="irc6-subtitle irc6-subtitle-dark">
+              Goal, Outcome, and every Output with its M&amp;E plan details.
+            </p>
+          </div>
+          <button type="button" id="irc6-add-btn" class="irc6-add-btn">
+            <span class="irc6-add-icon">+</span> Add Output
+          </button>
+        </div>
+
+        <div class="irc6-table-wrapper">
+          <table id="irc6-table" class="irc6-table">
+            <thead>
+              <tr>
+                <th class="irc6-col-no" rowspan="2">No.</th>
+                <th class="irc6-col-title" rowspan="2">
+                  Project Title: S.G.O.D
+                </th>
+                <th class="irc6-col-objectives" rowspan="2">Objectives</th>
+                <th class="irc6-col-indicators" rowspan="2">Indicators</th>
+                <th class="irc6-col-definition" rowspan="2">Definition</th>
+                <th class="irc6-group-th" colspan="3">Data Collection</th>
+                <th class="irc6-group-th" colspan="3">Data Analysis</th>
+                <th class="irc6-col-users" rowspan="2">
+                  Users of M&amp;E Results
+                </th>
+                <th class="irc6-group-th" colspan="2">Reporting</th>
+                <th class="irc6-col-actions" rowspan="2">Actions</th>
+              </tr>
+              <tr>
+                <th class="irc6-col-sub">Source/Methods</th>
+                <th class="irc6-col-sub">Person Responsible</th>
+                <th class="irc6-col-sub">Frequency/Schedule</th>
+                <th class="irc6-col-sub">Data Used</th>
+                <th class="irc6-col-sub">Person Responsible</th>
+                <th class="irc6-col-sub">Frequency</th>
+                <th class="irc6-col-sub">Communication Strategies</th>
+                <th class="irc6-col-sub">Frequency/Schedule</th>
+              </tr>
+            </thead>
+            <tbody id="irc6-table-body">
+              <!-- rows injected by irc6.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.irc6-flow -->
+  </div>
+</section>
+
+<!-- ================= ADD / EDIT ENTRY MODAL ================= -->
+<div id="irc6-modal-overlay" class="irc6-modal-overlay">
+  <div class="irc6-modal">
+    <div class="irc6-modal-header">
+      <h3 id="irc6-modal-title">Add Output</h3>
+      <button type="button" id="irc6-modal-close" class="irc6-modal-close">
+        &times;
+      </button>
+    </div>
+
+    <form id="irc6-form" class="irc6-modal-body">
+      <div class="irc6-form-stack">
+        <div class="irc6-field" id="irc6-title-field">
+          <label id="irc6-f-title-label" for="irc6-f-title">Output Title</label>
+          <input
+            type="text"
+            id="irc6-f-title"
+            placeholder="e.g. Mid-Year Performance Review"
+          />
+          <span id="irc6-f-title-hint" class="irc6-field-hint"></span>
+        </div>
+
+        <div class="irc6-field">
+          <label for="irc6-f-objectives">Objectives</label>
+          <textarea id="irc6-f-objectives" rows="2"></textarea>
+        </div>
+
+        <div class="irc6-field">
+          <label for="irc6-f-indicators">Indicators</label>
+          <textarea id="irc6-f-indicators" rows="2"></textarea>
+        </div>
+
+        <div class="irc6-field">
+          <label for="irc6-f-definition">Definition</label>
+          <textarea id="irc6-f-definition" rows="2"></textarea>
+        </div>
+
+        <div class="irc6-group-card">
+          <div class="irc6-group-header">
+            <svg
+              class="irc6-group-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+            <span>Data Collection</span>
+          </div>
+          <div class="irc6-group-body">
+            <div class="irc6-field">
+              <label for="irc6-f-dcsource">Source/Methods</label>
+              <textarea id="irc6-f-dcsource" rows="2"></textarea>
+            </div>
+            <div class="irc6-group-row">
+              <div class="irc6-field">
+                <label for="irc6-f-dcperson">Person Responsible</label>
+                <input type="text" id="irc6-f-dcperson" />
+              </div>
+              <div class="irc6-field">
+                <label for="irc6-f-dcfreq">Frequency/Schedule</label>
+                <input type="text" id="irc6-f-dcfreq" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="irc6-group-card">
+          <div class="irc6-group-header">
+            <svg
+              class="irc6-group-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="20" x2="12" y2="10"></line>
+              <line x1="18" y1="20" x2="18" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+            <span>Data Analysis</span>
+          </div>
+          <div class="irc6-group-body">
+            <div class="irc6-field">
+              <label for="irc6-f-daused">Data Used</label>
+              <textarea id="irc6-f-daused" rows="2"></textarea>
+            </div>
+            <div class="irc6-group-row">
+              <div class="irc6-field">
+                <label for="irc6-f-daperson">Person Responsible</label>
+                <input type="text" id="irc6-f-daperson" />
+              </div>
+              <div class="irc6-field">
+                <label for="irc6-f-dafreq">Frequency</label>
+                <input type="text" id="irc6-f-dafreq" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="irc6-field">
+          <label for="irc6-f-users">Users of M&amp;E Results</label>
+          <textarea id="irc6-f-users" rows="2"></textarea>
+        </div>
+
+        <div class="irc6-group-card">
+          <div class="irc6-group-header">
+            <svg
+              class="irc6-group-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span>Reporting</span>
+          </div>
+          <div class="irc6-group-body">
+            <div class="irc6-field">
+              <label for="irc6-f-repcomm">Communication Strategies</label>
+              <textarea id="irc6-f-repcomm" rows="2"></textarea>
+            </div>
+            <div class="irc6-field">
+              <label for="irc6-f-repfreq">Frequency/Schedule</label>
+              <input type="text" id="irc6-f-repfreq" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="irc6-modal-footer">
+      <button type="button" id="irc6-cancel-btn" class="irc6-btn-secondary">
+        Cancel
+      </button>
+      <button type="submit" form="irc6-form" class="irc6-btn-primary">
+        Save Entry
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= DELETE CONFIRMATION MODAL ================= -->
+<div id="irc6-confirm-overlay" class="irc6-confirm-overlay">
+  <div class="irc6-confirm-box">
+    <h4>Delete this output?</h4>
+    <p>
+      This action cannot be undone. Remaining outputs will be renumbered. Are
+      you sure you want to delete this entry?
+    </p>
+    <div class="irc6-confirm-actions">
+      <button type="button" id="irc6-confirm-cancel" class="irc6-btn-secondary">
+        Cancel
+      </button>
+      <button type="button" id="irc6-confirm-delete" class="irc6-btn-danger">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESET-PAGE CONFIRMATION MODAL ================= -->
+<!-- Page-agnostic wording, reuses the .irc6-confirm-* CSS classes above
+     (same look as the delete-confirmation dialog) with its own ids so it
+     doesn't share state with it. -->
+<div id="irc6-reset-confirm-overlay" class="irc6-confirm-overlay">
+  <div class="irc6-confirm-box">
+    <h4>Reset the contents of this page?</h4>
+    <p>
+      This will delete all data entered on this page. This cannot be undone.
+    </p>
+    <div class="irc6-confirm-actions">
+      <button
+        type="button"
+        id="irc6-reset-confirm-cancel"
+        class="irc6-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc6-reset-confirm-confirm"
+        class="irc6-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc6.js') }}"></script>
+
+{% endblock %}

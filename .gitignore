@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# PyInstaller build files (keep the .spec file so builds are reproducible)
+build/
+dist/
+
+# Local database / application data
+instance/
+uploads/
+*.db
+*.sqlite
+*.sqlite3
+
+# Reference / working files
+excel/
+data/*.xlsx
+data/*.csv
+
+# Local Adobe Illustrator files
+adobe_illustrator/
+
+# Microsoft Office temporary/lock files
+~$*
+
+# Logs and test/cache folders
+*.log
+.pytest_cache/
+.mypy_cache/
+
+# Environment variables / secrets
+.env
+.env.*
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS-generated files
+.DS_Store
+Thumbs.db

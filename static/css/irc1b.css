@@ -1,0 +1,1288 @@
+/* IRC1b - Number of Customers Served - CSS Stylesheet */
+/* Analytics-first layout, matching IRC1a's guided-flow design language */
+
+/* ------------------------------------------------------------------
+   1. Page Header
+------------------------------------------------------------------ */
+
+.irc1b-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc1b-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Title block: badge + divider + title/subtitle, mirroring the home
+   page's .header-title-bar-main (logo + divider + title block). */
+.irc1b-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc1b-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc1b-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc1b-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc1b-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc1b-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  /* Toggle off: change to `text-transform: none;` (or delete the line)
+     to revert the title to normal sentence case. */
+  text-transform: uppercase;
+}
+
+.irc1b-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc1b-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button */
+.irc1b-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc1b-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc1b-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc1b-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reset-all-data button */
+.irc1b-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc1b-reset-btn i {
+  font-size: 13px;
+}
+
+.irc1b-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc1b-reset-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   Reset confirmation modal
+------------------------------------------------------------------ */
+
+.irc1b-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc1b-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc1b-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc1b-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc1b-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc1b-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.irc1b-btn-secondary,
+.irc1b-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc1b-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc1b-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc1b-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc1b-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2) tying the hero and table
+   sections together as a top-to-bottom sequence.
+------------------------------------------------------------------ */
+
+.irc1b-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc1b-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc1b-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc1b-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc1b-flow-section-1 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.irc1b-flow-section-2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.irc1b-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   2. Top Analytics Section (Hero Block - 2 Column Split)
+------------------------------------------------------------------ */
+
+/* Two-column split: the trend chart takes 70% of the row and the
+   overall-performance summary card sits in the remaining 30%. The
+   chart SVG is viewBox-driven with preserveAspectRatio="none", so it
+   simply redraws narrower inside its smaller track -- no JS changes
+   needed to "shrink" it. */
+.irc1b-hero-row {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.irc1b-trend-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* Grid items default to min-width: auto, which pins a card at its
+     content's min-content width and can hold the whole hero row open
+     wider than the viewport instead of letting it shrink with its
+     track. This keeps it a well-behaved shrinking grid item at every
+     screen size. */
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------
+   Shared dark analytics header band — marks a card as
+   "analytics/summary" (as opposed to the light data-entry table below).
+------------------------------------------------------------------ */
+
+.irc1b-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc1b-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* The trend card's own body grows to fill whatever height the card
+   ends up with, so the chart wrap below can claim the remaining
+   vertical space -- same treatment as IRC1a's trend card. */
+.irc1b-trend-card > .irc1b-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.irc1b-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc1b-trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Shared "section header" style — dark-header titles must stay
+   visually consistent. Change the look of any of them here, in one
+   place. */
+.irc1b-trend-header h3,
+.irc1b-table-card-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc1b-trend-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.irc1b-toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.irc1b-toggle-btn:hover {
+  color: #333;
+}
+
+.irc1b-toggle-btn.active {
+  background: white;
+  color: #185fa5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.irc1b-trend-chart-wrap {
+  width: 100%;
+  flex: 1;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.irc1b-trend-chart-wrap svg {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: block;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------------
+   Trend chart — light grid + solid axis, rounded line with a soft
+   area fill under it, white points with a colored ring, bold value
+   labels above each point.
+------------------------------------------------------------------ */
+
+.irc1b-trend-grid {
+  stroke: #eef0f2;
+  stroke-width: 1;
+}
+
+.irc1b-trend-axis {
+  stroke: #d6dbe1;
+  stroke-width: 1.2;
+}
+
+.irc1b-trend-axis-label {
+  font-size: 11.5px;
+  fill: #9aa5b1;
+}
+
+.irc1b-trend-x-label {
+  font-size: 11.5px;
+  fill: #8a93a0;
+  text-anchor: middle;
+}
+
+.irc1b-trend-path {
+  fill: none;
+  stroke: #4a6fa5;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 0.25s ease;
+}
+
+.irc1b-trend-area {
+  fill: rgba(74, 111, 165, 0.09);
+  stroke: none;
+}
+
+.irc1b-trend-point {
+  fill: #fff;
+  stroke: #4a6fa5;
+  stroke-width: 2.1;
+}
+
+.irc1b-trend-point.irc1b-point-empty {
+  stroke: #9ca3af;
+}
+
+.irc1b-trend-point:hover {
+  r: 4.5;
+}
+
+.irc1b-trend-point-val {
+  font-size: 11.5px;
+  font-weight: 700;
+  fill: #4a6fa5;
+  text-anchor: middle;
+}
+
+/* Empty-state placeholder text for the trend chart */
+.irc1b-lowest-placeholder {
+  font-size: 12.5px;
+  color: #9aa7b8;
+}
+
+/* ------------------------------------------------------------------
+   Overall Performance summary card (right block of the hero row).
+   Mirrors IRC1a's .irc1a-badge-card: dark panel, one headline figure
+   on top, then a divided list of supporting stats underneath.
+------------------------------------------------------------------ */
+
+.irc1b-badge-card {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  /* See .irc1b-trend-card -- same grid-shrink fix. */
+  min-width: 0;
+}
+
+.irc1b-badge-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc1b-badge-score {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+
+.irc1b-badge-scale {
+  font-size: 12px;
+  color: #9aa7b8;
+  margin-top: 4px;
+}
+
+.irc1b-badge-stats {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.irc1b-badge-stats-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc1b-stat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.irc1b-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: #e5eaf0;
+  min-width: 0;
+}
+
+.irc1b-stat-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  background: #64748b;
+}
+
+.irc1b-stat-marker-high {
+  background: #22c55e;
+}
+
+.irc1b-stat-marker-low {
+  background: #ef4444;
+}
+
+.irc1b-stat-marker-months {
+  background: #3b82f6;
+}
+
+.irc1b-stat-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.irc1b-stat-name {
+  color: #cbd5e1;
+  overflow-wrap: break-word;
+}
+
+.irc1b-stat-sub {
+  font-size: 10.5px;
+  color: #8e9bad;
+  overflow-wrap: break-word;
+}
+
+.irc1b-stat-value {
+  font-weight: 700;
+  color: #fbbf24;
+  flex-shrink: 0;
+  overflow-wrap: anywhere;
+}
+
+.irc1b-stat-value-high {
+  color: #4ade80;
+}
+
+.irc1b-stat-value-low {
+  color: #f87171;
+}
+
+.irc1b-stat-value-months {
+  color: #93c5fd;
+}
+
+/* ------------------------------------------------------------------
+   3. Bottom Section — Data Entry Table
+------------------------------------------------------------------ */
+
+.irc1b-table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc1b-table-wrapper {
+  background: white;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.irc1b-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.irc1b-table thead {
+  background: #1f2937;
+  border-bottom: 3px solid #4a6fa5;
+}
+
+.irc1b-table thead th {
+  padding: 13px 8px;
+  text-align: center;
+  font-weight: 600;
+  color: #f3f4f6;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1f2937;
+}
+
+.irc1b-table thead th:last-child {
+  border-right: none;
+}
+
+.irc1b-label-col {
+  width: 220px;
+  text-align: left;
+}
+
+.irc1b-total-col {
+  width: 100px;
+  text-align: center;
+}
+
+.irc1b-table th:not(.irc1b-label-col):not(.irc1b-total-col),
+.irc1b-table td:not(.irc1b-label-col):not(.irc1b-total-cell) {
+  width: 60px;
+}
+
+.irc1b-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.irc1b-table tbody tr:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.irc1b-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.irc1b-table tbody tr:hover {
+  background: #f0f5ff;
+}
+
+.irc1b-table tbody td {
+  padding: 10px 8px;
+  border-right: 1px solid #e8e8e8;
+  text-align: center;
+}
+
+.irc1b-table tbody td:last-child {
+  border-right: none;
+}
+
+.irc1b-table tbody input[type="number"] {
+  width: 100%;
+  max-width: 60px;
+  box-sizing: border-box;
+  padding: 6px 4px;
+  border: 1px solid #e2e5ea;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.irc1b-table tbody input[type="number"]:focus {
+  outline: none;
+  border-color: #4a6fa5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc1b-table tbody input[type="number"]::-webkit-outer-spin-button,
+.irc1b-table tbody input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.irc1b-table tbody input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Total — pill badge instead of plain text */
+.irc1b-total-cell {
+  text-align: center;
+}
+
+.irc1b-total-cell #irc1b-total {
+  display: inline-block;
+  font-weight: 600;
+  color: #185fa5;
+  background: #e6f1fb;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* ------------------------------------------------------------------
+   Responsive adjustments
+------------------------------------------------------------------ */
+
+/* HD laptops (~1366px). Same 3fr/1fr hero row as always -- see
+   min-width: 0 on .irc1b-trend-card / .irc1b-badge-card for how both
+   cards keep shrinking with their tracks instead of forcing an
+   overflow. The chart SVG already redraws at whatever width it's given
+   (see getChartScale() in irc1b.js), so it just gets narrower along
+   with its card. Padding/font sizes trimmed to match. */
+@media (max-width: 1400px) {
+  .irc1b-badge-card {
+    padding: 18px 14px;
+  }
+
+  .irc1b-badge-score {
+    font-size: 34px;
+  }
+
+  .irc1b-badge-label,
+  .irc1b-badge-scale,
+  .irc1b-badge-stats-title,
+  .irc1b-stat-item,
+  .irc1b-lowest-placeholder {
+    font-size: 11px;
+  }
+
+  .irc1b-stat-sub {
+    font-size: 10px;
+  }
+
+  .irc1b-dark-header,
+  .irc1b-card-body {
+    padding: 12px 14px;
+  }
+
+  .irc1b-trend-header h3,
+  .irc1b-table-card-header h3 {
+    font-size: 14px;
+  }
+
+  .irc1b-subtitle,
+  .irc1b-subtitle-dark {
+    font-size: 12px;
+  }
+
+  .irc1b-toggle-btn {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  /* Table: shrink font size + column widths together so the row stays
+     inside the card without ever needing horizontal scroll. */
+  .irc1b-table {
+    font-size: 11px;
+  }
+
+  .irc1b-label-col {
+    width: 130px;
+  }
+
+  .irc1b-total-col {
+    width: 70px;
+  }
+
+  .irc1b-table th:not(.irc1b-label-col):not(.irc1b-total-col),
+  .irc1b-table td:not(.irc1b-label-col):not(.irc1b-total-cell) {
+    width: 42px;
+  }
+
+  .irc1b-table thead th,
+  .irc1b-table tbody td {
+    padding: 7px 5px;
+  }
+
+  .irc1b-table tbody input[type="number"] {
+    max-width: 36px;
+    font-size: 11px;
+    padding: 5px 3px;
+  }
+
+  .irc1b-total-cell #irc1b-total {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .irc1b-label-col {
+    width: 150px;
+  }
+}
+
+/* Continue shrinking past the 1400px step instead of freezing there --
+   the gap and the badge card's padding/font sizes keep tightening as
+   the viewport narrows, so .irc1b-hero-row (7fr/3fr) always has room
+   to shrink in place. Nothing here changes grid-template-columns, so
+   the row never collapses into a stacked, single-column layout. */
+@media (max-width: 1150px) {
+  .irc1b-hero-row {
+    gap: 1rem;
+  }
+
+  .irc1b-badge-card {
+    padding: 16px 12px;
+  }
+
+  .irc1b-badge-score {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 950px) {
+  .irc1b-hero-row {
+    /* Give the summary card relatively more of the row so it doesn't
+       get squeezed to an unreadable sliver as the trend card's chart
+       still needs most of the space. */
+    grid-template-columns: 2.2fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .irc1b-badge-card {
+    padding: 14px 10px;
+  }
+
+  .irc1b-badge-score {
+    font-size: 24px;
+  }
+
+  .irc1b-badge-label,
+  .irc1b-badge-scale,
+  .irc1b-badge-stats-title,
+  .irc1b-stat-item,
+  .irc1b-lowest-placeholder {
+    font-size: 10px;
+  }
+
+  .irc1b-stat-marker {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc1b-header h2 {
+    font-size: 22px;
+  }
+
+  .irc1b-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc1b-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc1b-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc1b-header-divider {
+    height: 44px;
+  }
+
+  .irc1b-header-actions {
+    width: 100%;
+  }
+
+  .irc1b-pdf-btn,
+  .irc1b-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc1b-table-wrapper {
+    font-size: 12px;
+  }
+
+  .irc1b-table thead th,
+  .irc1b-table tbody td {
+    padding: 8px 6px;
+  }
+
+  .irc1b-dark-header,
+  .irc1b-card-body {
+    padding: 14px 16px;
+  }
+
+  .irc1b-badge-card {
+    padding: 18px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   4. Print / Save-to-PDF
+   Triggered by #irc1b-pdf-btn -> window.print() (see irc1b.js). Only
+   ever active on this page since irc1b.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a's own
+   "Print / Save-to-PDF" section (see irc1a.css), trimmed down to
+   this page's simpler layout (no legend, no remarks cards, no
+   multi-indicator table).
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Save to PDF / Reset) -- none of these belong in a
+     printed report. */
+  header,
+  nav,
+  .irc1b-header-actions {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: only ever visible via a ".visible" class
+     toggle and defaults to display:none already, but force it off in
+     case a print is triggered while it's open. */
+  #irc1b-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling table needs to render in full instead of
+     scrolling. */
+  .irc1b-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers,
+     the total pill badge, and the trend chart's accent colors were
+     all coming out flat/white. This forces every background to print
+     as it looks on screen. "Background graphics" still needs to be
+     left ON in the print dialog -- this can't override that toggle,
+     only make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers).
+  --------------------------------------------------------------- */
+
+  .irc1b-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc1b-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc1b-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc1b-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc1b-header-divider {
+    height: 38px;
+  }
+
+  .irc1b-header h2 {
+    font-size: 18px;
+  }
+
+  .irc1b-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc1b-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc1b-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc1b-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between the 2 flow rows: this has to live on .irc1b-flow's
+     own row-gap, NOT as margin-top on each .irc1b-flow-section -- a
+     per-section margin-top pushes that section's content down inside
+     its own grid row without the rail (a separate grid item) moving
+     with it, which would knock the 2nd row's label out of alignment
+     with its badge. row-gap instead adds space strictly between rows,
+     so it can't create that offset. Same fix as IRC1a. */
+  .irc1b-flow {
+    row-gap: 14px;
+  }
+
+  /* Trend chart / Total Customers Served summary: same 70/30 split as
+     the on-screen layout. */
+  .irc1b-hero-row {
+    grid-template-columns: 7fr 3fr !important;
+    gap: 10px;
+  }
+
+  .irc1b-dark-header,
+  .irc1b-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc1b-trend-header h3,
+  .irc1b-table-card-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc1b-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  .irc1b-trend-toggle,
+  .irc1b-toggle-btn {
+    display: none !important;
+  }
+
+  .irc1b-trend-chart-wrap {
+    min-height: 0;
+  }
+
+  .irc1b-badge-card {
+    padding: 10px 8px !important;
+  }
+
+  .irc1b-badge-label {
+    font-size: 9px !important;
+  }
+
+  .irc1b-badge-score {
+    font-size: 22px !important;
+  }
+
+  .irc1b-badge-scale {
+    font-size: 9px !important;
+  }
+
+  .irc1b-badge-stats {
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+  }
+
+  .irc1b-badge-stats-title {
+    font-size: 8.5px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .irc1b-stat-list {
+    gap: 6px !important;
+  }
+
+  .irc1b-stat-item {
+    font-size: 8.5px !important;
+    gap: 6px !important;
+  }
+
+  .irc1b-stat-marker {
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 9px !important;
+  }
+
+  .irc1b-stat-sub,
+  .irc1b-lowest-placeholder {
+    font-size: 8px !important;
+  }
+
+  .irc1b-table-wrapper {
+    font-size: 9px !important;
+  }
+
+  /* Unify every piece of text inside the table to the same size --
+     .irc1b-table carries its own explicit font-size (set higher up,
+     for on-screen breakpoints) that would otherwise win over the
+     inherited 9px above, and form elements like the count <input>s
+     don't inherit font-size from their ancestors at all, so each one
+     needs to be pinned to the same value directly. */
+  .irc1b-table,
+  .irc1b-table thead th,
+  .irc1b-table tbody td,
+  .irc1b-table tbody input[type="number"] {
+    font-size: 9px !important;
+  }
+
+  .irc1b-table thead th,
+  .irc1b-table tbody td {
+    padding: 5px 3px !important;
+  }
+
+  .irc1b-label-col {
+    width: 16% !important;
+  }
+
+  .irc1b-total-col {
+    width: 9% !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Count inputs: on screen these look like boxed form fields
+     (border + off-white fill + inset shadow); on a printed report
+     they should just read as plain numbers, so all of that is
+     stripped back to bare text. width has to be pinned to 100% (of
+     the fixed-width table cell) rather than just removing max-width
+     -- a bare <input type="number"> without an explicit width falls
+     back to the browser's own intrinsic default, which is far wider
+     than this cell, bleeding past it into neighboring columns and off
+     the page edge. Same fix as IRC1a's rating inputs. */
+  .irc1b-table tbody input[type="number"] {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 1px 0 !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .irc1b-total-cell #irc1b-total {
+    font-size: 9px !important;
+    padding: 2px 8px !important;
+  }
+
+  /* Report signatory footer print scaling now lives centrally in
+     base.css (the same @media print block runs on every IRC1a-IRC9
+     page), so this page no longer needs its own copy. */
+
+  /* Avoid splitting a table row or a summary card awkwardly across a
+     page break. */
+  .irc1b-table tr,
+  .irc1b-trend-card,
+  .irc1b-badge-card {
+    break-inside: avoid;
+  }
+}

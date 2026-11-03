@@ -1,0 +1,318 @@
+{% extends "base.html" %} {% block title %}IRC2a - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc2a.css') }}"
+/>
+
+<section id="irc2a-tab" class="tab-panel irc2a-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc2a-header">
+    <div class="irc2a-header-top">
+      <div class="irc2a-header-title-main">
+        <span class="irc2a-header-badge">
+          <span class="irc2a-header-badge-group">IRC</span>
+          <span class="irc2a-header-badge-page">2A</span>
+        </span>
+        <div class="irc2a-header-divider"></div>
+        <div>
+          <h2>Number of Schools Provided with TA</h2>
+          <p class="irc2a-subtitle">
+            Click a school to move it between columns.
+          </p>
+        </div>
+      </div>
+      <div class="irc2a-header-actions">
+        <button type="button" id="irc2a-pdf-btn" class="irc2a-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" class="irc2a-reset-btn" id="irc2aResetAllBtn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: 1. Overview -> 2. Filter -> 3. Assign ================= -->
+  <div class="irc2a-flow">
+    <div class="irc2a-flow-rail" aria-hidden="true">
+      <span class="irc2a-flow-badge">1</span>
+      <span class="irc2a-flow-badge">2</span>
+      <span class="irc2a-flow-badge">3</span>
+    </div>
+
+    <!-- 2. COVERAGE DASHBOARD (shown first, before data input) -->
+    <div class="irc2a-flow-section irc2a-flow-section-1">
+      <p class="irc2a-flow-label">Coverage overview</p>
+      <div class="irc2a-hero-row">
+        <!-- Left block (75%) — DEDP / Non-DEDP coverage bars -->
+        <div class="irc2a-trend-card">
+          <div class="irc2a-dark-header">
+            <h3>TA Coverage Summary</h3>
+            <p class="irc2a-subtitle irc2a-subtitle-dark">
+              Share of schools provided with TA, by priority group and level.
+            </p>
+          </div>
+          <div class="irc2a-card-body">
+            <div class="irc2a-coverage-row">
+              <div class="irc2a-coverage-hero irc2a-coverage-hero--dedp">
+                <span class="irc2a-coverage-hero-value" id="stat-dedp-pct"
+                  >0%</span
+                >
+                <span class="irc2a-coverage-hero-label">DEDP priority</span>
+              </div>
+              <div class="irc2a-coverage-bar-wrap">
+                <div
+                  class="irc2a-coverage-bar-track irc2a-coverage-bar-track--dedp"
+                >
+                  <div
+                    class="irc2a-coverage-bar-seg irc2a-coverage-bar-seg--elementary"
+                    id="dedp-bar-elementary"
+                  ></div>
+                  <div
+                    class="irc2a-coverage-bar-seg irc2a-coverage-bar-seg--secondary"
+                    id="dedp-bar-secondary"
+                  ></div>
+                </div>
+                <div class="irc2a-coverage-meta">
+                  <span class="irc2a-coverage-meta-breakdown">
+                    <span
+                      class="irc2a-coverage-legend-dot irc2a-coverage-legend-dot--dedp-elementary"
+                    ></span>
+                    <span id="stat-dedp-elementary">0</span> elementary &middot;
+                    <span
+                      class="irc2a-coverage-legend-dot irc2a-coverage-legend-dot--dedp-secondary"
+                    ></span>
+                    <span id="stat-dedp-secondary">0</span> secondary
+                  </span>
+                  <span class="irc2a-coverage-meta-total" id="stat-dedp-total"
+                    >0 / 0</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="irc2a-coverage-divider"></div>
+
+            <div class="irc2a-coverage-row">
+              <div class="irc2a-coverage-hero irc2a-coverage-hero--nondedp">
+                <span class="irc2a-coverage-hero-value" id="stat-nondedp-pct"
+                  >0%</span
+                >
+                <span class="irc2a-coverage-hero-label">Non-DEDP</span>
+              </div>
+              <div class="irc2a-coverage-bar-wrap">
+                <div
+                  class="irc2a-coverage-bar-track irc2a-coverage-bar-track--nondedp"
+                >
+                  <div
+                    class="irc2a-coverage-bar-seg irc2a-coverage-bar-seg--elementary"
+                    id="nondedp-bar-elementary"
+                  ></div>
+                  <div
+                    class="irc2a-coverage-bar-seg irc2a-coverage-bar-seg--secondary"
+                    id="nondedp-bar-secondary"
+                  ></div>
+                </div>
+                <div class="irc2a-coverage-meta">
+                  <span class="irc2a-coverage-meta-breakdown">
+                    <span
+                      class="irc2a-coverage-legend-dot irc2a-coverage-legend-dot--nondedp-elementary"
+                    ></span>
+                    <span id="stat-nondedp-elementary">0</span> elementary
+                    &middot;
+                    <span
+                      class="irc2a-coverage-legend-dot irc2a-coverage-legend-dot--nondedp-secondary"
+                    ></span>
+                    <span id="stat-nondedp-secondary">0</span> secondary
+                  </span>
+                  <span
+                    class="irc2a-coverage-meta-total"
+                    id="stat-nondedp-total"
+                    >0 / 0</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right block (25%) — Overall coverage badge -->
+        <div class="irc2a-badge-card">
+          <span class="irc2a-badge-label">Overall Coverage</span>
+          <span class="irc2a-badge-score" id="stat-overall-pct">0%</span>
+          <span class="irc2a-badge-scale">schools provided</span>
+          <span class="irc2a-badge-pill" id="stat-overall-fraction">0 / 0</span>
+
+          <div class="irc2a-badge-lowest">
+            <span class="irc2a-badge-lowest-title">By Level</span>
+            <ul class="irc2a-lowest-list">
+              <li class="irc2a-lowest-item">
+                <span
+                  class="irc2a-lowest-dot irc2a-lowest-dot--elementary"
+                ></span>
+                <span class="irc2a-lowest-label">Elementary</span>
+                <span class="irc2a-lowest-avg" id="stat-overall-elementary"
+                  >0 / 0</span
+                >
+              </li>
+              <li class="irc2a-lowest-item">
+                <span
+                  class="irc2a-lowest-dot irc2a-lowest-dot--secondary"
+                ></span>
+                <span class="irc2a-lowest-label">Secondary</span>
+                <span class="irc2a-lowest-avg" id="stat-overall-secondary"
+                  >0 / 0</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. FILTERS -->
+    <div class="irc2a-flow-section irc2a-flow-section-2">
+      <p class="irc2a-flow-label">Filter &amp; search</p>
+      <div class="irc2a-filter-card">
+        <div class="irc2a-dark-header">
+          <h3>Filter Schools</h3>
+          <p class="irc2a-subtitle irc2a-subtitle-dark">
+            Narrow the board below by level or DEDP priority.
+          </p>
+        </div>
+        <div class="irc2a-card-body">
+          <div class="irc2a-filters">
+            <div
+              class="irc2a-filter-chips"
+              role="group"
+              aria-label="Filter by school level"
+              id="irc2a-level-filters"
+            >
+              <button
+                type="button"
+                class="irc2a-chip is-active"
+                data-level="all"
+              >
+                All Levels
+              </button>
+              <button
+                type="button"
+                class="irc2a-chip irc2a-chip--elementary"
+                data-level="elementary"
+              >
+                <span class="irc2a-chip-dot"></span>Elementary
+              </button>
+              <button
+                type="button"
+                class="irc2a-chip irc2a-chip--secondary"
+                data-level="secondary"
+              >
+                <span class="irc2a-chip-dot"></span>Secondary
+              </button>
+            </div>
+
+            <label class="irc2a-dedp-toggle">
+              <input type="checkbox" id="dedp-filter-toggle" />
+              <span class="irc2a-badge irc2a-badge--dedp"
+                >DEDP Priority only</span
+              >
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. SCHOOL ASSIGNMENT BOARD (data input) -->
+    <div class="irc2a-flow-section irc2a-flow-section-3">
+      <p class="irc2a-flow-label">School assignment</p>
+      <div class="irc2a-columns">
+        <div class="irc2a-column" data-status="unprovided">
+          <div class="irc2a-column-header">
+            <h3>Not Yet Provided with TA</h3>
+            <span class="irc2a-count-badge" id="unprovided-count">0</span>
+          </div>
+          <div class="irc2a-search-wrap">
+            <input
+              type="search"
+              class="irc2a-search"
+              id="unprovided-search"
+              placeholder="Search schools..."
+              autocomplete="off"
+            />
+          </div>
+          <ul
+            class="irc2a-list"
+            id="unprovided-list"
+            aria-label="Schools not yet provided with TA"
+          ></ul>
+          <p class="irc2a-empty" id="unprovided-empty" hidden>
+            No matching schools.
+          </p>
+        </div>
+
+        <div class="irc2a-divider" aria-hidden="true">
+          <i class="ti ti-arrows-left-right"></i>
+        </div>
+
+        <div class="irc2a-column" data-status="provided">
+          <div class="irc2a-column-header">
+            <h3>Provided with TA</h3>
+            <span class="irc2a-count-badge" id="provided-count">0</span>
+          </div>
+          <div class="irc2a-search-wrap">
+            <input
+              type="search"
+              class="irc2a-search"
+              id="provided-search"
+              placeholder="Search schools..."
+              autocomplete="off"
+            />
+          </div>
+          <ul
+            class="irc2a-list"
+            id="provided-list"
+            aria-label="Schools provided with TA"
+          ></ul>
+          <p class="irc2a-empty" id="provided-empty" hidden>
+            No matching schools.
+          </p>
+        </div>
+      </div>
+      <!-- /.irc2a-columns -->
+    </div>
+    <!-- /.irc2a-flow -->
+  </div>
+</section>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc2a-reset-confirm-overlay" class="irc2a-confirm-overlay">
+  <div class="irc2a-confirm-box">
+    <h4>Reset all data?</h4>
+    <p>
+      This will permanently move every school back to "Not Yet Provided with TA"
+      for this year. This cannot be undone.
+    </p>
+    <div class="irc2a-confirm-actions">
+      <button
+        type="button"
+        id="irc2a-reset-confirm-cancel"
+        class="irc2a-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc2a-reset-confirm-confirm"
+        class="irc2a-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc2a.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,675 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BRAND PALETTE (single source of truth — never redeclare)
+═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --navy: #0033a0;
+  --navy-dark: #00247a;
+  --navy-deep: #001550;
+  --gold: #fcd116;
+  --gold-dark: #d4a900;
+  --white: #ffffff;
+  --off-white: #f4f6fb;
+  --text: #1a1a2e;
+  --text-light: #5a6a8a;
+  --border: #d0d8ec;
+  --shadow: rgba(0, 51, 160, 0.12);
+
+  --header-height: 72px;
+
+  /* Scrollbar theming -- see the "Custom scrollbar" block near the end
+     of this file. Change these to re-theme the scrollbar app-wide. */
+  --scrollbar-width: 13px;
+  --scrollbar-thumb: color-mix(in srgb, var(--navy) 25%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--navy) 45%, transparent);
+
+  /* Fluid "how compromised are we" factor: 0 at 1680px and wider (full
+     size, as designed), ramping straight up to 1 at 1366px and narrower
+     (fully compromised). Everything that needs to shrink on smaller
+     laptops -- .content's side padding, the nav tabs, the uploads
+     hamburger button -- reads off this single value instead of each
+     jumping at its own hard breakpoint, so the whole page compromises
+     together and continuously as the window narrows. */
+  --shrink: clamp(0, calc((1680px - 100vw) / (1680px - 1366px)), 1);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--text);
+  /* Header + nav are pinned above; .content is the only element that
+     actually scrolls (see .content below) -- this is what lets its
+     scrollbar start below the navbar instead of spanning the whole
+     window. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HEADER — Logo Bar
+═══════════════════════════════════════════════════════════════════════════ */
+header {
+  background: var(--white);
+  padding: 8px 40px;
+  border-bottom: 3px solid var(--gold);
+  box-shadow: 0 4px 16px var(--shadow);
+  flex-shrink: 0; /* stays pinned above .content, same as nav below */
+}
+
+#logo-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+#logo-bar img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════════════════ */
+nav {
+  background-color: var(--navy-deep);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 0 24px;
+  gap: 0;
+  margin: 0;
+  /* Reserves room on the right for the uploads hamburger button (Home
+     page only -- it's positioned absolutely over the nav, see
+     .home-upload-hamburger-btn), so the tab list never overlaps it as
+     the tabs get tighter. 0px reserved at >=1680px (button has plenty
+     of clearance at full size), growing to 160px at <=1366px. */
+  max-width: calc(100% - 160px * var(--shrink));
+}
+
+nav ul li a {
+  display: block;
+  /* 14px/25px at >=1680px down to 11px/12px at <=1366px. Horizontal
+     padding (the "gap" between tabs) shrinks the most since that's
+     where most of the width saving needs to come from. */
+  padding: calc(14px - 3px * var(--shrink)) calc(25px - 13px * var(--shrink));
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 600;
+  /* 0.95rem at >=1680px down to 0.8rem at <=1366px. */
+  font-size: calc(0.95rem - 0.15rem * var(--shrink));
+  /* 0.06em at >=1680px down to 0.03em at <=1366px. */
+  letter-spacing: calc(0.06em - 0.03em * var(--shrink));
+  text-transform: uppercase;
+  position: relative;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background-color: var(--gold);
+  border-radius: 2px 2px 0 0;
+  transition: width 0.25s ease;
+}
+
+nav ul li a:hover {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+nav ul li a:hover::after {
+  width: 60%;
+}
+
+nav ul li a.active {
+  color: var(--gold);
+  background-color: rgba(252, 209, 22, 0.1);
+}
+
+nav ul li a.active::after {
+  width: 80%;
+  background-color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTENT AREA
+═══════════════════════════════════════════════════════════════════════════ */
+
+.content {
+  /* 250px at >=1680px (unchanged from the original design) down to
+     100px at <=1366px, scaling continuously with --shrink. */
+  padding: 30px calc(250px - 150px * var(--shrink));
+  /* Hard guarantee: whatever happens inside (grid blowout, a stray
+     fixed-width element, etc.), nothing is ever allowed to render
+     past .content's own padding edge -- page content shrinks to fit,
+     it never spills past this boundary. */
+  overflow-x: hidden;
+  /* This is now the only scrolling element on the page (see body's
+     overflow: hidden above) -- its native scrollbar therefore starts
+     right below the pinned header+nav and runs to the bottom of the
+     window, instead of spanning the full document like before.
+     min-height: 0 overrides the flex item's default min-height: auto,
+     which would otherwise force .content to grow to fit its content
+     and push the scroll up to body/html instead of staying in here. */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.page-hero h1 {
+  font-size: 1.6rem;
+  margin: 0 0 14px;
+  color: var(--navy-deep);
+}
+
+.page-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0 0 16px;
+}
+
+.page-instruction {
+  color: var(--text-light);
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+}
+
+.content__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.content__header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+  color: var(--navy-deep);
+}
+
+.content__badge {
+  background: var(--gold);
+  color: var(--navy-deep);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.content__body {
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-height: 300px;
+}
+
+.placeholder-text {
+  color: var(--text-light);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REPORT SIGNATORY FOOTER — "Prepared by / Checked by", shown at the
+   bottom of every IRC1a-IRC9 page (see base.html). Not shown on Home.
+═══════════════════════════════════════════════════════════════════════════ */
+
+.report-signatory {
+  margin-top: 48px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.report-signatory-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy-deep);
+  border-bottom: 3px solid var(--gold);
+  padding: 10px 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.report-signatory-title i {
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+.report-signatory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+}
+
+/* IRC8A only: a third "Approving Authority" column alongside the usual
+   "Prepared by" / "Checked by" pair (see base.html). */
+.report-signatory-grid--three {
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+}
+
+.report-signatory-block {
+  padding: 18px 22px;
+}
+
+.report-signatory-block:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+
+.report-signatory-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--navy);
+  margin: 0 0 12px;
+}
+
+.report-signatory-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-signatory-avatar {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-signatory-avatar i {
+  font-size: 1.5rem;
+  color: var(--navy);
+}
+
+.report-signatory-info {
+  min-width: 0;
+  /* Flex column + gap so every child (name, position, date -- and the
+     approving-authority name input, which sits in this same wrapper) is
+     spaced identically, instead of each element carrying its own
+     one-off margin. */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-signatory-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.report-signatory-position {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* IRC8A's "Approving Authority" name -- a real input instead of a plain
+   <p>, since it's typed in on this page rather than sourced from Home
+   (see #irc8aApprovingAuthorityName in base.html / index.js). Sized and
+   weighted to match .report-signatory-name so it reads the same at rest. */
+.report-signatory-name-input {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  padding: 0 0 2px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.report-signatory-name-input::placeholder {
+  font-weight: 400;
+  text-transform: none;
+  color: var(--text-light);
+}
+
+.report-signatory-name-input:hover {
+  border-bottom-color: var(--border);
+}
+
+.report-signatory-name-input:focus {
+  outline: none;
+  border-bottom-color: var(--navy);
+}
+
+/* "Date" control shown under each signatory's position -- a visible button
+   (styled to match .report-signatory-position at rest) that triggers a
+   real <input type="date">'s native pop-up calendar. The input itself is
+   never shown; it just supplies the picker and the value. See
+   .report-signatory-date-input below and the click/save wiring in
+   index.js. */
+.report-signatory-date {
+  position: relative;
+}
+
+.report-signatory-date-btn {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 2px 6px 2px 0;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  border-bottom: 1px dashed var(--border);
+  cursor: pointer;
+  transform: translateY(-3px);
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.report-signatory-date-btn:hover,
+.report-signatory-date-btn:focus-visible {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+  outline: none;
+}
+
+.report-signatory-date-btn.has-date .report-signatory-date-text {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Kept in the layout (not display:none) so showPicker()/click() still work
+   reliably across browsers, but fully invisible and non-interactive on its
+   own -- the button above is the only thing the user actually sees/clicks. */
+.report-signatory-date-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 860px) {
+  header {
+    padding: 6px 16px;
+  }
+
+  #logo-bar {
+    gap: 12px;
+  }
+
+  #logo-bar img {
+    height: 22px;
+  }
+
+  nav ul {
+    padding: 0 8px;
+  }
+
+  nav ul li a {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .report-signatory-grid,
+  .report-signatory-grid--three {
+    grid-template-columns: 1fr;
+  }
+
+  .report-signatory-block:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR (app-wide)
+   Applies to .content (the page's main scroll area) and to every other
+   scrollable region already in the app -- modal bodies, the uploads
+   panel's month grid, the IRC2a checklist, etc. -- without needing a
+   class on each one. Colors/width are read from the --scrollbar-*
+   variables declared in :root above.
+═══════════════════════════════════════════════════════════════════════════ */
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.15s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Removes the up/down (and left/right) arrow buttons at the scrollbar's
+   ends, for the plain modern look. */
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ---------------------------------------------------------------------
+   Global cursor & selection behavior
+   - Default cursor is always the plain arrow, everywhere.
+   - Only genuinely clickable elements get the pointer (hand) cursor.
+   - Editable fields (inputs/textareas) keep the text-caret cursor and
+     remain selectable, since you need that to actually type/edit/copy.
+   - Everything else is non-selectable so plain text doesn't highlight
+     on click-drag or accidental double-click.
+--------------------------------------------------------------------- */
+
+* {
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Clickable elements: pointer cursor */
+a,
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[role="button"],
+label[for],
+.irc1a-upload-btn,
+.irc1a-modal-btn,
+.irc1a-modal-close,
+.irc1a-upload-area,
+.irc1b-upload-btn,
+.irc1b-modal-btn,
+.irc1b-modal-close,
+.irc1b-upload-area,
+.home-upload-dropzone,
+.home-upload-irc2a-item label,
+.tab-link,
+.content__badge,
+select {
+  cursor: pointer;
+}
+
+/* Editable fields: text-caret cursor, and allow normal text selection
+   inside them so typing, selecting, cut/copy/paste all still work. */
+input,
+textarea {
+  cursor: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Disabled/readonly fields shouldn't look editable */
+input:disabled,
+textarea:disabled,
+input[readonly],
+textarea[readonly] {
+  cursor: default;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT / SAVE-TO-PDF — REPORT SIGNATORY FOOTER
+   Every IRC1a-IRC9 page ships its own "Save to PDF" button that calls
+   window.print() (see e.g. irc1a.js / irc1b.js) and, since base.html's
+   signatory footer is shared across all of them, each page's stylesheet
+   used to carry its own copy of these same rules. Centralized here once
+   instead, so every report page gets the exact same printed signatory
+   block for free and there's a single place to change it. Only ever
+   need to force the layout back to 1 row / 2 (or 3, for IRC8A) columns
+   -- @media (max-width: 860px) above would otherwise stack it to a
+   single column, since the print page is narrower than that breakpoint
+   -- and scale the whole block down from its on-screen size to something
+   print-appropriate.
+═══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  .report-signatory-grid,
+  .report-signatory-grid--three {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* IRC8A only: 3 columns instead of 2, same "force it back open" fix. */
+  .report-signatory-grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .report-signatory-block:not(:last-child) {
+    border-right: 1px solid var(--border) !important;
+    border-bottom: none !important;
+  }
+
+  .report-signatory {
+    margin-top: 16px !important;
+  }
+
+  .report-signatory-title {
+    font-size: 9px !important;
+    padding: 6px 12px !important;
+  }
+
+  .report-signatory-title i {
+    font-size: 10px !important;
+  }
+
+  .report-signatory-block {
+    padding: 8px 12px !important;
+  }
+
+  .report-signatory-label {
+    font-size: 9px !important;
+    margin: 0 0 6px !important;
+  }
+
+  .report-signatory-person {
+    gap: 8px !important;
+  }
+
+  .report-signatory-avatar {
+    width: 35px !important;
+    height: 35px !important;
+    transform: translateY(-6px) !important;
+  }
+
+  .report-signatory-avatar i {
+    font-size: 13px !important;
+  }
+
+  .report-signatory-info {
+    gap: 2px !important;
+  }
+
+  .report-signatory-name,
+  .report-signatory-name-input {
+    font-size: 9.5px !important;
+  }
+
+  .report-signatory-position {
+    font-size: 8px !important;
+  }
+
+  .report-signatory-date-btn {
+    font-size: 7.5px !important;
+    transform: translateY(-10px) !important;
+    border-bottom: none !important;
+  }
+}

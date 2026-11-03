@@ -1,0 +1,1029 @@
+/* IRC3 - Status of TA Provision to Schools - CSS Stylesheet */
+/* Restyled to match IRC1a's Performance Dashboard look: header badge,
+   guided-flow rail (1-2-3), and dark analytics section headers. */
+
+.irc3-panel {
+  --irc3-dedp: rgb(29, 78, 216);
+  --irc3-dedp-light: rgb(59, 130, 246);
+  --irc3-gold: #fcd116;
+}
+
+/* ------------------------------------------------------------------
+   1. Page Header — same structure as IRC1a's header (badge + divider
+   + title/subtitle, actions on the right).
+------------------------------------------------------------------ */
+
+.irc3-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc3-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc3-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc3-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc3-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc3-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc3-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc3-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc3-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc3-subtitle strong {
+  color: #1f2937;
+}
+
+.irc3-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button — same design as IRC1a's Save to PDF button */
+.irc3-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc3-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc3-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc3-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reset button — same design as IRC1a/IRC2b's reset button */
+.irc3-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc3-reset-btn i {
+  font-size: 13px;
+}
+
+.irc3-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc3-reset-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   Reset confirmation modal — same look as IRC1a/IRC6's confirm dialog
+------------------------------------------------------------------ */
+
+.irc3-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc3-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc3-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc3-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc3-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc3-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.irc3-btn-secondary,
+.irc3-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc3-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc3-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc3-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc3-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2-3) tying the overview, rating
+   basis, and data table sections together as a top-to-bottom sequence.
+   Structure matches IRC1a's .irc1a-flow exactly.
+------------------------------------------------------------------ */
+
+.irc3-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc3-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc3-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc3-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc3-flow-section-1,
+.irc3-flow-section-2 {
+  grid-column: 2;
+  /* Same grid-shrink fix as IRC1a: keeps this column a well-behaved
+     shrinking track at every screen size, even with a wide table
+     nested arbitrarily deep inside one of the sections. */
+  min-width: 0;
+}
+
+.irc3-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc3-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc3-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   Shared dark analytics header band — marks a card as
+   "analytics/summary" (as opposed to the light data-entry table).
+------------------------------------------------------------------ */
+
+.irc3-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc3-dark-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc3-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc3-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   2. Rating Basis — score card grid, inside a dark-header card
+------------------------------------------------------------------ */
+
+.irc3-basis-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc3-basis-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.irc3-basis-grid-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc3-basis-grid-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.irc3-basis-grid-card-score {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.irc3-basis-grid-card.irc3-score-5 .irc3-basis-grid-card-score {
+  background: #059669;
+}
+.irc3-basis-grid-card.irc3-score-4 .irc3-basis-grid-card-score {
+  background: #65a30d;
+}
+.irc3-basis-grid-card.irc3-score-3 .irc3-basis-grid-card-score {
+  background: #d97706;
+}
+.irc3-basis-grid-card.irc3-score-2 .irc3-basis-grid-card-score {
+  background: #ea580c;
+}
+.irc3-basis-grid-card.irc3-score-1 .irc3-basis-grid-card-score {
+  background: #dc2626;
+}
+
+.irc3-basis-grid-card-body {
+  padding: 10px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.irc3-basis-grid-card-percent {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.irc3-basis-grid-card-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.irc3-basis-grid-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+.irc3-basis-grid-card-row strong {
+  color: #1f2937;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .irc3-basis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .irc3-basis-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------------
+   3. School Data — main table, inside a dark-header card
+------------------------------------------------------------------ */
+
+.irc3-table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc3-table-wrapper {
+  background: white;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.irc3-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.irc3-table thead {
+  background: #1f2937;
+  border-bottom: 3px solid #4a6fa5;
+}
+
+.irc3-table thead th {
+  padding: 12px 10px;
+  text-align: center;
+  font-weight: 600;
+  color: #f3f4f6;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1f2937;
+  outline: none;
+  box-shadow: none;
+}
+
+.irc3-table thead th:last-child {
+  border-right: none;
+}
+
+.irc3-label-col {
+  width: 30%;
+  text-align: left !important;
+  padding-left: 14px !important;
+}
+
+.irc3-row-base {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.irc3-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.irc3-table tbody tr:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.irc3-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.irc3-table tbody tr:hover {
+  background: #f0f5ff;
+}
+
+.irc3-table tbody td {
+  padding: 12px 10px;
+  border-right: 1px solid #e8e8e8;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.irc3-table tbody td:last-child {
+  border-right: none;
+}
+
+.irc3-total-row {
+  background: #eef4fb !important;
+}
+
+.irc3-total-row td {
+  font-weight: 600;
+}
+
+/* Number inputs - type-only, no spinner arrows */
+.irc3-input {
+  width: 84px;
+  padding: 7px 8px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 13.5px;
+  text-align: center;
+  font-weight: 600;
+  color: #1f2937;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc3-input:focus {
+  outline: none;
+  border-color: var(--irc3-dedp-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.irc3-input::-webkit-outer-spin-button,
+.irc3-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.irc3-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.irc3-input-cell {
+  text-align: center;
+}
+
+.irc3-static-cell {
+  text-align: center;
+  color: #374151;
+}
+
+/* Auto-computed values */
+.irc3-auto-value {
+  display: inline-block;
+  font-weight: 700;
+  color: #185fa5;
+  background: #e6f1fb;
+  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  min-width: 20px;
+}
+
+.irc3-auto-value-warn {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+/* Percentage badge */
+.irc3-percent-badge {
+  display: inline-block;
+  font-weight: 600;
+  color: #374151;
+  background: #f3f4f6;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  min-width: 20px;
+}
+
+/* Score badges - one color per score level */
+.irc3-score-badge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.irc3-score-badge.irc3-score-5 {
+  background: #059669;
+}
+.irc3-score-badge.irc3-score-4 {
+  background: #65a30d;
+}
+.irc3-score-badge.irc3-score-3 {
+  background: #d97706;
+}
+.irc3-score-badge.irc3-score-2 {
+  background: #ea580c;
+}
+.irc3-score-badge.irc3-score-1 {
+  background: #dc2626;
+}
+
+/* ------------------------------------------------------------------
+   Responsive
+------------------------------------------------------------------ */
+
+@media (max-width: 1400px) {
+  .irc3-dark-header,
+  .irc3-card-body {
+    padding: 12px 14px;
+  }
+
+  .irc3-dark-header h3 {
+    font-size: 14px;
+  }
+
+  .irc3-subtitle,
+  .irc3-subtitle-dark {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .irc3-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .irc3-header-actions {
+    width: 100%;
+  }
+
+  .irc3-pdf-btn,
+  .irc3-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc3-label-col {
+    width: 24%;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc3-header h2 {
+    font-size: 22px;
+  }
+
+  .irc3-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc3-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc3-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc3-header-divider {
+    height: 44px;
+  }
+
+  .irc3-table-wrapper {
+    font-size: 12px;
+  }
+
+  .irc3-table thead th,
+  .irc3-table tbody td {
+    padding: 8px 6px;
+  }
+
+  .irc3-dark-header,
+  .irc3-card-body {
+    padding: 14px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   4. Print / Save-to-PDF
+   Triggered by #irc3-pdf-btn -> window.print() (see irc3.js). Only
+   ever active on this page since irc3.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a's own
+   "Print / Save-to-PDF" section (same paper size, same unclip /
+   color-adjust / scale-down approach) minus whatever IRC1a-only
+   pieces don't exist here (trend chart toggle, remarks textareas,
+   legend modal, etc).
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Save to PDF / Reset) -- none of these belong in a
+     printed report. */
+  header,
+  nav,
+  .irc3-header-actions {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: only ever visible via a ".visible" class
+     toggle and defaults to display:none already, but force it off in
+     case a print is triggered while it's open. */
+  #irc3-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling table needs to render in full instead of
+     scrolling. */
+  .irc3-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers,
+     the score badges, and the basis-grid score bars were all coming
+     out flat/white. This forces every background to print as it
+     looks on screen. "Background graphics" still needs to be left ON
+     in the print dialog -- this can't override that toggle, only
+     make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers).
+  --------------------------------------------------------------- */
+
+  .irc3-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc3-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc3-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc3-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc3-header-divider {
+    height: 38px;
+  }
+
+  .irc3-header h2 {
+    font-size: 18px;
+  }
+
+  .irc3-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc3-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc3-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc3-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between the 2 flow rows: this has to live on .irc3-flow's
+     own row-gap, NOT as margin-top on each .irc3-flow-section. A
+     per-section margin-top pushes that section's content down inside
+     its own grid row without the rail (a separate grid item) moving
+     with it, which is exactly what would knock the second label out
+     of alignment with its badge (the first has no preceding sibling,
+     so no extra margin to begin with). row-gap instead adds space
+     strictly between rows, so it can't create that offset. */
+  .irc3-flow {
+    row-gap: 14px;
+  }
+
+  .irc3-dark-header,
+  .irc3-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc3-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc3-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  /* Rating basis cards */
+  /* @page's 8.5in width (minus margins) is narrower than the 900px
+     and 500px screen breakpoints above that drop this grid to 2 or 1
+     columns -- browsers print at that reduced content width, so
+     those breakpoints would otherwise fire here too and wrap the 5
+     cards onto multiple rows. Force back to a single row of 5 and
+     shrink the cards' contents to fit the narrower print width. */
+  .irc3-basis-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
+  }
+
+  .irc3-basis-grid-card-score {
+    font-size: 11px !important;
+    padding: 3px 0 !important;
+  }
+
+  .irc3-basis-grid-card-body {
+    padding: 4px 4px 6px !important;
+    gap: 3px !important;
+  }
+
+  .irc3-basis-grid-card-percent {
+    font-size: 7px !important;
+    padding-bottom: 3px;
+  }
+
+  .irc3-basis-grid-card-row {
+    font-size: 6.5px !important;
+    gap: 2px;
+  }
+
+  .irc3-basis-grid-card-row strong {
+    font-size: 7.5px !important;
+  }
+
+  /* Data table */
+  .irc3-table-wrapper {
+    font-size: 8.5px !important;
+  }
+
+  .irc3-table,
+  .irc3-table thead th,
+  .irc3-table tbody td {
+    font-size: 8.5px !important;
+  }
+
+  .irc3-table thead th,
+  .irc3-table tbody td {
+    padding: 5px 4px !important;
+  }
+
+  /* OPCR/IPCR Score column carries a full badge (e.g. "5 – Outstanding")
+     that's noticeably longer than the plain numbers/percentages in the
+     other columns, so table-layout:fixed's even default split left it
+     too cramped to print. Give it more room and take the difference
+     from the Category label column plus the four narrower numeric
+     columns (24 + 22 + 4 × 13.5 = 100%). */
+  .irc3-label-col,
+  .irc3-table tfoot td.irc3-label-col {
+    width: 24% !important;
+  }
+
+  .irc3-table thead th:nth-child(5),
+  .irc3-table tbody td:nth-child(5),
+  .irc3-table thead th:nth-child(6),
+  .irc3-table tbody td:nth-child(6) {
+    width: 15% !important;
+  }
+
+  .irc3-table thead th:nth-child(2),
+  .irc3-table tbody td:nth-child(2) {
+    width: 13.5% !important;
+  }
+
+  .irc3-table thead th:nth-child(3),
+  .irc3-table tbody td:nth-child(3) {
+    width: 10% !important;
+  }
+
+  .irc3-table thead th:nth-child(4),
+  .irc3-table tbody td:nth-child(4) {
+    width: 20.5% !important;
+  }
+
+  .irc3-row-base {
+    font-size: 8px !important;
+  }
+
+  .irc3-auto-value,
+  .irc3-percent-badge,
+  .irc3-score-badge {
+    font-size: 8px !important;
+    padding: 3px 8px !important;
+  }
+
+  /* Target input reads as plain text on the printed page, matching
+     IRC1a's approach for its rating inputs -- the boxed form-field
+     look (border + fill + inset shadow) doesn't belong in a report,
+     and a bare number input's browser-default intrinsic width is far
+     wider than this cell, which would otherwise bleed past it. */
+  .irc3-input {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 1px 0 !important;
+    font-size: 8.5px !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Report signatory footer print scaling lives centrally in
+     base.css (the same @media print block runs on every IRC1a-IRC9
+     page), so this page doesn't need its own copy. */
+
+  /* Avoid splitting a table row or a basis card awkwardly across a
+     page break. */
+  .irc3-table tr,
+  .irc3-basis-grid-card {
+    break-inside: avoid;
+  }
+}

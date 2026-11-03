@@ -1,0 +1,1893 @@
+/* IRC1a - Monthly Customers Feedback Rating - CSS Stylesheet */
+/* Option 4: Performance Dashboard (Analytics-First) */
+
+.scroll-container {
+  height: 100vh;
+  overflow-y: auto;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* ------------------------------------------------------------------
+   1. Page Header
+------------------------------------------------------------------ */
+
+.irc1a-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc1a-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Title block: badge + divider + title/subtitle, mirroring the home
+   page's .header-title-bar-main (logo + divider + title block). */
+.irc1a-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc1a-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc1a-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc1a-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc1a-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc1a-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  /* Toggle off: change to `text-transform: none;` (or delete the line)
+     to revert the title to normal sentence case. */
+  text-transform: uppercase;
+}
+
+.irc1a-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.irc1a-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Legend trigger button */
+.irc1a-legend-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 12px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc1a-legend-btn i {
+  font-size: 13px;
+}
+
+.irc1a-legend-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+/* Save to PDF button */
+.irc1a-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc1a-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc1a-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc1a-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Reset button */
+.irc1a-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc1a-reset-btn i {
+  font-size: 13px;
+}
+
+.irc1a-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc1a-reset-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   Shared modal look (Legend + Reset confirm)
+------------------------------------------------------------------ */
+
+.irc1a-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc1a-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc1a-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc1a-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc1a-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc1a-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.irc1a-btn-secondary,
+.irc1a-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc1a-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc1a-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc1a-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc1a-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Legend modal specifics */
+.irc1a-legend-box {
+  max-width: 340px;
+  text-align: left;
+}
+
+.irc1a-legend-box h4 {
+  text-align: center;
+}
+
+.irc1a-legend-list {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.irc1a-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: #444;
+}
+
+.irc1a-legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.irc1a-legend-dot.irc1a-band-poor {
+  background: #ef4444;
+}
+
+.irc1a-legend-dot.irc1a-band-fair {
+  background: #f59e0b;
+}
+
+.irc1a-legend-dot.irc1a-band-satisfactory {
+  background: #3b82f6;
+}
+
+.irc1a-legend-dot.irc1a-band-very-satisfactory {
+  background: #22c55e;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2-3) tying the hero, insights, and
+   table sections together as a top-to-bottom sequence.
+------------------------------------------------------------------ */
+
+.irc1a-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc1a-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc1a-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc1a-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* Section label — sits above each section's content, horizontally
+   aligned with its corresponding numbered badge in the rail. */
+
+.irc1a-flow-section-1,
+.irc1a-flow-section-2,
+.irc1a-flow-section-3 {
+  grid-column: 2;
+  /* Grid items default to min-width: auto, so content nested arbitrarily
+     deep inside any one section (e.g. the ratings table) could otherwise
+     force the shared "1fr" flow column -- and therefore every section
+     stacked in it -- wider than the viewport. min-width: 0 keeps this
+     column a well-behaved shrinking track at every screen size. */
+  min-width: 0;
+}
+
+.irc1a-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc1a-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc1a-flow-section-3 {
+  grid-row: 3;
+}
+
+.irc1a-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   2. Top Analytics Section (Hero Block - 2 Column Split)
+------------------------------------------------------------------ */
+
+.irc1a-hero-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.irc1a-trend-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* Grid items default to min-width: auto, which pins a card at its
+     content's min-content width and can hold the whole hero row open
+     wider than the viewport instead of letting it shrink with its
+     track. This keeps it a well-behaved shrinking grid item at every
+     screen size. */
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------
+   Shared dark analytics header band — marks a card as
+   "analytics/summary" (as opposed to the light data-entry table below).
+------------------------------------------------------------------ */
+
+.irc1a-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc1a-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* The trend card's own body (not the remarks/insight cards) grows to
+   fill whatever height the hero row's grid stretch gives the card, so
+   the chart wrap below can claim all the remaining vertical space. */
+.irc1a-trend-card > .irc1a-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.irc1a-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc1a-trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Shared "section header" style — dark-header titles (Monthly Rating
+   Trend, TA Indicator Ratings) and the remarks textarea labels are all
+   section headers and must stay visually consistent. Change the look
+   of any of them here, in one place. */
+.irc1a-trend-header h3,
+.irc1a-remarks-label,
+.irc1a-table-card-header h3 {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc1a-trend-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.irc1a-toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.irc1a-toggle-btn:hover {
+  color: #333;
+}
+
+.irc1a-toggle-btn.active {
+  background: white;
+  color: #185fa5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.irc1a-trend-chart-wrap {
+  width: 100%;
+  flex: 1;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.irc1a-trend-chart-wrap svg {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: block;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------------
+   Trend chart — same visual language as the IRC2b line charts:
+   light grid + solid axis, rounded line with a soft area fill under
+   it, white points with a colored ring, bold value labels above
+   each point.
+------------------------------------------------------------------ */
+
+.irc1a-trend-grid {
+  stroke: #eef0f2;
+  stroke-width: 1;
+}
+
+.irc1a-trend-axis {
+  stroke: #d6dbe1;
+  stroke-width: 1.2;
+}
+
+.irc1a-trend-axis-label {
+  font-size: 11.5px;
+  fill: #9aa5b1;
+}
+
+.irc1a-trend-x-label {
+  font-size: 11.5px;
+  fill: #8a93a0;
+  text-anchor: middle;
+}
+
+.irc1a-trend-path {
+  fill: none;
+  stroke: #4a6fa5;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 0.25s ease;
+}
+
+.irc1a-trend-area {
+  fill: rgba(74, 111, 165, 0.09);
+  stroke: none;
+}
+
+.irc1a-trend-point {
+  fill: #fff;
+  stroke-width: 2.1;
+}
+
+.irc1a-trend-point:hover {
+  r: 4.5;
+}
+
+.irc1a-trend-point-val {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+/* Overall Performance Badge (right block) */
+.irc1a-badge-card {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  /* See .irc1a-trend-card -- same grid-shrink fix. */
+  min-width: 0;
+}
+
+.irc1a-badge-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc1a-badge-score {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.irc1a-badge-scale {
+  font-size: 12px;
+  color: #9aa7b8;
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+.irc1a-badge-pill {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: #4b5a70;
+  color: #e5eaf0;
+}
+
+.irc1a-badge-pill.irc1a-band-poor {
+  background: #ef4444;
+  color: #fff;
+}
+
+.irc1a-badge-pill.irc1a-band-fair {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.irc1a-badge-pill.irc1a-band-satisfactory {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.irc1a-badge-pill.irc1a-band-very-satisfactory {
+  background: #22c55e;
+  color: #fff;
+}
+
+.irc1a-badge-lowest {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.irc1a-badge-lowest-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #b9c4d3;
+  margin-bottom: 10px;
+}
+
+.irc1a-lowest-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.irc1a-lowest-placeholder {
+  font-size: 12.5px;
+  color: #9aa7b8;
+}
+
+.irc1a-lowest-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: #e5eaf0;
+  min-width: 0;
+}
+
+.irc1a-lowest-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: white;
+  background: #64748b;
+}
+
+.irc1a-lowest-rank.irc1a-rank-1 {
+  background: #ef4444;
+}
+
+.irc1a-lowest-rank.irc1a-rank-2 {
+  background: #f59e0b;
+}
+
+.irc1a-lowest-rank.irc1a-rank-3 {
+  background: #eab308;
+}
+
+.irc1a-lowest-label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+.irc1a-lowest-avg {
+  font-weight: 600;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------
+   3. Middle Section (Summary Insights - 2 Equal Columns)
+------------------------------------------------------------------ */
+
+.irc1a-insights-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.irc1a-insight-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* See .irc1a-trend-card -- same grid-shrink fix. */
+  min-width: 0;
+}
+
+.irc1a-insight-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.irc1a-insight-header-text {
+  min-width: 0;
+}
+
+/* "Add" button inside an insight card's dark header -- same solid-white-
+   pill-against-the-gradient look and hover/active feedback as irc4's
+   .irc4-header-action-btn, just under irc1a's own class naming
+   convention (see #irc1aAddPositiveBtn / #irc1aAddOfiBtn in irc1a.html,
+   and addRemark() in irc1a.js). */
+.irc1a-header-action-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid #fff;
+  color: #1f2937;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.irc1a-header-action-btn:hover {
+  background: #eef4fb;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.irc1a-header-action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.irc1a-header-action-btn .irc1a-icon {
+  flex-shrink: 0;
+  display: block;
+}
+
+.irc1a-insight-card .irc1a-card-body {
+  padding: 20px;
+}
+
+.irc1a-insight-card .irc1a-subtitle {
+  margin-bottom: 0;
+}
+
+/* Positive Aspects / OFI entry -- plain, non-interactive text (no
+   outline, no box, no click affordance). Adding, editing, and deleting
+   all happen through the Add/Edit Remark modal via the header action
+   button above (see #irc1a-remark-modal-overlay), never on the page
+   itself -- mirrors irc4's read-only .irc4-field-text for its
+   single-value fields (Activity/TA Receiver/MOV's). */
+.irc1a-remark-field-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-word;
+  cursor: default;
+}
+
+.irc1a-remark-field-text.is-placeholder {
+  color: #9aa0ab;
+  font-style: italic;
+}
+
+.irc1a-remarks-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: none;
+  background: #fbfbfc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  color: #333;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.irc1a-remarks-textarea::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Edge */
+}
+
+.irc1a-remarks-textarea:focus {
+  outline: none;
+  border-color: #4a6fa5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc1a-remarks-textarea::placeholder {
+  color: #aaa;
+}
+
+/* ------------------------------------------------------------------
+   Add/Edit Remark modal (Positive Aspects / OFI)
+   Reuses the shared .irc1a-confirm-overlay/.irc1a-confirm-box shell
+   (see "Shared modal look" above) but needs a left-aligned header +
+   footer instead of that shell's centered title/paragraph/actions, so
+   those pieces are overridden here -- same header/body/footer split as
+   irc4's single-field modal (.irc4-modal-header/-body/-footer--split).
+------------------------------------------------------------------ */
+
+.irc1a-remark-modal-box {
+  max-width: 460px;
+  text-align: left;
+}
+
+.irc1a-remark-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.irc1a-remark-modal-header h4 {
+  margin: 0;
+}
+
+.irc1a-remark-modal-close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.irc1a-remark-modal-close:hover {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.irc1a-remark-modal-textarea {
+  min-height: 120px;
+  margin-bottom: 20px;
+}
+
+.irc1a-remark-modal-actions {
+  justify-content: space-between;
+}
+
+.irc1a-remark-modal-actions-right {
+  display: flex;
+  gap: 10px;
+}
+
+/* Hidden in add-mode (nothing to delete yet), but keeps the footer's
+   space-between layout intact via this empty flex item. The ID
+   selector's specificity beats the browser's built-in [hidden]{display:
+   none} rule, so toggling the `hidden` attribute in irc1a.js only ever
+   affects visibility here, never display -- the same specificity-tie
+   fix irc4.css uses for its own [hidden]-toggled buttons/panels. */
+#irc1a-remark-modal-delete {
+  display: inline-flex;
+  align-items: center;
+}
+
+#irc1a-remark-modal-delete[hidden] {
+  visibility: hidden;
+}
+
+.irc1a-btn-primary {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #1f2937;
+  color: #fff;
+}
+
+.irc1a-btn-primary:hover {
+  background: #111827;
+}
+
+.irc1a-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------
+   4. Bottom Section — TA Indicator Ratings ("meter rows")
+   Each indicator is its own block: full-width indicator text with its
+   Average + Description on the right, a strip of 12 month inputs, and a
+   thin meter bar showing the average out of 4. The markup is still a
+   real <table> (irc1a.js relies on it), displayed as blocks/grids.
+------------------------------------------------------------------ */
+
+.irc1a-table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.irc1a-table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.irc1a-inline-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.irc1a-inline-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.irc1a-table-wrapper {
+  background: white;
+  overflow-x: auto;
+}
+
+.irc1a-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.irc1a-table,
+.irc1a-table thead,
+.irc1a-table tbody,
+.irc1a-table tfoot,
+.irc1a-table tr,
+.irc1a-table th,
+.irc1a-table td {
+  display: block;
+}
+
+.irc1a-table {
+  width: 100%;
+  font-size: 13px;
+}
+
+.irc1a-table thead tr,
+.irc1a-table tbody tr,
+.irc1a-table tfoot tr {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 6px;
+  padding: 0 20px;
+}
+
+.irc1a-table thead tr {
+  position: relative;
+  height: 36px;
+  align-items: center;
+  border-bottom: 2px solid #1f2937;
+}
+
+.irc1a-table thead th {
+  padding: 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #566074;
+}
+
+.irc1a-table tbody tr {
+  row-gap: 10px;
+  padding-top: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e8ebf1;
+  transition: background-color 0.15s ease;
+}
+
+.irc1a-table tbody tr:hover {
+  background: #fafbfd;
+}
+
+/* td.* so this beats the `.irc1a-table td { display: block }` reset above. */
+.irc1a-table td.irc1a-indicator-col {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: left;
+}
+
+/* Hanging indent: number in its own right-aligned column so wrapped
+   lines of the indicator text stay aligned. */
+.irc1a-indicator-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.irc1a-indicator-num {
+  flex-shrink: 0;
+  min-width: 20px;
+  text-align: right;
+  font-weight: 500;
+  color: #8a93a5;
+  font-variant-numeric: tabular-nums;
+}
+
+.irc1a-indicator-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.irc1a-row-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.irc1a-row-avg {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  font-variant-numeric: tabular-nums;
+}
+
+.irc1a-row-desc {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 124px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.irc1a-month-cell {
+  min-width: 0;
+  text-align: center;
+}
+
+.irc1a-table tbody input[type="number"] {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 11px 0;
+  border: 1px solid #d5dbe6;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: #1f2937;
+  background: #fbfcfe;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.irc1a-table tbody input[type="number"]::placeholder {
+  color: #aab2c0;
+  font-weight: 400;
+}
+
+.irc1a-table tbody input[type="number"]:hover {
+  border-color: #8fa2c4;
+}
+
+.irc1a-table tbody input[type="number"]:focus {
+  outline: none;
+  border-color: #4a6fa5;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.irc1a-table tbody input[type="number"]::-webkit-outer-spin-button,
+.irc1a-table tbody input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.irc1a-table tbody input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Meter bar (width + band color are set by recalcRow() in irc1a.js) */
+.irc1a-meter-cell {
+  grid-column: 1 / -1;
+}
+
+.irc1a-meter {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: #e8ebf1;
+  overflow: hidden;
+}
+
+.irc1a-meter-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+  background: #cbd2de;
+  transition:
+    width 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.irc1a-meter-fill.irc1a-band-poor {
+  background: #ef4444;
+}
+
+.irc1a-meter-fill.irc1a-band-fair {
+  background: #f59e0b;
+}
+
+.irc1a-meter-fill.irc1a-band-satisfactory {
+  background: #3b82f6;
+}
+
+.irc1a-meter-fill.irc1a-band-very-satisfactory {
+  background: #22c55e;
+}
+
+/* Footer: overall average + one band-tinted chip per month */
+.irc1a-table tfoot tr {
+  row-gap: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  background: #f4f6fa;
+  border-top: 2px solid #1f2937;
+}
+
+.irc1a-foot-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.irc1a-avg {
+  display: block;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: #566074;
+}
+
+/* Band colors shared by Description badges and footer month chips */
+.irc1a-row-desc.irc1a-band-poor,
+.irc1a-avg.irc1a-band-poor {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.irc1a-row-desc.irc1a-band-fair,
+.irc1a-avg.irc1a-band-fair {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.irc1a-row-desc.irc1a-band-satisfactory,
+.irc1a-avg.irc1a-band-satisfactory {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.irc1a-row-desc.irc1a-band-very-satisfactory,
+.irc1a-avg.irc1a-band-very-satisfactory {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* ------------------------------------------------------------------
+   Responsive adjustments
+------------------------------------------------------------------ */
+
+/* HD laptops and narrower. Same 3fr/1fr hero row and 1fr/1fr insights
+   row as always (see min-width: 0 on .irc1a-trend-card /
+   .irc1a-badge-card / .irc1a-insight-card, and the percentage-based
+   table columns below, for how those keep shrinking with the
+   container instead of forcing an overflow or a layout change).
+   Padding and font sizes are trimmed here so the narrower cards don't
+   feel cramped. */
+@media (max-width: 1400px) {
+  .irc1a-dark-header,
+  .irc1a-card-body,
+  .irc1a-insight-card .irc1a-card-body {
+    padding: 12px 14px;
+  }
+
+  .irc1a-trend-header h3,
+  .irc1a-remarks-label,
+  .irc1a-table-card-header h3 {
+    font-size: 14px;
+  }
+
+  .irc1a-subtitle,
+  .irc1a-subtitle-dark {
+    font-size: 12px;
+  }
+
+  .irc1a-toggle-btn {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .irc1a-badge-card {
+    padding: 18px 14px;
+  }
+
+  .irc1a-badge-score {
+    font-size: 34px;
+  }
+
+  .irc1a-badge-label,
+  .irc1a-badge-scale,
+  .irc1a-badge-pill,
+  .irc1a-badge-lowest-title,
+  .irc1a-lowest-item,
+  .irc1a-lowest-placeholder {
+    font-size: 11px;
+  }
+
+  .irc1a-remarks-textarea {
+    font-size: 12px;
+    min-height: 76px;
+  }
+
+  /* Ratings table */
+  .irc1a-table {
+    font-size: 12px;
+  }
+
+  .irc1a-table td.irc1a-indicator-col {
+    font-size: 13px;
+  }
+
+  .irc1a-table tbody input[type="number"] {
+    font-size: 12px;
+    padding: 9px 0;
+  }
+
+  .irc1a-row-avg {
+    font-size: 16px;
+  }
+
+  .irc1a-row-desc {
+    min-width: 108px;
+    font-size: 11px;
+  }
+
+  .irc1a-avg {
+    font-size: 12px;
+  }
+
+  .irc1a-inline-legend {
+    font-size: 11px;
+  }
+}
+
+/* Continue shrinking past the 1400px step instead of freezing there --
+   gaps, badge-card padding, and font sizes keep tightening as the
+   viewport narrows further, so .irc1a-hero-row (3fr/1fr) and
+   .irc1a-insights-row (1fr/1fr) always have room to shrink in place.
+   Nothing here changes grid-template-columns, so neither row ever
+   collapses into a stacked, single-column layout. */
+@media (max-width: 1150px) {
+  .irc1a-hero-row,
+  .irc1a-insights-row {
+    gap: 1rem;
+  }
+
+  .irc1a-badge-card {
+    padding: 16px 12px;
+  }
+
+  .irc1a-badge-score {
+    font-size: 28px;
+  }
+
+  .irc1a-insight-card .irc1a-card-body {
+    padding: 14px 12px;
+  }
+
+  .irc1a-remarks-textarea {
+    font-size: 11.5px;
+    min-height: 70px;
+  }
+}
+
+@media (max-width: 950px) {
+  .irc1a-table tbody input[type="number"],
+  .irc1a-avg {
+    font-size: 11px;
+  }
+
+  .irc1a-table thead tr,
+  .irc1a-table tbody tr,
+  .irc1a-table tfoot tr {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .irc1a-hero-row {
+    /* Give the badge card relatively more of the row so it doesn't get
+       squeezed to an unreadable sliver as the trend card's chart still
+       needs most of the space. */
+    grid-template-columns: 2.2fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .irc1a-insights-row {
+    gap: 0.75rem;
+  }
+
+  .irc1a-badge-card {
+    padding: 14px 10px;
+  }
+
+  .irc1a-badge-score {
+    font-size: 24px;
+  }
+
+  .irc1a-badge-label,
+  .irc1a-badge-scale,
+  .irc1a-badge-pill,
+  .irc1a-badge-lowest-title,
+  .irc1a-lowest-item,
+  .irc1a-lowest-placeholder {
+    font-size: 10px;
+  }
+
+  .irc1a-insight-card .irc1a-card-body {
+    padding: 10px;
+  }
+
+  .irc1a-remarks-textarea {
+    font-size: 11px;
+    min-height: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .irc1a-header h2 {
+    font-size: 22px;
+  }
+
+  .irc1a-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc1a-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc1a-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc1a-header-divider {
+    height: 44px;
+  }
+
+  .irc1a-header-actions {
+    width: 100%;
+  }
+
+  .irc1a-legend-btn,
+  .irc1a-pdf-btn,
+  .irc1a-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Ratings table: 12 columns get too tight on a phone, so the
+     month strip wraps to 2 rows of 6 and each cell carries its own
+     month label (the header strip is hidden). */
+  .irc1a-table thead {
+    display: none;
+  }
+
+  .irc1a-table tbody tr,
+  .irc1a-table tfoot tr {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .irc1a-table td.irc1a-indicator-col {
+    flex-wrap: wrap;
+  }
+
+  .irc1a-month-cell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #8a93a5;
+  }
+
+  .irc1a-dark-header,
+  .irc1a-card-body,
+  .irc1a-insight-card .irc1a-card-body {
+    padding: 14px 16px;
+  }
+
+  .irc1a-badge-card {
+    padding: 18px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   5. Print / Save-to-PDF
+   Triggered by #irc1a-pdf-btn -> window.print() (see irc1a.js). Only
+   ever active on this page since irc1a.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs.
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Legend / Save to PDF / Reset / the insight cards' Add
+     buttons) -- none of these belong in a printed report. */
+  header,
+  nav,
+  .irc1a-header-actions,
+  .irc1a-header-action-btn {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: these are only ever visible via a
+     ".visible" class toggle and default to display:none already, but
+     force them off in case a print is triggered while one is open. */
+  #irc1a-legend-overlay,
+  #irc1a-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling table + vertically-clipped remarks boxes
+     both need to render in full instead of scrolling. */
+  .irc1a-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .irc1a-remarks-textarea {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark analytics headers,
+     the colored rating-description pills, and the trend chart's
+     accent colors were all coming out flat/white. This forces every
+     background to print as it looks on screen. "Background graphics"
+     still needs to be left ON in the print dialog -- this can't
+     override that toggle, only make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Scale down: everything below is sized for a 1600px+ screen, so
+     printed at full size onto a 8.5in-wide sheet it runs oversized
+     and can spill past the page edge. These trim fonts/paddings down
+     to a print-appropriate scale, independent of the on-screen
+     responsive breakpoints (which key off the print viewport width
+     and can't be relied on to land consistently across browsers).
+  --------------------------------------------------------------- */
+
+  .irc1a-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc1a-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc1a-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc1a-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc1a-header-divider {
+    height: 38px;
+  }
+
+  .irc1a-header h2 {
+    font-size: 18px;
+  }
+
+  .irc1a-subtitle {
+    font-size: 10px;
+  }
+
+  /* Height + top margin have to mirror .irc1a-flow-badge exactly (both
+     normally share height:36px / margin-top:20px so they land on the
+     same row) -- shrinking the badge below without matching the label
+     here is what knocks them out of alignment. */
+  .irc1a-flow-label {
+    height: 20px !important;
+    margin: 10px 0 6px 2px !important;
+    font-size: 10px;
+  }
+
+  .irc1a-flow-badge {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Spacing between the 3 flow rows: this has to live on .irc1a-flow's
+     own row-gap, NOT as margin-top on each .irc1a-flow-section. A
+     per-section margin-top pushes that section's content down inside
+     its own grid row without the rail (a separate grid item) moving
+     with it, which is exactly what was knocking every label out of
+     alignment with its badge except the first (which has no preceding
+     sibling, so no extra margin to begin with). row-gap instead adds
+     space strictly between rows, so it can't create that offset. */
+  .irc1a-flow {
+    row-gap: 14px;
+  }
+
+  .irc1a-hero-row,
+  .irc1a-insights-row {
+    gap: 10px;
+  }
+
+  /* Overall Performance / Monthly Rating Trend: even 50/50 split. */
+  .irc1a-hero-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Positive Aspects / OFI: occupy the whole available row width. */
+  .irc1a-insights-row {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .irc1a-dark-header,
+  .irc1a-card-body,
+  .irc1a-insight-card .irc1a-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc1a-trend-header h3,
+  .irc1a-remarks-label,
+  .irc1a-table-card-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc1a-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  .irc1a-trend-toggle,
+  .irc1a-toggle-btn {
+    display: none !important;
+  }
+
+  .irc1a-trend-chart-wrap {
+    min-height: 0;
+  }
+
+  .irc1a-badge-card {
+    padding: 10px 8px !important;
+  }
+
+  .irc1a-badge-label {
+    font-size: 9px !important;
+  }
+
+  .irc1a-badge-score {
+    font-size: 22px !important;
+  }
+
+  .irc1a-badge-scale {
+    font-size: 9px !important;
+  }
+
+  .irc1a-badge-pill {
+    font-size: 9px !important;
+    padding: 2px 8px;
+  }
+
+  .irc1a-badge-lowest {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .irc1a-badge-lowest-title,
+  .irc1a-lowest-item,
+  .irc1a-lowest-placeholder {
+    font-size: 8.5px !important;
+  }
+
+  .irc1a-remarks-textarea {
+    font-size: 9.5px !important;
+    min-height: 40px !important;
+    padding: 6px 8px;
+  }
+
+  .irc1a-remark-field-text {
+    font-size: 9.5px !important;
+  }
+
+  .irc1a-table-card-header {
+    display: block !important;
+  }
+
+  .irc1a-inline-legend {
+    font-size: 8px !important;
+    gap: 3px 10px !important;
+    margin-top: 4px !important;
+  }
+
+  .irc1a-table,
+  .irc1a-table thead th,
+  .irc1a-foot-label,
+  .irc1a-avg,
+  .irc1a-row-desc,
+  .irc1a-table tbody input[type="number"],
+  .irc1a-indicator-num {
+    font-size: 8px !important;
+  }
+
+  .irc1a-table td.irc1a-indicator-col {
+    font-size: 8.5px !important;
+    gap: 8px !important;
+  }
+
+  .irc1a-row-avg {
+    font-size: 10px !important;
+  }
+
+  .irc1a-row-desc {
+    min-width: 0 !important;
+    padding: 2px 6px !important;
+  }
+
+  .irc1a-avg {
+    padding: 3px 0 !important;
+  }
+
+  .irc1a-table thead {
+    display: block !important;
+  }
+
+  .irc1a-table thead tr {
+    height: 20px !important;
+  }
+
+  .irc1a-table thead tr,
+  .irc1a-table tbody tr,
+  .irc1a-table tfoot tr {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    column-gap: 3px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .irc1a-table tbody tr,
+  .irc1a-table tfoot tr {
+    row-gap: 4px !important;
+    padding-top: 6px !important;
+    padding-bottom: 7px !important;
+  }
+
+  .irc1a-month-cell::before {
+    display: none !important;
+  }
+
+  /* Rating inputs read as plain numbers on paper. Width is pinned to
+     100% of the grid cell: a bare number input falls back to the
+     browser's much wider intrinsic width and bleeds off the page. */
+  .irc1a-table tbody input[type="number"] {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 1px 0 !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .irc1a-table tbody input[type="number"]::placeholder {
+    color: transparent;
+  }
+
+  /* Report signatory footer print scaling now lives centrally in
+     base.css (the same @media print block runs on every IRC1a-IRC9
+     page), so this page no longer needs its own copy. */
+
+  /* Avoid splitting a table row or a summary card awkwardly across a
+     page break. */
+  .irc1a-table tr,
+  .irc1a-trend-card,
+  .irc1a-badge-card,
+  .irc1a-insight-card {
+    break-inside: avoid;
+  }
+}

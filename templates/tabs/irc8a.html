@@ -1,0 +1,414 @@
+{% extends "base.html" %} {% import "_macros.html" as macros %} {% block title
+%}OPCRF Part I - EOPCRF_CES{% endblock %} {% block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8a.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8a_print.css') }}"
+/>
+
+<section id="irc8a-tab" class="tab-panel irc8a-panel">
+  <div class="irc8a-header">
+    <div class="irc8a-header-top">
+      <div class="irc8a-header-title-main">
+        <span class="irc8a-header-badge">
+          <span class="irc8a-header-badge-group">OPCRF</span>
+          <span class="irc8a-header-badge-page">I</span>
+        </span>
+        <div class="irc8a-header-divider"></div>
+        <div>
+          <h2>OFFICE PERFORMANCE COMMITMENT &amp; Review Form</h2>
+          <p class="irc8a-subtitle">
+            Part I-A and Part I-C are the office's fixed structure — just rate
+            each indicator. Part I-B is yours to build: add your own KRAs and
+            objectives.
+          </p>
+        </div>
+      </div>
+      <div class="irc8a-header-actions">
+        <button type="button" id="irc8a-print-btn" class="irc8a-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" class="irc8a-reset-btn" id="irc8a-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form details: the identifying block at the top of the printed OPCRF.
+       Employee, Rater and Approving Authority are linked (static/js/signatories.js)
+       to the signatory block at the bottom of the page and to the same fields
+       on OPCRF II-IV. The other fields save on change through
+       /api/irc8a/report-header. -->
+  <details class="irc8a-details" id="irc8a-details">
+    <summary>
+      <span class="irc8a-details-icon" aria-hidden="true"
+        ><i class="ti ti-file-description"></i
+      ></span>
+      <span class="irc8a-details-heading">
+        <span class="irc8a-details-title">Form details</span>
+        <span class="irc8a-details-sum" id="irc8a-details-sum"
+          >Not filled in yet</span
+        >
+      </span>
+      <span class="irc8a-details-toggle">
+        <span class="irc8a-when-closed">Click to expand</span>
+        <span class="irc8a-when-open">Collapse</span>
+        <i class="ti ti-chevron-down" aria-hidden="true"></i>
+      </span>
+    </summary>
+
+    <div class="irc8a-details-grid">
+      <!-- Group 1: the employee being rated -->
+      <fieldset class="irc8a-dgroup">
+        <legend class="irc8a-dgroup-title">
+          <i class="ti ti-user" aria-hidden="true"></i>Employee
+        </legend>
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Name of employee</span
+          ><input
+            type="text"
+            id="irc8a-h-nameOfEmployee"
+            data-sig="ratee-name"
+            data-upper="1"
+        /></label>
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Position / designation</span
+          ><input
+            type="text"
+            id="irc8a-h-positionOfEmployee"
+            data-sig="ratee-position"
+        /></label>
+      </fieldset>
+
+      <!-- Group 2: who rates and approves -->
+      <fieldset class="irc8a-dgroup">
+        <legend class="irc8a-dgroup-title">
+          <i class="ti ti-user-check" aria-hidden="true"></i>Rater &amp;
+          approving authority
+        </legend>
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Name of rater</span
+          ><input
+            type="text"
+            id="irc8a-h-nameOfRater"
+            data-sig="rater-name"
+            data-upper="1"
+          /><span class="irc8a-field-hint"
+            >Assistant Schools Division Superintendent</span
+          ></label
+        >
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Approving authority</span
+          ><input
+            type="text"
+            id="irc8a-h-approvingAuthority"
+            data-sig="authority-name"
+            data-upper="1"
+          /><span class="irc8a-field-hint"
+            >Schools Division Superintendent</span
+          ></label
+        >
+      </fieldset>
+
+      <!-- Group 3: office and review period -->
+      <fieldset class="irc8a-dgroup">
+        <legend class="irc8a-dgroup-title">
+          <i class="ti ti-building" aria-hidden="true"></i>Office &amp; review
+          period
+        </legend>
+        <label class="irc8a-field irc8a-field--wide"
+          ><span class="irc8a-label"
+            >Strand / bureau / center / service / region / division</span
+          ><input type="text" id="irc8a-h-bureau" data-header="bureau"
+        /></label>
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Review period</span
+          ><input
+            type="text"
+            id="irc8a-h-ratingPeriod"
+            data-header="ratingPeriod"
+        /></label>
+        <label class="irc8a-field"
+          ><span class="irc8a-label">Date of review</span
+          ><input
+            type="date"
+            id="irc8a-h-dateOfReview"
+            data-header="dateOfReview"
+        /></label>
+      </fieldset>
+
+      <!-- Group 4: statement of purpose -->
+      <fieldset class="irc8a-dgroup irc8a-dgroup--stretch">
+        <legend class="irc8a-dgroup-title">
+          <i class="ti ti-notes" aria-hidden="true"></i>Statement of purpose
+        </legend>
+        <label class="irc8a-field irc8a-field--grow"
+          ><span class="irc8a-label irc8a-label--sr">Statement of purpose</span
+          ><textarea
+            id="irc8a-h-statementOfPurpose"
+            data-header="statementOfPurpose"
+            rows="5"
+          ></textarea>
+        </label>
+      </fieldset>
+    </div>
+  </details>
+
+  <div id="irc8a-part-tabs" class="irc8a-part-tabs" role="tablist"></div>
+
+  <div id="irc8a-workspace" class="irc8a-workspace">
+    <div class="irc8a-nav-col">
+      <nav id="irc8a-nav" class="irc8a-nav" aria-label="Objectives"></nav>
+    </div>
+    <div id="irc8a-detail" class="irc8a-detail"></div>
+  </div>
+
+  <div id="irc8a-empty-state" class="irc8a-empty-state" style="display: none">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M9 11l3 3L22 4"></path>
+      <path
+        d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+      ></path>
+    </svg>
+    <p id="irc8a-empty-state-text">
+      No KRAs yet. Click <strong>Add KRA</strong> to start planning.
+    </p>
+    <!-- Shown for Part I-B only. Once a KRA exists, "Add KRA" lives at the top
+         of the sidebar nav instead. -->
+    <button
+      type="button"
+      class="irc8a-add-btn irc8a-empty-add-btn"
+      id="irc8a-empty-add-kra"
+      style="display: none"
+    >
+      <svg
+        class="irc8a-inline-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+      Add KRA
+    </button>
+  </div>
+
+  <!-- Ratee (fixed) / Rater / Approving Authority -->
+  {{ macros.signatories(['ratee', 'rater', 'authority']) }}
+
+  <!-- ============= Entry modal (KRA / Objective / Rubric / MOV / Actual results / Timeline) ============= -->
+  <div id="irc8a-entry-modal" class="irc8a-modal" style="display: none">
+    <div
+      class="irc8a-modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="irc8a-entry-modal-title"
+    >
+      <div class="irc8a-modal-header">
+        <h2 id="irc8a-entry-modal-title">Add entry</h2>
+        <button
+          type="button"
+          class="irc8a-modal-close"
+          id="irc8aEntryModalClose"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="irc8a-modal-body">
+        <p class="irc8a-modal-hint" id="irc8a-entry-modal-hint"></p>
+
+        <div id="irc8a-field-primary" class="irc8a-field-group">
+          <label
+            class="irc8a-label"
+            id="irc8a-field-primary-label"
+            for="irc8a-entry-text"
+            >Description</label
+          >
+          <textarea
+            id="irc8a-entry-text"
+            class="irc8a-input"
+            rows="4"
+            placeholder="Type here..."
+          ></textarea>
+        </div>
+
+        <div
+          id="irc8a-field-url"
+          class="irc8a-field-group"
+          style="display: none"
+        >
+          <label class="irc8a-label" for="irc8a-entry-url"
+            >Link to evidence (MOV)</label
+          >
+          <input
+            type="url"
+            id="irc8a-entry-url"
+            class="irc8a-input"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div
+          id="irc8a-field-rate"
+          class="irc8a-field-group"
+          style="display: none"
+        >
+          <label class="irc8a-label" for="irc8a-entry-rate">Rating level</label>
+          <select id="irc8a-entry-rate" class="irc8a-input"></select>
+        </div>
+
+        <div
+          id="irc8a-field-weight"
+          class="irc8a-field-group"
+          style="display: none"
+        >
+          <label
+            class="irc8a-label"
+            id="irc8a-field-weight-label"
+            for="irc8a-entry-weight"
+            >Weight (%)</label
+          >
+          <input
+            type="number"
+            id="irc8a-entry-weight"
+            class="irc8a-input"
+            min="0"
+            max="100"
+            step="0.01"
+            placeholder="e.g. 25"
+          />
+        </div>
+
+        <!-- Optional extra text fields, filled in by irc8a.js per modal mode
+             (KRA alignment fields, objective target / listed MOVs). -->
+        <div id="irc8a-extra-fields"></div>
+      </div>
+      <div class="irc8a-modal-footer">
+        <button type="button" class="irc8a-btn" id="irc8aEntryModalCancel">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="irc8a-btn irc8a-btn--primary"
+          id="irc8aEntryModalSubmit"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+    <div class="irc8a-modal-overlay" id="irc8aEntryModalOverlay"></div>
+  </div>
+</section>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc8a-reset-confirm-overlay" class="irc8a-confirm-overlay">
+  <div class="irc8a-confirm-box">
+    <h4>Reset this form?</h4>
+
+    <p class="irc8a-reset-intro">
+      Choose what to reset. Resetting clears the ratings, timeline, MOV link and
+      actual accomplishments of the selected parts.
+    </p>
+
+    <div class="irc8a-reset-options">
+      <label class="irc8a-reset-option">
+        <input type="checkbox" name="irc8a-reset-part" value="a" />
+        <span class="irc8a-reset-option-text">
+          <strong>Part I-A</strong>
+          <small>Commitment to Organizational Outcomes</small>
+        </span>
+      </label>
+      <label class="irc8a-reset-option">
+        <input
+          type="checkbox"
+          name="irc8a-reset-part"
+          value="b"
+          id="irc8a-reset-part-b"
+        />
+        <span class="irc8a-reset-option-text">
+          <strong>Part I-B</strong>
+          <small>Innovating and Intervening Accomplishments</small>
+        </span>
+      </label>
+
+      <div
+        id="irc8a-reset-b-options"
+        class="irc8a-reset-suboptions"
+        style="display: none"
+      >
+        <label class="irc8a-reset-option">
+          <input type="radio" name="irc8a-reset-b-scope" value="data" checked />
+          <span class="irc8a-reset-option-text">
+            <strong
+              >Reset ratings, timeline, MOV links &amp; actual accomplishments
+              only</strong
+            >
+            <small>Your KRAs and objectives in Part I-B are kept.</small>
+          </span>
+        </label>
+        <label class="irc8a-reset-option">
+          <input type="radio" name="irc8a-reset-b-scope" value="all" />
+          <span class="irc8a-reset-option-text">
+            <strong
+              >Reset everything, including added KRAs and objectives</strong
+            >
+            <small
+              >Removes every KRA, objective and indicator you added in Part
+              I-B.</small
+            >
+          </span>
+        </label>
+      </div>
+
+      <label class="irc8a-reset-option">
+        <input type="checkbox" name="irc8a-reset-part" value="c" />
+        <span class="irc8a-reset-option-text">
+          <strong>Part I-C</strong>
+          <small>Organizational Effectiveness</small>
+        </span>
+      </label>
+    </div>
+
+    <p id="irc8a-reset-confirm-warning">Select at least one part to reset.</p>
+
+    <div class="irc8a-confirm-actions">
+      <button type="button" id="irc8a-reset-confirm-cancel" class="irc8a-btn">
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc8a-reset-confirm-confirm"
+        class="irc8a-btn irc8a-btn--danger"
+        disabled
+      >
+        Yes, reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Print-only copy of the form; built and moved to <body> by irc8a.js -->
+<div
+  id="irc8a-print-root"
+  data-header-img="{{ url_for('static', filename='images/part1_header.png') }}"
+></div>
+
+<script src="{{ url_for('static', filename='js/irc8a.js') }}"></script>
+
+{% endblock %}

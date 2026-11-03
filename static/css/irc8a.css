@@ -1,0 +1,1692 @@
+/* IRC8A - IPCRF (Individual Performance Commitment and Review Form)
+   Minimal layout: one neutral palette plus a single accent (the app's navy).
+   Selected rating = accent. Warnings use amber, nothing else carries color. */
+
+/* The reset modal lives outside the .irc8a-panel <section>, so it needs
+   the same variables or its background resolves to nothing (transparent). */
+.irc8a-panel,
+.irc8a-confirm-overlay {
+  --e1-ink: #1c2530;
+  --e1-muted: #667282;
+  --e1-line: #e2e6ec;
+  --e1-line-strong: #cdd4dd;
+  --e1-surface: #ffffff;
+  --e1-subtle: #f6f8fa;
+  --e1-accent: var(--navy-deep, #0b2a5b);
+  --e1-accent-soft: #eaf0fa;
+  --e1-ok: #1b7a4b;
+  --e1-warn: #a45a06;
+  --e1-danger: #b42318;
+  --e1-radius: 8px;
+  /* Section colors for the objective card (title band + text) */
+  --e1-plan-fg: #1f4fa3;
+  --e1-plan-bg: #dfe9fa;
+  --e1-perf-fg: #4b3a9e;
+  --e1-perf-bg: #ebe7fb;
+  --e1-eval-fg: #1b7a4b;
+  --e1-eval-bg: #dcf1e5;
+  color: var(--e1-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.irc8a-panel *,
+.irc8a-panel *::before,
+.irc8a-panel *::after,
+.irc8a-confirm-overlay *,
+.irc8a-confirm-overlay *::before,
+.irc8a-confirm-overlay *::after {
+  box-sizing: border-box;
+}
+.irc8a-panel h3,
+.irc8a-panel h4,
+.irc8a-confirm-overlay h4 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--e1-ink);
+}
+.irc8a-muted {
+  color: var(--e1-muted);
+}
+.irc8a-inline-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.irc8a-btn .irc8a-inline-icon,
+.irc8a-icon-btn .irc8a-inline-icon {
+  margin-right: 0;
+}
+
+/* ---------- Labels, inputs, buttons ---------- */
+.irc8a-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--e1-muted);
+  margin-bottom: 2px;
+}
+.irc8a-label--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.irc8a-input,
+.irc8a-field input,
+.irc8a-field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--e1-ink);
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line-strong);
+  border-radius: 6px;
+}
+.irc8a-input:focus,
+.irc8a-field input[data-upper] {
+  text-transform: uppercase;
+}
+
+.irc8a-field input:focus,
+.irc8a-field textarea:focus {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: -1px;
+  border-color: var(--e1-accent);
+}
+.irc8a-field textarea {
+  resize: vertical;
+}
+textarea.irc8a-input {
+  resize: vertical;
+}
+
+.irc8a-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-weight: 500;
+  color: var(--e1-ink);
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line-strong);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.irc8a-btn:hover {
+  background: var(--e1-subtle);
+}
+.irc8a-btn--primary {
+  color: #fff;
+  background: var(--e1-accent);
+  border-color: var(--e1-accent);
+}
+.irc8a-btn--primary:hover {
+  background: var(--e1-accent);
+  filter: brightness(1.15);
+}
+.irc8a-btn--danger {
+  color: #fff;
+  background: var(--e1-danger);
+  border-color: var(--e1-danger);
+}
+.irc8a-btn--danger:hover {
+  background: var(--e1-danger);
+  filter: brightness(1.1);
+}
+.irc8a-btn--ghost {
+  border-style: dashed;
+  color: var(--e1-muted);
+}
+.irc8a-btn--sm {
+  padding: 3px 9px;
+  font-size: 12px;
+}
+.irc8a-btn:focus-visible,
+.irc8a-icon-btn:focus-visible {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: 2px;
+}
+
+.irc8a-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  color: var(--e1-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.irc8a-icon-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.irc8a-icon-btn:hover {
+  color: var(--e1-ink);
+  background: var(--e1-line);
+}
+.irc8a-icon-btn--danger:hover {
+  color: var(--e1-danger);
+  background: #fdecea;
+}
+
+/* ---------- Page header (original style, kept as-is) ---------- */
+.irc8a-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc8a-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc8a-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc8a-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc8a-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc8a-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc8a-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc8a-panel .irc8a-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc8a-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.irc8a-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button (same look as the IRC1a page's) */
+.irc8a-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc8a-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc8a-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc8a-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.irc8a-reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f3b4b4;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc8a-reset-btn i {
+  font-size: 13px;
+}
+
+.irc8a-reset-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc8a-add-btn {
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.irc8a-add-btn:hover {
+  background: #3d5a8a;
+}
+
+.irc8a-add-btn .irc8a-inline-icon {
+  vertical-align: -2px;
+  margin-right: 5px;
+}
+
+/* ---------- Form details ---------- */
+.irc8a-details {
+  margin-bottom: 16px;
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line-strong);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(11, 42, 91, 0.06);
+  overflow: hidden;
+}
+/* The whole header bar is the button: tinted, with a clear toggle pill. */
+.irc8a-details summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  background: var(--e1-accent-soft);
+  transition: background 0.15s;
+  user-select: none;
+}
+.irc8a-details summary::-webkit-details-marker {
+  display: none;
+}
+.irc8a-details summary:hover {
+  background: #dde7f7;
+}
+.irc8a-details summary:focus-visible {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: -2px;
+}
+.irc8a-details[open] summary {
+  border-bottom: 1px solid var(--e1-line-strong);
+}
+.irc8a-details-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #fff;
+  background: var(--e1-accent);
+  border-radius: 8px;
+}
+.irc8a-details-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+.irc8a-details-title {
+  font-weight: 600;
+  color: var(--e1-accent);
+}
+.irc8a-details-sum {
+  font-size: 13px;
+  color: var(--e1-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.irc8a-details-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 5px 10px 5px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--e1-accent);
+  background: #fff;
+  border: 1.5px solid var(--e1-line-strong);
+  border-radius: 999px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.irc8a-details summary:hover .irc8a-details-toggle {
+  border-color: var(--e1-accent);
+}
+.irc8a-details-toggle i {
+  font-size: 15px;
+  transition: transform 0.2s ease;
+}
+.irc8a-details[open] .irc8a-details-toggle i {
+  transform: rotate(180deg);
+}
+.irc8a-details .irc8a-when-open,
+.irc8a-details[open] .irc8a-when-closed {
+  display: none;
+}
+.irc8a-details[open] .irc8a-when-open {
+  display: inline;
+}
+
+.irc8a-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 16px 14px 16px;
+  background: var(--e1-subtle);
+}
+/* Each group is a titled card holding related fields */
+.irc8a-dgroup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 12px 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 14px 14px;
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line);
+  border-radius: var(--e1-radius);
+}
+.irc8a-dgroup-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--e1-accent);
+}
+.irc8a-dgroup-title i {
+  font-size: 15px;
+}
+/* Two-field groups stack their fields; the review-period fields sit side by side */
+.irc8a-dgroup:nth-child(1),
+.irc8a-dgroup:nth-child(2),
+.irc8a-dgroup--stretch {
+  grid-template-columns: minmax(0, 1fr);
+}
+.irc8a-dgroup--stretch {
+  align-content: stretch;
+}
+.irc8a-field {
+  display: block;
+}
+.irc8a-field--wide {
+  grid-column: 1 / -1;
+}
+.irc8a-field--grow {
+  display: flex;
+  height: 100%;
+}
+.irc8a-field--grow textarea {
+  flex: 1;
+  min-height: 110px;
+  resize: vertical;
+}
+.irc8a-label--sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* Fixed, non-editable position shown under the rater / authority name */
+.irc8a-field-hint {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--e1-muted);
+}
+@media (max-width: 760px) {
+  .irc8a-details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .irc8a-details-toggle .irc8a-when-closed,
+  .irc8a-details[open] .irc8a-when-open {
+    display: none;
+  }
+  .irc8a-details-toggle {
+    padding: 5px 7px;
+  }
+}
+
+/* ---------- Part tabs: top-level cards with weight and score ---------- */
+.irc8a-part-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.irc8a-part-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 14px 18px 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--e1-ink);
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line-strong);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(11, 42, 91, 0.06);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.irc8a-part-tab:hover {
+  border-color: var(--e1-accent);
+  background: var(--e1-subtle);
+}
+.irc8a-part-tab:focus-visible {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: 2px;
+}
+.irc8a-part-tab.is-active {
+  color: #fff;
+  background: var(--e1-accent);
+  border-color: var(--e1-accent);
+  box-shadow: 0 2px 8px rgba(11, 42, 91, 0.25);
+}
+.irc8a-part-tab-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--e1-accent);
+}
+.irc8a-part-tab.is-active .irc8a-part-tab-label {
+  color: rgba(255, 255, 255, 0.75);
+}
+.irc8a-part-tab-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.irc8a-part-tab-stats {
+  display: flex;
+  gap: 28px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.irc8a-part-tab-name + .irc8a-part-tab-stats {
+  margin-top: 10px;
+}
+.irc8a-part-tab-stat {
+  display: flex;
+  flex-direction: column;
+}
+.irc8a-part-tab-k {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--e1-muted);
+  line-height: 1.3;
+}
+.irc8a-part-tab.is-active .irc8a-part-tab-k {
+  color: rgba(255, 255, 255, 0.7);
+}
+.irc8a-part-tab-v {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-part-tab-v.is-warn {
+  color: var(--e1-warn);
+}
+.irc8a-part-tab.is-active .irc8a-part-tab-v.is-warn {
+  color: #ffd699;
+}
+.irc8a-part-tab-v.is-empty {
+  color: var(--e1-muted);
+  font-weight: 500;
+}
+.irc8a-part-tab.is-active .irc8a-part-tab-v.is-empty {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- Workspace: sidebar + detail ---------- */
+.irc8a-workspace {
+  display: grid;
+  grid-template-columns: clamp(260px, 26%, 340px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  /* Always full height, even with no objectives yet, so the nav column (which
+     is capped to the row height) has room to show all of its contents. */
+  min-height: max(560px, calc(100vh - 260px));
+}
+/* Grid cell for the nav. It has no in-flow content, so its height is the row
+   height, i.e. the height of .irc8a-detail. */
+.irc8a-nav-col {
+  position: relative;
+  min-width: 0;
+}
+/* NOTE: this element is a <nav>, so base.css's global `nav { ... }` rule
+   (the top navbar: display:flex; align-items:center; justify-content:center;
+   z-index:100; box-shadow; navy background) also applies to it. Centering a
+   column that is taller than its max-height pushes the first items above the
+   box where they can't be scrolled to -- that is what hid KRA 1. The
+   resets below undo those inherited navbar styles. */
+.irc8a-nav {
+  /* Absolutely placed inside .irc8a-nav-col so it never makes the row taller:
+     natural height when short, capped at the detail panel's height (and
+     scrolling) when long. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line);
+  border-radius: var(--e1-radius);
+  box-shadow: none;
+  z-index: 1;
+}
+.irc8a-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+/* Sticky strip at the top of the nav: Add KRA + KRA weight meter. */
+.irc8a-nav-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 10px;
+  background: var(--e1-surface);
+  border-bottom: 1px solid var(--e1-line-strong);
+}
+.irc8a-nav-add {
+  width: 100%;
+  justify-content: center;
+  padding: 9px 14px;
+}
+.irc8a-nav-add svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+}
+.irc8a-nav-total {
+  padding: 8px 10px;
+  border: 1px solid var(--e1-line);
+  border-radius: 6px;
+  background: var(--e1-subtle);
+  font-size: 12.5px;
+}
+.irc8a-nav-total-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 600;
+}
+.irc8a-nav-total-head span {
+  color: var(--e1-ink);
+}
+.irc8a-nav-total-head strong {
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-nav-total-bar {
+  height: 6px;
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--e1-line);
+}
+.irc8a-nav-total-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: currentColor;
+}
+.irc8a-nav-total-msg {
+  margin: 6px 0 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.irc8a-nav-total.is-warn {
+  color: var(--e1-warn);
+  background: #fff8ec;
+  border-color: #f0d9b0;
+}
+.irc8a-nav-total.is-over {
+  color: var(--e1-danger);
+  background: #fdeceb;
+  border-color: #f3c3bf;
+}
+/* Objective-weight warning inside a KRA group in the nav */
+.irc8a-nav-warn {
+  padding: 8px 10px 8px 11px;
+  font-size: 12px;
+  line-height: 1.4;
+  border-top: 0;
+  border-bottom: 1px solid var(--e1-line);
+  border-left: 4px solid var(--e1-warn);
+}
+.irc8a-empty-add-btn {
+  margin-top: 12px;
+}
+.irc8a-nav-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+.irc8a-nav-group + .irc8a-nav-group {
+  border-top: 1px solid var(--e1-line);
+}
+.irc8a-nav-group-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 10px 10px 11px;
+  background: #d6e2f6;
+  border-left: 4px solid var(--e1-accent);
+  border-bottom: 1px solid var(--e1-line-strong);
+}
+.irc8a-nav-group-head.is-selected {
+  background: #bdd1f1;
+}
+.irc8a-nav-group-label {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--e1-accent);
+}
+.irc8a-nav-group-title {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--e1-ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.irc8a-nav-group-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.irc8a-nav-group-weight {
+  flex-shrink: 0;
+  padding: 2px 9px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--e1-accent);
+  border-radius: 999px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-nav-weight {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--e1-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-nav-group-actions {
+  display: flex;
+  align-items: center;
+  margin-left: -6px;
+}
+.irc8a-nav-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 14px 8px 28px;
+  text-align: left;
+  font: inherit;
+  color: var(--e1-ink);
+  background: none;
+  border: 0;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+.irc8a-nav-item + .irc8a-nav-item {
+  border-top: 1px solid var(--e1-line);
+}
+.irc8a-nav-item {
+  position: relative;
+}
+.irc8a-nav-item::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--e1-line-strong);
+}
+.irc8a-nav-item:hover {
+  background: var(--e1-subtle);
+}
+.irc8a-nav-item.is-selected {
+  background: #f1f5fc;
+  border-left-color: var(--e1-accent);
+}
+.irc8a-nav-item:focus-visible {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: -2px;
+}
+.irc8a-nav-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.irc8a-nav-progress {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.irc8a-ring {
+  width: 100%;
+  height: 100%;
+}
+.irc8a-ring-track {
+  fill: none;
+  stroke: var(--e1-line-strong);
+  stroke-width: 3;
+}
+.irc8a-ring-arc {
+  fill: none;
+  stroke: var(--e1-warn);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.irc8a-ring-fill {
+  fill: var(--e1-ok);
+}
+.irc8a-ring-check {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.irc8a-nav-code {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--e1-muted);
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-nav-item.is-selected .irc8a-nav-weight {
+  color: var(--e1-accent);
+  font-weight: 600;
+}
+.irc8a-nav-item.is-selected .irc8a-nav-code {
+  color: var(--e1-accent);
+  font-weight: 700;
+}
+
+.irc8a-detail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Navy gradient tiers (one fixed scheme for every KRA/objective) ----------
+   Darker = higher in the hierarchy:
+     KRA header        t1 -> t2   (navy-deep -> navy-dark)
+     Objective header  t2 -> t3   (navy-dark -> navy)
+     Section banners   t3 -> t4  (navy -> lighter navy tint)
+   t4 is the only derived colour (a lighter tint of --navy) so the section
+   banners can sit below the objective header. */
+.irc8a-panel {
+  --kra-t1: #001550; /* navy-deep */
+  --kra-t2: #00247a; /* navy-dark */
+  --kra-t3: #0033a0; /* navy */
+  --kra-t4: #2f5fc4; /* navy, lightened */
+  --kra-light: #eef2fb;
+  --kra-border: #0033a0;
+  /* Selected rating row: pale tints of the same navy, one step below the
+     section banners (t3 -> t4), still dark-left to light-right. */
+  --kra-sel-1: #c6d6f4;
+  --kra-sel-2: #e9f0fc;
+}
+
+/* ---------- KRA block: darkest gradient banner + neutral alignment strip ---------- */
+.irc8a-kra-block {
+  overflow: hidden;
+  background: var(--e1-surface);
+  border: 1px solid var(--kra-border, var(--e1-accent));
+  border-radius: var(--e1-radius);
+}
+.irc8a-kra-block-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, var(--kra-t1), var(--kra-t2, #1d3f7a));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
+}
+.irc8a-kra-block-head .irc8a-label {
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b9c9e6;
+}
+.irc8a-panel .irc8a-kra-block-head h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+}
+.irc8a-kra-block-side {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.irc8a-weight-chip {
+  padding: 2px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--kra-t2, var(--e1-accent));
+  background: #fff;
+  border: 0;
+  border-radius: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.irc8a-kra-block-head .irc8a-icon-btn {
+  color: #b9c9e6;
+}
+.irc8a-kra-block-head .irc8a-icon-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Alignment: neutral cards only, no color */
+.irc8a-align {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 12px;
+  background: var(--kra-light, var(--e1-subtle));
+  border-top: 1px solid var(--e1-line);
+}
+.irc8a-align .irc8a-fact {
+  padding: 10px 12px;
+  background: var(--e1-surface);
+  border: 1px solid var(--e1-line);
+  border-radius: 6px;
+}
+.irc8a-align .irc8a-label {
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.irc8a-align .irc8a-fact-value {
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.irc8a-warn {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--e1-warn);
+  background: #fff8ec;
+  border-top: 1px solid var(--e1-line);
+}
+
+/* ---------- Objective: same width as the KRA block, same header layout,
+   but a lighter slate banner and smaller type so the KRA stays on top ---------- */
+.irc8a-obj {
+  overflow: hidden;
+  background: var(--e1-surface);
+  border: 1px solid var(--kra-t3, #3f5273);
+  border-radius: var(--e1-radius);
+}
+.irc8a-obj-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(
+    90deg,
+    var(--kra-t2, #2f4468),
+    var(--kra-t3, #3f5273)
+  );
+}
+.irc8a-obj-head .irc8a-label {
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d3dcec;
+}
+.irc8a-panel .irc8a-obj-head h3 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fff;
+}
+.irc8a-obj-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.irc8a-obj-head .irc8a-icon-btn {
+  color: #d3dcec;
+}
+.irc8a-obj-head .irc8a-icon-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ---------- Sections: colored title band + padded body ---------- */
+.irc8a-group {
+  --sec-g1: var(--kra-t3, #3f5273);
+  --sec-g2: var(--kra-t4, #5a6f95);
+  border-top: 1px solid var(--e1-line-strong);
+}
+/* Same two tiers (t3 -> t4) for every section, dark on the left. */
+.irc8a-group--plan,
+.irc8a-group--perf,
+.irc8a-group--eval {
+  --sec-g1: var(--kra-t3, #3f5273);
+  --sec-g2: var(--kra-t4, #5a6f95);
+}
+.irc8a-panel .irc8a-group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  color: #fff;
+  background: linear-gradient(90deg, var(--sec-g1), var(--sec-g2));
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+.irc8a-group-title .ti {
+  font-size: 18px;
+}
+.irc8a-group-body {
+  padding: 14px;
+}
+
+/* Facts: one row, 4 columns (target description gets the most room) */
+.irc8a-facts {
+  display: grid;
+  grid-template-columns:
+    minmax(120px, 1.1fr) minmax(70px, 0.7fr) minmax(90px, 0.8fr)
+    minmax(0, 1.9fr);
+  border: 1px solid var(--e1-line);
+  border-radius: var(--e1-radius);
+  overflow: hidden;
+}
+.irc8a-facts > .irc8a-fact {
+  min-width: 0;
+  padding: 10px 12px;
+}
+.irc8a-facts > .irc8a-fact + .irc8a-fact {
+  border-left: 1px solid var(--e1-line);
+}
+.irc8a-fact-value {
+  font-size: 14px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.irc8a-fact--inline .irc8a-fact-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ---------- Rating scale ---------- */
+.irc8a-cat + .irc8a-cat {
+  margin-top: 18px;
+}
+.irc8a-cat {
+  overflow: hidden;
+  border: 1px solid var(--e1-line-strong);
+  border-radius: var(--e1-radius);
+}
+.irc8a-cat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 12px;
+  background: #e9edf3;
+  border-bottom: 1px solid var(--e1-line-strong);
+}
+.irc8a-cat-head h4 {
+  font-size: 14px;
+  font-weight: 700;
+}
+.irc8a-cat-rating {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--e1-perf-fg);
+}
+.irc8a-cat-rating.is-empty {
+  font-weight: 400;
+  color: var(--e1-muted);
+}
+.irc8a-levels {
+  overflow: hidden;
+}
+.irc8a-level {
+  display: grid;
+  grid-template-columns: 28px 118px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 9px 12px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.irc8a-level + .irc8a-level {
+  border-top: 1px solid var(--e1-line);
+}
+.irc8a-level:hover {
+  background: var(--e1-subtle);
+}
+.irc8a-level:focus-visible {
+  outline: 2px solid var(--e1-accent);
+  outline-offset: -2px;
+}
+.irc8a-level.is-selected {
+  background: linear-gradient(90deg, var(--kra-sel-1), var(--kra-sel-2));
+  border-left-color: var(--kra-t3);
+  border-left-width: 5px;
+  padding-left: 10px; /* offsets the wider border so columns stay aligned */
+  box-shadow: inset 0 0 0 1px rgba(0, 51, 160, 0.14);
+}
+.irc8a-level-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--e1-ink);
+  border: 1px solid var(--e1-line-strong);
+  border-radius: 50%;
+  align-self: start;
+}
+.irc8a-level {
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease;
+}
+/* Once a level is chosen, fade the others: still readable, but the chosen
+   row stands out. They return to full strength on hover/focus so the user
+   can read them properly before changing the rating. */
+.irc8a-levels.has-selection .irc8a-level:not(.is-selected) {
+  opacity: 0.55;
+}
+.irc8a-levels.has-selection .irc8a-level:not(.is-selected):hover,
+.irc8a-levels.has-selection .irc8a-level:not(.is-selected):focus-visible,
+.irc8a-levels.has-selection .irc8a-level:not(.is-selected):focus-within {
+  opacity: 1;
+}
+.irc8a-level.is-selected .irc8a-level-num {
+  color: #fff;
+  background: linear-gradient(90deg, var(--kra-t2), var(--kra-t3));
+  border-color: var(--kra-t2);
+}
+.irc8a-level-name {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--e1-muted);
+}
+.irc8a-level.is-selected .irc8a-level-name {
+  font-weight: 700;
+  color: var(--kra-t2);
+}
+.irc8a-level.is-selected .irc8a-level-text {
+  font-weight: 500;
+  color: var(--kra-t1);
+}
+.irc8a-level-text {
+  font-size: 13.5px;
+}
+.irc8a-level-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Evaluation ---------- */
+.irc8a-eval {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  row-gap: 0;
+}
+/* Both columns share the same three rows (label / box / extra) via subgrid,
+   so the labels, the boxes and the boxes' bottom edges line up. */
+.irc8a-eval > .irc8a-fact {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+  row-gap: 0;
+  min-width: 0;
+}
+/* The edit button makes one label taller; give both the same height */
+.irc8a-eval > .irc8a-fact > .irc8a-label {
+  display: flex;
+  align-items: center;
+  min-height: 26px;
+  margin-bottom: 2px;
+}
+.irc8a-eval > .irc8a-fact > .irc8a-box {
+  height: 100%;
+}
+.irc8a-box {
+  padding: 9px 11px;
+  min-height: 64px;
+  font-size: 13.5px;
+  white-space: pre-wrap;
+  background: var(--e1-subtle);
+  border: 1px solid var(--e1-line);
+  border-radius: 6px;
+}
+.irc8a-box.is-empty {
+  color: var(--e1-muted);
+}
+.irc8a-mov-wrap {
+  margin-top: 8px;
+}
+.irc8a-mov-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.irc8a-mov-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--e1-accent);
+  text-decoration: none;
+}
+.irc8a-mov-link svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.irc8a-mov-link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.irc8a-mov-link:hover span {
+  text-decoration: underline;
+}
+
+.irc8a-results {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 16px;
+  border: 1px solid var(--e1-line);
+  border-radius: var(--e1-radius);
+  overflow: hidden;
+}
+.irc8a-result {
+  padding: 10px 14px;
+}
+.irc8a-result + .irc8a-result {
+  border-left: 1px solid var(--e1-line);
+}
+.irc8a-result--total {
+  background: var(--e1-eval-bg);
+}
+.irc8a-result-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--e1-eval-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.irc8a-empty-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
+  color: var(--e1-muted);
+  border: 1px dashed var(--e1-line-strong);
+  border-radius: var(--e1-radius);
+}
+.irc8a-empty-inline p {
+  margin: 0;
+}
+.irc8a-empty-state {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--e1-muted);
+}
+.irc8a-empty-state svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+/* ---------- Entry modal ---------- */
+.irc8a-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.irc8a-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 24, 40, 0.45);
+}
+.irc8a-modal-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--e1-surface);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.25);
+}
+.irc8a-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--e1-line);
+}
+.irc8a-modal-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--e1-ink);
+}
+.irc8a-modal-close {
+  font-size: 22px;
+  line-height: 1;
+  color: var(--e1-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.irc8a-modal-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+.irc8a-modal-hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--e1-muted);
+}
+.irc8a-modal-hint:empty {
+  display: none;
+}
+.irc8a-field-group {
+  margin-bottom: 14px;
+}
+.irc8a-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--e1-line);
+}
+
+/* ---------- Reset confirmation ---------- */
+.irc8a-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(16, 24, 40, 0.45);
+}
+.irc8a-confirm-overlay.visible {
+  display: flex;
+}
+.irc8a-confirm-box {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  background: var(--e1-surface);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.25);
+}
+.irc8a-confirm-box h4 {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+.irc8a-reset-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.irc8a-reset-option {
+  display: flex;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: 1px solid var(--e1-line);
+  border-radius: var(--e1-radius);
+}
+.irc8a-reset-intro {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--e1-muted);
+}
+.irc8a-reset-suboptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 22px;
+  padding-left: 12px;
+  border-left: 3px solid var(--e1-accent);
+}
+.irc8a-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.irc8a-reset-option:has(input:checked) {
+  border-color: var(--e1-accent);
+  background: var(--e1-accent-soft);
+}
+.irc8a-reset-option input {
+  margin-top: 3px;
+  accent-color: var(--e1-accent);
+}
+.irc8a-reset-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.irc8a-reset-option-text small {
+  color: var(--e1-muted);
+}
+#irc8a-reset-confirm-warning {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--e1-muted);
+}
+#irc8a-reset-confirm-warning.irc8a-reset-warning--danger {
+  color: var(--e1-danger);
+}
+.irc8a-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  position: sticky;
+  bottom: -20px;
+  margin-bottom: -20px;
+  padding: 12px 0 20px;
+  background: var(--e1-surface);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .irc8a-workspace {
+    grid-template-columns: 1fr;
+    min-height: 0; /* stacked layout: nav is static, no forced height */
+  }
+  .irc8a-nav-col {
+    position: static;
+  }
+  .irc8a-nav {
+    position: static;
+    max-height: 280px;
+  }
+  .irc8a-eval {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+  .irc8a-eval > .irc8a-fact {
+    display: block;
+    grid-row: auto;
+    grid-template-rows: none;
+  }
+  .irc8a-eval > .irc8a-fact > .irc8a-box {
+    height: auto;
+  }
+}
+@media (max-width: 760px) {
+  .irc8a-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+  .irc8a-facts > .irc8a-fact + .irc8a-fact {
+    border-left: 0;
+  }
+  .irc8a-facts > .irc8a-fact:nth-child(even) {
+    border-left: 1px solid var(--e1-line);
+  }
+  .irc8a-facts > .irc8a-fact:nth-child(n + 3) {
+    border-top: 1px solid var(--e1-line);
+  }
+}
+@media (max-width: 640px) {
+  .irc8a-panel .irc8a-header h2 {
+    font-size: 21px;
+  }
+  .irc8a-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+  .irc8a-header-badge-group {
+    font-size: 9px;
+  }
+  .irc8a-header-badge-page {
+    font-size: 15px;
+  }
+  .irc8a-header-divider {
+    height: 44px;
+  }
+  .irc8a-header-actions {
+    width: 100%;
+  }
+  .irc8a-pdf-btn,
+  .irc8a-reset-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  .irc8a-add-btn {
+    justify-content: center;
+  }
+  .irc8a-facts {
+    grid-template-columns: 1fr;
+  }
+  .irc8a-facts > .irc8a-fact + .irc8a-fact,
+  .irc8a-facts > .irc8a-fact:nth-child(even) {
+    border-left: 0;
+    border-top: 1px solid var(--e1-line);
+  }
+  .irc8a-level {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .irc8a-level-name {
+    grid-column: 2;
+  }
+  .irc8a-level-text,
+  .irc8a-level-actions {
+    grid-column: 2;
+  }
+  .irc8a-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .irc8a-result:nth-child(odd) {
+    border-left: 0;
+  }
+  .irc8a-result {
+    border-top: 1px solid var(--e1-line);
+  }
+}
+@media print {
+  .irc8a-panel,
+  .irc8a-panel * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .irc8a-header-actions,
+  .irc8a-nav,
+  .irc8a-icon-btn,
+  .irc8a-btn {
+    display: none !important;
+  }
+  .irc8a-workspace {
+    display: block;
+  }
+}
+
+/* Make the reset modal clearly visible */
+.irc8a-confirm-overlay {
+  background: rgba(16, 24, 40, 0.6);
+}
+.irc8a-confirm-box {
+  background: #ffffff;
+  border: 1px solid #cdd4dd;
+  box-shadow: 0 16px 48px rgba(16, 24, 40, 0.35);
+}
+
+/* ---------- Required-field asterisk (shown while a field is empty) ---------- */
+.irc8a-req {
+  color: #d93025;
+  font-weight: 700;
+  margin-left: 3px;
+  cursor: help;
+}
+
+/* Level with no descriptor: shown but not rateable */
+.irc8a-level.is-disabled {
+  cursor: default;
+}
+.irc8a-level.is-disabled:hover {
+  background: transparent;
+}
+.irc8a-level.is-disabled .irc8a-level-num,
+.irc8a-level.is-disabled .irc8a-level-name {
+  opacity: 0.5;
+}
+
+/* Cells whose text holds several items (MOVs, GAA/BEDP/Reform Agenda bullets,
+   multi-line rubric lines) keep their line breaks. */
+.irc8a-fact-value,
+.irc8a-level-text {
+  white-space: pre-line;
+}

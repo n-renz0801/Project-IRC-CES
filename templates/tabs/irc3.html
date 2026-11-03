@@ -1,0 +1,345 @@
+{% extends "base.html" %} {% block title %}IRC3 - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc3.css') }}"
+/>
+
+{% set DEDP_TOTAL = 26 %} {% set NONDEDP_TOTAL = 41 %} {% set GRAND_TOTAL = 67
+%}
+
+<section id="irc3-tab" class="tab-panel irc3-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc3-header">
+    <div class="irc3-header-top">
+      <div class="irc3-header-title-main">
+        <span class="irc3-header-badge">
+          <span class="irc3-header-badge-group">IRC</span>
+          <span class="irc3-header-badge-page">3</span>
+        </span>
+        <div class="irc3-header-divider"></div>
+        <div>
+          <h2>Status of TA Provision to Schools</h2>
+          <p class="irc3-subtitle">
+            Track TA provision against targets for DEDP and Non-DEDP schools.
+          </p>
+        </div>
+      </div>
+      <div class="irc3-header-actions">
+        <button type="button" id="irc3-pdf-btn" class="irc3-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc3-reset-btn" class="irc3-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: 1. Basis -> 2. Data ================= -->
+  <div class="irc3-flow">
+    <div class="irc3-flow-rail" aria-hidden="true">
+      <span class="irc3-flow-badge">1</span>
+      <span class="irc3-flow-badge">2</span>
+    </div>
+
+    <!-- 1. RATING BASIS -->
+    <div class="irc3-flow-section irc3-flow-section-1">
+      <p class="irc3-flow-label">Rating basis</p>
+      <div class="irc3-basis-card">
+        <div class="irc3-dark-header">
+          <h3>OPCR/IPCR Score Basis</h3>
+          <p class="irc3-subtitle irc3-subtitle-dark">
+            Percentage of schools provided with TA required for each score.
+          </p>
+        </div>
+        <div class="irc3-card-body">
+          <div class="irc3-basis-grid">
+            <div class="irc3-basis-grid-card irc3-score-5">
+              <div class="irc3-basis-grid-card-score">5</div>
+              <div class="irc3-basis-grid-card-body">
+                <div class="irc3-basis-grid-card-percent">96&ndash;100%</div>
+                <div class="irc3-basis-grid-card-rows">
+                  <div class="irc3-basis-grid-card-row">
+                    <span>DEDP</span
+                    ><strong id="irc3-basis-5-dedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Non-DEDP</span
+                    ><strong id="irc3-basis-5-nondedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Total</span
+                    ><strong id="irc3-basis-5-total">&ndash;</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="irc3-basis-grid-card irc3-score-4">
+              <div class="irc3-basis-grid-card-score">4</div>
+              <div class="irc3-basis-grid-card-body">
+                <div class="irc3-basis-grid-card-percent">91&ndash;95%</div>
+                <div class="irc3-basis-grid-card-rows">
+                  <div class="irc3-basis-grid-card-row">
+                    <span>DEDP</span
+                    ><strong id="irc3-basis-4-dedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Non-DEDP</span
+                    ><strong id="irc3-basis-4-nondedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Total</span
+                    ><strong id="irc3-basis-4-total">&ndash;</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="irc3-basis-grid-card irc3-score-3">
+              <div class="irc3-basis-grid-card-score">3</div>
+              <div class="irc3-basis-grid-card-body">
+                <div class="irc3-basis-grid-card-percent">86&ndash;90%</div>
+                <div class="irc3-basis-grid-card-rows">
+                  <div class="irc3-basis-grid-card-row">
+                    <span>DEDP</span
+                    ><strong id="irc3-basis-3-dedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Non-DEDP</span
+                    ><strong id="irc3-basis-3-nondedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Total</span
+                    ><strong id="irc3-basis-3-total">&ndash;</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="irc3-basis-grid-card irc3-score-2">
+              <div class="irc3-basis-grid-card-score">2</div>
+              <div class="irc3-basis-grid-card-body">
+                <div class="irc3-basis-grid-card-percent">81&ndash;85%</div>
+                <div class="irc3-basis-grid-card-rows">
+                  <div class="irc3-basis-grid-card-row">
+                    <span>DEDP</span
+                    ><strong id="irc3-basis-2-dedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Non-DEDP</span
+                    ><strong id="irc3-basis-2-nondedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Total</span
+                    ><strong id="irc3-basis-2-total">&ndash;</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="irc3-basis-grid-card irc3-score-1">
+              <div class="irc3-basis-grid-card-score">1</div>
+              <div class="irc3-basis-grid-card-body">
+                <div class="irc3-basis-grid-card-percent">80% and below</div>
+                <div class="irc3-basis-grid-card-rows">
+                  <div class="irc3-basis-grid-card-row">
+                    <span>DEDP</span
+                    ><strong id="irc3-basis-1-dedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Non-DEDP</span
+                    ><strong id="irc3-basis-1-nondedp">&ndash;</strong>
+                  </div>
+                  <div class="irc3-basis-grid-card-row">
+                    <span>Total</span
+                    ><strong id="irc3-basis-1-total">&ndash;</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. DATA TABLE -->
+    <div class="irc3-flow-section irc3-flow-section-2">
+      <p class="irc3-flow-label">School data</p>
+      <div class="irc3-table-card">
+        <div class="irc3-dark-header">
+          <h3>TA Provision by Category</h3>
+          <p class="irc3-subtitle irc3-subtitle-dark">
+            Provided with TA is pulled automatically from IRC2a &mdash; enter
+            only the Target Number of Schools.
+          </p>
+        </div>
+        <div class="irc3-table-wrapper">
+          <table id="irc3-table" class="irc3-table">
+            <thead>
+              <tr>
+                <th class="irc3-label-col">Category</th>
+                <th>Provided with TA</th>
+                <th>Percentage</th>
+                <th>OPCR/IPCR Score</th>
+                <th>Not Provided with TA</th>
+                <th>Target No. of Schools</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="irc3-label-col">
+                  DEDP Priority Schools (Elem &amp; Sec)
+                  <span class="irc3-row-base">/ {{ DEDP_TOTAL }} schools</span>
+                </td>
+                <td class="irc3-static-cell">
+                  <span
+                    class="irc3-auto-value"
+                    id="irc3-dedp-ta"
+                    title="Computed from IRC2a — schools currently marked Provided with TA"
+                    >0</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-percent-badge" id="irc3-dedp-ta-percent"
+                    >0%</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-score-badge" id="irc3-dedp-ta-score"
+                    >&ndash;</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span
+                    class="irc3-auto-value irc3-auto-value-warn"
+                    id="irc3-dedp-not-provided"
+                    >{{ DEDP_TOTAL }}</span
+                  >
+                </td>
+                <td class="irc3-input-cell">
+                  <input
+                    type="number"
+                    id="irc3-dedp-target"
+                    class="irc3-input"
+                    min="0"
+                    max="{{ DEDP_TOTAL }}"
+                    step="1"
+                    value="0"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td class="irc3-label-col">
+                  Non-DEDP Priority Schools (Elem &amp; Sec)
+                  <span class="irc3-row-base"
+                    >/ {{ NONDEDP_TOTAL }} schools</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span
+                    class="irc3-auto-value"
+                    id="irc3-nondedp-ta"
+                    title="Computed from IRC2a — schools currently marked Provided with TA"
+                    >0</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-percent-badge" id="irc3-nondedp-ta-percent"
+                    >0%</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-score-badge" id="irc3-nondedp-ta-score"
+                    >&ndash;</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span
+                    class="irc3-auto-value irc3-auto-value-warn"
+                    id="irc3-nondedp-not-provided"
+                    >{{ NONDEDP_TOTAL }}</span
+                  >
+                </td>
+                <td class="irc3-input-cell">
+                  <input
+                    type="number"
+                    id="irc3-nondedp-target"
+                    class="irc3-input"
+                    min="0"
+                    max="{{ NONDEDP_TOTAL }}"
+                    step="1"
+                    value="0"
+                  />
+                </td>
+              </tr>
+              <tr class="irc3-total-row">
+                <td class="irc3-label-col">
+                  Total No. of Schools
+                  <span class="irc3-row-base">/ {{ GRAND_TOTAL }} schools</span>
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-auto-value" id="irc3-total-ta">0</span>
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-percent-badge" id="irc3-total-ta-percent"
+                    >0%</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-score-badge" id="irc3-total-ta-score"
+                    >&ndash;</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span
+                    class="irc3-auto-value irc3-auto-value-warn"
+                    id="irc3-total-not-provided"
+                    >{{ GRAND_TOTAL }}</span
+                  >
+                </td>
+                <td class="irc3-static-cell">
+                  <span class="irc3-auto-value" id="irc3-total-target">0</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /.irc3-flow -->
+  </div>
+</section>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc3-reset-confirm-overlay" class="irc3-confirm-overlay">
+  <div class="irc3-confirm-box">
+    <h4>Reset all data?</h4>
+    <p>
+      This will permanently clear the Target Number of Schools for both DEDP and
+      Non-DEDP categories for this year. This cannot be undone.
+    </p>
+    <div class="irc3-confirm-actions">
+      <button
+        type="button"
+        id="irc3-reset-confirm-cancel"
+        class="irc3-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc3-reset-confirm-confirm"
+        class="irc3-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc3.js') }}"></script>
+
+{% endblock %}

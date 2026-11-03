@@ -1,0 +1,150 @@
+{% extends "base.html" %} {% import "_macros.html" as macros %} {% block title
+%}OPCRF Part II - EOPCRF_CES{% endblock %} {% block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8b.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8b_print.css') }}"
+/>
+
+<section id="irc8b-tab" class="tab-panel irc8b-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc8b-header">
+    <div class="irc8b-header-top">
+      <div class="irc8b-header-title-main">
+        <span class="irc8b-header-badge">
+          <span class="irc8b-header-badge-group">OPCRF</span>
+          <span class="irc8b-header-badge-page">II</span>
+        </span>
+        <div class="irc8b-header-divider"></div>
+        <div>
+          <h2>Leadership and Core Behavioral Competencies</h2>
+          <p class="irc8b-subtitle">
+            Rate each behavioural indicator under Part II-A: Leadership
+            Competencies and Part II-B: Core Behavioural Competencies.
+          </p>
+        </div>
+      </div>
+      <div class="irc8b-header-actions">
+        <button type="button" id="irc8b-print-btn" class="irc8b-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc8b-reset-btn" class="irc8b-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rating scale: collapsed by default, same pattern as irc8a's "Form details" -->
+  <details class="irc8b-details" id="irc8b-scale-details">
+    <summary>
+      <span class="irc8b-details-icon" aria-hidden="true"
+        ><i class="ti ti-star"></i
+      ></span>
+      <span class="irc8b-details-heading">
+        <span class="irc8b-details-title">Rating scale</span>
+        <span class="irc8b-details-sum"
+          >DepEd Competencies Scale &middot; 5 (Role Model) to 1 (Rarely
+          Demonstrated)</span
+        >
+      </span>
+      <span class="irc8b-details-toggle">
+        <span class="irc8b-when-closed">Click to expand</span>
+        <span class="irc8b-when-open">Collapse</span>
+        <i class="ti ti-chevron-down" aria-hidden="true"></i>
+      </span>
+    </summary>
+    <div class="irc8b-scale">
+      <table class="irc8b-scale-table">
+        <thead>
+          <tr>
+            <th>Numerical Rating</th>
+            <th>Adjectival Rating</th>
+            <th>Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>5</strong></td>
+            <td>Role Model</td>
+            <td>
+              Behavioral indicator is consistently exhibited and is worthy of
+              emulation.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>Consistently Demonstrated</td>
+            <td>Behavioral indicator is constantly shown.</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>Most of the Time Demonstrated</td>
+            <td>Behavioral indicator is often shown.</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>Sometimes Demonstrated</td>
+            <td>Behavioral indicator is irregularly shown.</td>
+          </tr>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>Rarely Demonstrated</td>
+            <td>Behavioral indicator is seldom shown.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- Part II-A / II-B cards (clickable) + total score card; built by irc8b.js -->
+  <div id="irc8b-part-tabs" class="irc8b-part-tabs" role="tablist"></div>
+
+  <!-- Sidebar (competencies) + detail panel (indicators to rate) -->
+  <div id="irc8b-workspace" class="irc8b-workspace">
+    <div class="irc8b-nav-col">
+      <nav id="irc8b-nav" class="irc8b-nav" aria-label="Competencies"></nav>
+    </div>
+    <div id="irc8b-detail" class="irc8b-detail"></div>
+  </div>
+
+  <!-- Ratee (fixed) / Rater -->
+  {{ macros.signatories(['ratee', 'rater']) }}
+</section>
+
+<!-- ================= RESET-PAGE CONFIRMATION MODAL ================= -->
+<div id="irc8b-reset-confirm-overlay" class="irc8b-confirm-overlay">
+  <div class="irc8b-confirm-box">
+    <h4>Reset the contents of this page?</h4>
+    <p>
+      This will delete all data entered on this page. This cannot be undone.
+    </p>
+    <div class="irc8b-confirm-actions">
+      <button
+        type="button"
+        id="irc8b-reset-confirm-cancel"
+        class="irc8b-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc8b-reset-confirm-confirm"
+        class="irc8b-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Print-only copy of the form; built and moved to <body> by irc8b.js -->
+<div id="irc8b-print-root"></div>
+
+<script src="{{ url_for('static', filename='js/irc8b.js') }}"></script>
+
+{% endblock %}

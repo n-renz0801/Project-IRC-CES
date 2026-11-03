@@ -1,0 +1,236 @@
+/* IRC8A print layout -- long bond (8.5 x 13 in), landscape.
+   Only affects printing: the print root is hidden on screen. */
+
+@page {
+  size: 13in 8.5in;
+  margin: 0.35in;
+}
+
+#irc8a-print-root {
+  display: none;
+}
+
+@media print {
+  /* Hide the whole app chrome (nav, footer, the interactive form) without
+     needing to know base.html's markup. */
+  body > *:not(#irc8a-print-root) {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Decorative stripes some layouts draw on html/body via pseudo-elements or
+     borders (e.g. a coloured bar along the top) -- never wanted on paper. */
+  html::before,
+  html::after,
+  body::before,
+  body::after {
+    display: none !important;
+    content: none !important;
+  }
+  html,
+  body {
+    border: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+
+  #irc8a-print-root {
+    display: block;
+    color: #000;
+    font-family: "Arial Narrow", Arial, "Liberation Sans Narrow", sans-serif;
+    font-stretch: condensed;
+    font-size: 6.5pt;
+    line-height: 1.2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  #irc8a-print-root *,
+  #irc8a-print-root *::before,
+  #irc8a-print-root *::after {
+    box-sizing: border-box;
+    font-family: "Arial Narrow", Arial, "Liberation Sans Narrow", sans-serif;
+    font-stretch: condensed;
+  }
+
+  /* ---------- Page header ---------- */
+  .p-annex {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 1px 8px;
+    font-weight: 700;
+    font-size: 8pt;
+  }
+  .p-head,
+  .p-part,
+  .p-annex {
+    box-shadow: none;
+    background: none;
+  }
+  .p-head,
+  .p-part {
+    border: 0;
+    padding: 0;
+  }
+  .p-head::before,
+  .p-head::after,
+  .p-part::before,
+  .p-part::after {
+    content: none;
+    display: none;
+  }
+  .p-head {
+    text-align: center;
+    margin: -6px 0 6px;
+  }
+  .p-header-img {
+    display: block;
+    height: 0.9in;
+    width: auto;
+    margin: 0 auto 3px;
+  }
+  .p-title {
+    font-weight: 700;
+    font-size: 9pt;
+    margin-top: 3px;
+  }
+  .p-ver {
+    font-size: 6.5pt;
+    font-weight: 700;
+  }
+
+  /* ---------- Identifying block ---------- */
+  .p-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 6px;
+  }
+  .p-info th,
+  .p-info td {
+    border: 0.5pt solid #000;
+    padding: 1.5px 4px;
+    text-align: left;
+    font-size: 7pt;
+    height: 13px;
+  }
+  .p-info th {
+    width: 17%;
+    font-weight: 700;
+    background: #f2f2f2;
+  }
+  .p-info td {
+    width: 33%;
+    font-weight: 700;
+    white-space: pre-line;
+  }
+
+  /* ---------- Parts ---------- */
+  .p-part {
+    margin-top: 8px;
+  }
+  .p-part h3 {
+    margin: 0 0 2px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-decoration: underline;
+    break-after: avoid;
+  }
+  .p-intro {
+    margin: 0 0 3px;
+    font-size: 6.5pt;
+    break-after: avoid;
+  }
+
+  .p-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  .p-table th,
+  .p-table td {
+    border: 0.5pt solid #000;
+    padding: 1px 2px;
+    vertical-align: top;
+    text-align: left;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+    font-size: 6pt;
+  }
+  .p-table th {
+    background: #d9d9d9;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 700;
+    white-space: normal;
+  }
+  .p-table .ph-band th {
+    background: #bfbfbf;
+    font-size: 6.5pt;
+  }
+  .p-table thead {
+    display: table-header-group; /* repeat headers on every page */
+  }
+  .p-table tbody.pb-kra {
+    break-inside: avoid;
+  }
+  .p-table tr {
+    break-inside: avoid;
+  }
+  .p-table tbody.pb-total {
+    break-inside: avoid;
+  }
+  .p-table td {
+    height: 17px; /* gives blank rows body, like the paper form */
+  }
+  .p-table .pc-kra {
+    font-weight: 700;
+  }
+  .p-table .pc-meas {
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .p-table .pc-c {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .p-table .pc-link {
+    word-break: break-all;
+    text-decoration: underline;
+  }
+  .p-table .pc-total-label {
+    text-align: right;
+    font-weight: 700;
+    background: #f2f2f2;
+    height: auto;
+  }
+
+  /* ---------- Signatories ---------- */
+  .p-signs {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 28px;
+    break-inside: avoid;
+  }
+  .p-sign {
+    width: 3in;
+    text-align: center;
+  }
+  .p-sign-name {
+    border-bottom: 0.5pt solid #000;
+    min-height: 14px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .p-sign-role {
+    font-size: 7pt;
+    margin-top: 1px;
+  }
+}

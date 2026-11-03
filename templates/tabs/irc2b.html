@@ -1,0 +1,511 @@
+{% extends "base.html" %} {% block title %}IRC2b - SGOD PMES{% endblock %} {%
+block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc2b.css') }}"
+/>
+
+{% set quarters = [ ("Q1", [("jan", "Jan"), ("feb", "Feb"), ("mar", "Mar")]),
+("Q2", [("apr", "Apr"), ("may", "May"), ("jun", "Jun")]), ("Q3", [("jul",
+"Jul"), ("aug", "Aug"), ("sep", "Sep")]), ("Q4", [("oct", "Oct"), ("nov",
+"Nov"), ("dec", "Dec")]) ] %} {% set elementary_schools = [ "Bagong Nayon I ES",
+"Bagong Nayon II ES", "Bagong Nayon IV ES", "Cupang ES", "Dela Paz ES", "Jesus S. Cabarrus ES", "Juan Sumulong ES", "Kaysakat ES", "Lores ES", "Mambugan I ES",
+"Mambugan II ES", "Mayamot ES", "Muntindilaw ES", "Peace Village ES",
+"Peñafrancia ES", "Rizza ES", "San Antonio Village ES", "San Isidro ES", "Tanza ES" ] %} {% set secondary_schools = [ "Antipolo NHS", "Bagong Nayon II NHS",
+"Dalig NHS", "Mambugan NHS", "Maximo L. Gatlabayan MNHS", "San Isidro NHS", "San Jose NHS" ] %} {% macro render_table(schools, section_id, section_label) %} {%
+set icon = "ti-building-community" if section_id == "elementary" else
+"ti-school" %}
+<div class="irc2b-section-card irc2b-section-card-{{ section_id }}">
+  <div class="irc2b-dark-header">
+    <h3>
+      <i class="ti {{ icon }}" aria-hidden="true"></i> {{ section_label }}
+    </h3>
+    <p class="irc2b-subtitle irc2b-subtitle-dark">
+      Monthly TA checklist and coverage trend for {{ section_label }} schools.
+    </p>
+  </div>
+
+  <div class="irc2b-section-card-body">
+    <div class="irc2b-table-wrapper">
+      <table
+        id="irc2b-table-{{ section_id }}"
+        class="irc2b-table"
+        data-section="{{ section_id }}"
+      >
+        <thead>
+          <tr class="irc2b-quarter-row">
+            <th class="irc2b-label-col" rowspan="2">
+              {{ section_label }} School
+            </th>
+            {% for q_key, q_months in quarters %}
+            <th class="irc2b-quarter-col irc2b-quarter-end" colspan="3">
+              {{ q_key }}
+            </th>
+            {% endfor %}
+            <th
+              class="irc2b-total-col irc2b-total-col-clickable"
+              rowspan="2"
+              role="button"
+              tabindex="0"
+              title="Showing total checked months (click to switch to quarters reached)"
+            >
+              <span class="irc2b-total-header-label"
+                >Total<br />(<span class="irc2b-total-mode-text">Months</span
+                >)</span
+              >
+              <span class="irc2b-total-toggle-icon-wrap">
+                <i
+                  class="ti ti-arrows-exchange irc2b-total-toggle-icon-default"
+                  aria-hidden="true"
+                ></i>
+                <i
+                  class="ti ti-click irc2b-total-toggle-icon-hover"
+                  aria-hidden="true"
+                ></i>
+              </span>
+            </th>
+          </tr>
+          <tr class="irc2b-month-row">
+            {% for q_key, q_months in quarters %} {% for key, label in q_months
+            %}
+            <th class="{% if loop.last %}irc2b-quarter-end{% endif %}">
+              {{ label }}
+            </th>
+            {% endfor %} {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for raw_school in schools %} {% set school = raw_school.split() | join(" ") %} {% set row_idx = loop.index0 %}
+          <tr data-row-index="{{ row_idx }}">
+            <td class="irc2b-label-col">
+              <span class="irc2b-school-num">{{ loop.index }}.</span>
+              {{ school }}
+            </td>
+            {% for q_key, q_months in quarters %} {% for key, label in q_months
+            %}
+            <td class="{% if loop.last %}irc2b-quarter-end{% endif %}">
+              <input
+                type="checkbox"
+                class="irc2b-check"
+                data-section="{{ section_id }}"
+                data-row="{{ row_idx }}"
+                data-month="{{ key }}"
+                data-quarter="{{ q_key }}"
+                id="{{ section_id }}-{{ row_idx }}-{{ key }}"
+              />
+            </td>
+            {% endfor %} {% endfor %}
+            <td class="irc2b-total-cell">
+              <span
+                class="irc2b-row-total"
+                data-section="{{ section_id }}"
+                data-row="{{ row_idx }}"
+                data-quarters-total="0"
+                data-months-total="0"
+                >0</span
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr class="irc2b-footer-row">
+            <td class="irc2b-label-col irc2b-footer-label">
+              Schools Provided with TA
+            </td>
+            {% for q_key, q_months in quarters %}
+            <td colspan="3" class="irc2b-quarter-end irc2b-footer-cell">
+              <span
+                class="irc2b-quarter-footer-total"
+                data-section="{{ section_id }}"
+                data-quarter="{{ q_key }}"
+                >0</span
+              >
+            </td>
+            {% endfor %}
+            <td class="irc2b-total-cell irc2b-footer-cell">
+              <span
+                class="irc2b-footer-grand-total"
+                data-section="{{ section_id }}"
+                >0</span
+              >
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Retained directly after this section's table -->
+    <div
+      class="irc2b-linechart-wrapper irc2b-linechart-wrapper-{{ section_id }}"
+    >
+      <div class="irc2b-linechart-header">
+        <div class="irc2b-linechart-title-group">
+          <span
+            class="irc2b-linechart-title irc2b-linechart-title-{{ section_id }}"
+          >
+            <i class="ti {{ icon }}" aria-hidden="true"></i>
+            {{ section_label }} Trend
+          </span>
+          <span class="irc2b-linechart-caption"
+            >Schools provided with TA, per month</span
+          >
+        </div>
+        <div
+          class="irc2b-chart-toggle"
+          data-scope="{{ section_id }}"
+          role="group"
+          aria-label="{{ section_label }} chart interval toggle"
+        >
+          <button
+            type="button"
+            class="irc2b-chart-toggle-btn irc2b-chart-toggle-btn-active"
+            data-chart-mode="monthly"
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            class="irc2b-chart-toggle-btn"
+            data-chart-mode="quarterly"
+          >
+            Quarterly
+          </button>
+        </div>
+      </div>
+      <svg
+        class="irc2b-linechart"
+        viewBox="0 0 760 140"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <line
+          class="irc2b-linechart-grid"
+          x1="44"
+          y1="22"
+          x2="740"
+          y2="22"
+        ></line>
+        <line
+          class="irc2b-linechart-grid"
+          x1="44"
+          y1="65"
+          x2="740"
+          y2="65"
+        ></line>
+        <line
+          class="irc2b-linechart-axis"
+          x1="44"
+          y1="108"
+          x2="740"
+          y2="108"
+        ></line>
+
+        <text
+          class="irc2b-linechart-axis-label"
+          x="38"
+          y="112"
+          text-anchor="end"
+        >
+          0
+        </text>
+        <text
+          class="irc2b-linechart-axis-label"
+          x="38"
+          y="69"
+          text-anchor="end"
+        >
+          {{ (schools|length / 2) | round | int }}
+        </text>
+        <text
+          class="irc2b-linechart-axis-label"
+          x="38"
+          y="26"
+          text-anchor="end"
+        >
+          {{ schools|length }}
+        </text>
+
+        <g id="irc2b-{{ section_id }}-xaxis-group"></g>
+        <g id="irc2b-{{ section_id }}-line-group"></g>
+      </svg>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+<section id="irc2b-tab" class="tab-panel irc2b-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc2b-header">
+    <div class="irc2b-header-top">
+      <div class="irc2b-header-title-main">
+        <span class="irc2b-header-badge">
+          <span class="irc2b-header-badge-group">IRC</span>
+          <span class="irc2b-header-badge-page">2B</span>
+        </span>
+        <div class="irc2b-header-divider"></div>
+        <div>
+          <h2>Frequency of TA Provided to DEDP Priority Schools</h2>
+          <p class="irc2b-subtitle">
+            Check the box for every month a school was provided with Technical
+            Assistance.
+          </p>
+        </div>
+      </div>
+      <div class="irc2b-header-actions">
+        <button type="button" id="irc2b-pdf-btn" class="irc2b-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button
+          type="button"
+          id="irc2b-reset-all-btn"
+          class="irc2b-reset-all-btn"
+          title="Clear every TA checkmark for Elementary and Secondary schools"
+        >
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i>
+          Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% set overall_schools_total = elementary_schools|length +
+  secondary_schools|length %} {% set overall_total = overall_schools_total %}
+
+  <!-- ================= GUIDED FLOW: 1. Overview -> 2. Elementary -> 3. Secondary ================= -->
+  <div class="irc2b-flow">
+    <div class="irc2b-flow-rail" aria-hidden="true">
+      <span class="irc2b-flow-badge">1</span>
+      <span class="irc2b-flow-badge">2</span>
+      <span class="irc2b-flow-badge">3</span>
+    </div>
+
+    <!-- 2. COVERAGE DASHBOARD (shown first, before data input) -->
+    <div class="irc2b-flow-section irc2b-flow-section-1">
+      <p class="irc2b-flow-label">Coverage overview</p>
+
+      <div class="irc2b-coverage-card">
+        <div class="irc2b-dark-header">
+          <h3>TA Coverage Summary</h3>
+          <p class="irc2b-subtitle irc2b-subtitle-dark">
+            Share of DEDP priority schools provided with TA, by level.
+          </p>
+        </div>
+        <div class="irc2b-coverage-card-body">
+          <div class="irc2b-coverage-row">
+            <div class="irc2b-coverage-hero irc2b-coverage-hero-elementary">
+              <span
+                class="irc2b-coverage-hero-value"
+                id="irc2b-elementary-percent"
+                >0%</span
+              >
+              <span class="irc2b-coverage-hero-label">Elementary</span>
+            </div>
+            <div class="irc2b-coverage-bar-wrap">
+              <div
+                class="irc2b-coverage-bar-track irc2b-coverage-bar-track-elementary"
+              >
+                <div
+                  class="irc2b-coverage-bar-fill irc2b-coverage-bar-fill-elementary"
+                  id="irc2b-elementary-bar"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <div
+                class="irc2b-coverage-bar-meta irc2b-coverage-bar-meta-elementary"
+              >
+                <span class="irc2b-coverage-bar-meta-value">
+                  <span id="irc2b-elementary-count">0</span>/{{
+                  elementary_schools|length }}
+                </span>
+                <span class="irc2b-coverage-bar-meta-label">Schools</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="irc2b-coverage-divider"></div>
+
+          <div class="irc2b-coverage-row">
+            <div class="irc2b-coverage-hero irc2b-coverage-hero-secondary">
+              <span
+                class="irc2b-coverage-hero-value"
+                id="irc2b-secondary-percent"
+                >0%</span
+              >
+              <span class="irc2b-coverage-hero-label">Secondary</span>
+            </div>
+            <div class="irc2b-coverage-bar-wrap">
+              <div
+                class="irc2b-coverage-bar-track irc2b-coverage-bar-track-secondary"
+              >
+                <div
+                  class="irc2b-coverage-bar-fill irc2b-coverage-bar-fill-secondary"
+                  id="irc2b-secondary-bar"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <div
+                class="irc2b-coverage-bar-meta irc2b-coverage-bar-meta-secondary"
+              >
+                <span class="irc2b-coverage-bar-meta-value">
+                  <span id="irc2b-secondary-count">0</span>/{{
+                  secondary_schools|length }}
+                </span>
+                <span class="irc2b-coverage-bar-meta-label">Schools</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="irc2b-coverage-divider"></div>
+
+          <div class="irc2b-coverage-overall">
+            <span class="irc2b-coverage-overall-label">Overall coverage</span>
+            <span class="irc2b-coverage-overall-value">
+              <span id="irc2b-overall-count">0</span> of {{
+              overall_schools_total }} schools (<span id="irc2b-overall-percent"
+                >0%</span
+              >)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="irc2b-linechart-wrapper irc2b-linechart-wrapper-overall">
+        <div class="irc2b-linechart-header">
+          <div class="irc2b-linechart-title-group">
+            <span class="irc2b-linechart-title irc2b-linechart-title-overall">
+              <i class="ti ti-chart-line" aria-hidden="true"></i>
+              Overall Trend (Elementary + Secondary)
+            </span>
+            <span class="irc2b-linechart-caption"
+              >Total schools (Elementary + Secondary) provided with TA, per
+              month</span
+            >
+          </div>
+          <div
+            class="irc2b-chart-toggle"
+            data-scope="overall"
+            role="group"
+            aria-label="Overall chart interval toggle"
+          >
+            <button
+              type="button"
+              class="irc2b-chart-toggle-btn irc2b-chart-toggle-btn-active"
+              data-chart-mode="monthly"
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              class="irc2b-chart-toggle-btn"
+              data-chart-mode="quarterly"
+            >
+              Quarterly
+            </button>
+          </div>
+        </div>
+        <svg
+          class="irc2b-linechart"
+          viewBox="0 0 760 140"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <line
+            class="irc2b-linechart-grid"
+            x1="44"
+            y1="22"
+            x2="740"
+            y2="22"
+          ></line>
+          <line
+            class="irc2b-linechart-grid"
+            x1="44"
+            y1="65"
+            x2="740"
+            y2="65"
+          ></line>
+          <line
+            class="irc2b-linechart-axis"
+            x1="44"
+            y1="108"
+            x2="740"
+            y2="108"
+          ></line>
+
+          <text
+            class="irc2b-linechart-axis-label"
+            x="38"
+            y="112"
+            text-anchor="end"
+          >
+            0
+          </text>
+          <text
+            class="irc2b-linechart-axis-label"
+            x="38"
+            y="69"
+            text-anchor="end"
+          >
+            {{ (overall_total / 2) | round | int }}
+          </text>
+          <text
+            class="irc2b-linechart-axis-label"
+            x="38"
+            y="26"
+            text-anchor="end"
+          >
+            {{ overall_total }}
+          </text>
+
+          <g id="irc2b-overall-xaxis-group"></g>
+          <g id="irc2b-overall-line-group"></g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 3. ELEMENTARY -->
+    <div class="irc2b-flow-section irc2b-flow-section-2">
+      <p class="irc2b-flow-label">Elementary</p>
+      {{ render_table(elementary_schools, "elementary", "Elementary") }}
+    </div>
+
+    <!-- 4. SECONDARY -->
+    <div class="irc2b-flow-section irc2b-flow-section-3">
+      <p class="irc2b-flow-label">Secondary</p>
+      {{ render_table(secondary_schools, "secondary", "Secondary") }}
+    </div>
+    <!-- /.irc2b-flow -->
+  </div>
+</section>
+
+<!-- ================= RESET CONFIRMATION MODAL ================= -->
+<div id="irc2b-reset-confirm-overlay" class="irc2b-confirm-overlay">
+  <div class="irc2b-confirm-box">
+    <h4>Reset all data?</h4>
+    <p>
+      This will permanently clear every TA checkmark for Elementary and
+      Secondary schools this year. This cannot be undone.
+    </p>
+    <div class="irc2b-confirm-actions">
+      <button
+        type="button"
+        id="irc2b-reset-confirm-cancel"
+        class="irc2b-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc2b-reset-confirm-confirm"
+        class="irc2b-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/irc2b.js') }}"></script>
+
+{% endblock %}

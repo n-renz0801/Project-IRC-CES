@@ -1,0 +1,385 @@
+/* IRC8C - Part III: Summary of Ratings (read-only) */
+
+.irc8c-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc8c-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc8c-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc8c-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc8c-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc8c-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc8c-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc8c-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc8c-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #8695a8;
+  line-height: 1.4;
+}
+
+.irc8c-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button (same look as the IRC1a page's) */
+.irc8c-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc8c-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc8c-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc8c-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.irc8c-form-ref {
+  margin: 0 0 10px 2px;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-3) tying the summary table, the PMES
+   rating table, and the Ratee-Rater Agreement together as a top-to-bottom
+   sequence, copied from IRC8c's .irc8c-flow.
+------------------------------------------------------------------ */
+
+.irc8c-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc8c-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc8c-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc8c-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc8c-flow-section-1,
+.irc8c-flow-section-2,
+.irc8c-flow-section-3 {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.irc8c-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc8c-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc8c-flow-section-3 {
+  grid-row: 3;
+}
+
+.irc8c-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ---------- Cards (same look as IRC8c's .irc8c-card) ---------- */
+
+.irc8c-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.irc8c-card-header {
+  padding: 16px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+}
+
+.irc8c-card-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.irc8c-subtitle-dark {
+  margin: 4px 0 0 0;
+  font-size: 12.5px;
+  color: #9aa7b8;
+  line-height: 1.5;
+}
+
+/* ---------- Tables ---------- */
+
+.irc8c-table-wrap {
+  overflow-x: auto;
+}
+
+.irc8c-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 13px;
+  color: #1f2937;
+}
+
+.irc8c-table th,
+.irc8c-table td {
+  border: 1px solid #e2e5ea;
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.irc8c-table tr > :first-child {
+  border-left: none;
+}
+
+.irc8c-table tr > :last-child {
+  border-right: none;
+}
+
+.irc8c-table thead tr:first-child > th {
+  border-top: none;
+}
+
+.irc8c-table tbody tr:last-child > *,
+.irc8c-table tbody tr:last-child > td {
+  border-bottom: none;
+}
+
+.irc8c-table thead th {
+  background: #eef0f3;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  color: #374151;
+}
+
+.irc8c-part-cell {
+  background: #f7f8fa;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  width: 80px;
+  color: #374151;
+}
+
+.irc8c-component {
+  min-width: 220px;
+}
+
+.irc8c-center {
+  text-align: center;
+}
+
+.irc8c-score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #1f2937;
+}
+
+.irc8c-overall {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #1f2937;
+}
+
+.irc8c-pmes {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4a6fa5;
+}
+
+.irc8c-pmes--outstanding {
+  color: #1f8a43;
+}
+.irc8c-pmes--very-satisfactory {
+  color: #2f6fb8;
+}
+.irc8c-pmes--satisfactory {
+  color: #b57a00;
+}
+.irc8c-pmes--unsatisfactory,
+.irc8c-pmes--poor {
+  color: #c0392b;
+}
+
+/* ---------- Ratee-Rater Agreement ----------
+   Uses base.css's .report-signatory-grid / -block / -label / -person /
+   -avatar / -info / -name classes; only the pieces below are new. */
+
+.irc8c-sign-name {
+  min-height: 1.4em;
+  overflow-wrap: anywhere;
+}
+
+.irc8c-load-error {
+  text-align: center;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  color: #c0392b;
+  border: 1.5px dashed #f2b8b0;
+  border-radius: 12px;
+  background: #fdf3f2;
+  font-size: 13px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .irc8c-header-actions {
+    width: 100%;
+  }
+
+  .irc8c-pdf-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc8c-header h2 {
+    font-size: 21px;
+  }
+
+  .irc8c-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc8c-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc8c-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc8c-header-divider {
+    height: 44px;
+  }
+}

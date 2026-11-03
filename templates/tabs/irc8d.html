@@ -1,0 +1,222 @@
+{% extends "base.html" %} {% import "_macros.html" as macros %} {% block title
+%}OPCRF Part IV - EOPCRF_CES{% endblock %} {% block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8d.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/irc8d_print.css') }}"
+/>
+
+<section id="irc8d-tab" class="tab-panel irc8d-panel">
+  <!-- ================= 1. PAGE HEADER ================= -->
+  <div class="irc8d-header">
+    <div class="irc8d-header-top">
+      <div class="irc8d-header-title-main">
+        <span class="irc8d-header-badge">
+          <span class="irc8d-header-badge-group">OPCRF</span>
+          <span class="irc8d-header-badge-page">IV</span>
+        </span>
+        <div class="irc8d-header-divider"></div>
+        <div>
+          <h2>IMPROVEMENT AND DEVELOPMENT PLANS</h2>
+          <p class="irc8d-subtitle">DepEd OPCRF (ver.Feb2025), page 4 of 4</p>
+        </div>
+      </div>
+      <div class="irc8d-header-actions">
+        <button type="button" id="irc8d-print-btn" class="irc8d-pdf-btn">
+          <i class="ti ti-file-type-pdf" aria-hidden="true"></i> Save to PDF
+        </button>
+        <button type="button" id="irc8d-reset-btn" class="irc8d-reset-btn">
+          <i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset All Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GUIDED FLOW: 1. Part IV-A -> 2. Part IV-B (Ratee / Rater / Approving Authority sign off in the signatories block below) ================= -->
+  <div class="irc8d-flow">
+    <div class="irc8d-flow-rail" aria-hidden="true">
+      <span class="irc8d-flow-badge">1</span>
+      <span class="irc8d-flow-badge">2</span>
+    </div>
+
+    <!-- 1. PART IV-A: OFFICE IMPROVEMENT PLAN -->
+    <div class="irc8d-flow-section irc8d-flow-section-1">
+      <p class="irc8d-flow-label">Office gaps &amp; interventions</p>
+      <div class="irc8d-card">
+        <div class="irc8d-card-header">
+          <h3>Part IV-A: Office Improvement Plan</h3>
+        </div>
+        <div class="irc8d-table-wrapper">
+          <table id="irc8d-table-a" class="irc8d-dev-table">
+            <colgroup>
+              <col class="irc8d-col-edit" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+            </colgroup>
+            <thead>
+              <tr class="irc8d-head-top">
+                <th rowspan="2" class="irc8d-col-edit"></th>
+                <th rowspan="2">
+                  Gap Analysis<br /><span class="irc8d-th-sub">(SWOT)</span>
+                </th>
+                <th rowspan="2">Improvement Area</th>
+                <th colspan="2" class="irc8d-th-group">Action Plan</th>
+                <th rowspan="2">Timeline</th>
+                <th rowspan="2">Resources Needed</th>
+              </tr>
+              <tr class="irc8d-head-sub">
+                <th>General Objective</th>
+                <th>Recommended Improvement Intervention</th>
+              </tr>
+            </thead>
+            <tbody id="irc8d-table-body-a">
+              <!-- rows injected by irc8d.js -->
+            </tbody>
+          </table>
+        </div>
+        <div class="irc8d-feedback">
+          <label class="irc8d-feedback-label" for="irc8d-feedback-a"
+            >Feedback:</label
+          >
+          <textarea
+            id="irc8d-feedback-a"
+            class="irc8d-feedback-input"
+            data-part="A"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PART IV-B: INDIVIDUAL DEVELOPMENT PLAN -->
+    <div class="irc8d-flow-section irc8d-flow-section-2">
+      <p class="irc8d-flow-label">Ratee strengths &amp; needs</p>
+      <div class="irc8d-card">
+        <div class="irc8d-card-header">
+          <h3>Part IV-B: Individual Development Plan</h3>
+        </div>
+        <div class="irc8d-table-wrapper">
+          <table id="irc8d-table-b" class="irc8d-dev-table">
+            <colgroup>
+              <col class="irc8d-col-edit" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+              <col class="irc8d-col-content" />
+            </colgroup>
+            <thead>
+              <tr class="irc8d-head-top">
+                <th rowspan="2" class="irc8d-col-edit"></th>
+                <th rowspan="2">Strengths</th>
+                <th rowspan="2">Improvement Needs</th>
+                <th colspan="2" class="irc8d-th-group">Action Plan</th>
+                <th rowspan="2">Timeline</th>
+                <th rowspan="2">Resources Needed</th>
+              </tr>
+              <tr class="irc8d-head-sub">
+                <th>
+                  Learning Objective<br /><span class="irc8d-th-sub"
+                    >(based on the developmental intervention)</span
+                  >
+                </th>
+                <th>Recommended Developmental Intervention</th>
+              </tr>
+            </thead>
+            <tbody id="irc8d-table-body-b">
+              <!-- rows injected by irc8d.js -->
+            </tbody>
+          </table>
+        </div>
+        <div class="irc8d-feedback">
+          <label class="irc8d-feedback-label" for="irc8d-feedback-b"
+            >Feedback:</label
+          >
+          <textarea
+            id="irc8d-feedback-b"
+            class="irc8d-feedback-input"
+            data-part="B"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- /.irc8d-flow -->
+  </div>
+
+  <!-- Ratee (fixed) / Rater / Approving Authority -->
+  {{ macros.signatories(['ratee', 'rater', 'authority']) }}
+</section>
+
+<!-- ================= ROW EDIT MODAL (opened by each row's edit button) ================= -->
+<div id="irc8d-edit-overlay" class="irc8d-edit-overlay">
+  <form
+    id="irc8d-edit-form"
+    class="irc8d-edit-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="irc8d-edit-title"
+    novalidate
+  >
+    <div class="irc8d-edit-header">
+      <h4 id="irc8d-edit-title">Edit row</h4>
+      <p id="irc8d-edit-sub" class="irc8d-edit-sub"></p>
+    </div>
+    <div id="irc8d-edit-fields" class="irc8d-edit-fields">
+      <!-- fields injected by irc8d.js -->
+    </div>
+    <p id="irc8d-edit-error" class="irc8d-edit-error" hidden></p>
+    <div class="irc8d-edit-actions">
+      <button type="button" id="irc8d-edit-cancel" class="irc8d-btn-secondary">
+        Cancel
+      </button>
+      <button type="submit" id="irc8d-edit-submit" class="irc8d-btn-primary">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- ================= RESET-PAGE CONFIRMATION MODAL ================= -->
+<div id="irc8d-reset-confirm-overlay" class="irc8d-confirm-overlay">
+  <div class="irc8d-confirm-box">
+    <h4>Reset the contents of this page?</h4>
+    <p>
+      This will clear every row in Part IV-A and Part IV-B, along with both
+      Feedback boxes, back to blank and locked. This cannot be undone.
+    </p>
+    <div class="irc8d-confirm-actions">
+      <button
+        type="button"
+        id="irc8d-reset-confirm-cancel"
+        class="irc8d-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="irc8d-reset-confirm-confirm"
+        class="irc8d-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Print-only copy of the form; built and moved to <body> by irc8d.js -->
+<div id="irc8d-print-root"></div>
+
+<script src="{{ url_for('static', filename='js/irc8d.js') }}"></script>
+
+{% endblock %}

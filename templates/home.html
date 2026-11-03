@@ -1,0 +1,276 @@
+{% extends "base.html" %} {% block title %}Home - SGOD PMES{% endblock %} {%
+block extra_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home-upload.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="dashboard-header">
+  <!-- Row 1: Org masthead -->
+  <div class="header-admin-bar">
+    <div class="masthead-org">
+      <span class="org-name">Schools Division Office of Antipolo City</span>
+      <span class="org-sgod"
+        >School Governance and Operations Division (SGOD)</span
+      >
+    </div>
+  </div>
+
+  <!-- Row 2: Title row -->
+  <div class="header-title-bar">
+    <div class="header-title-bar-main">
+      <img
+        src="{{ url_for('static', filename='images/project_irc.png') }}"
+        alt="Project IRC Logo"
+        class="masthead-irc-logo"
+      />
+      <div class="masthead-divider"></div>
+
+      <!-- Grid so each preparer field's bottom edge lines up exactly with
+           the title-block row it sits beside: row 1 = title / greeting,
+           row 2 = subtitle / position (see .masthead-row-grid, home.css). -->
+      <div class="masthead-row-grid">
+        <h1 class="dashboard-title">Project IRC</h1>
+
+        <!-- "Prepared by" name, shown at the bottom of every IRC1a-IRC9
+             page (see base.html). Saved automatically as the user types
+             (see index.js) -- no Save button, and untouched by every
+             page's own Reset. -->
+        <p class="masthead-preparer-greeting">
+          Welcome,
+          <input
+            type="text"
+            id="homePreparerName"
+            class="masthead-preparer-input masthead-preparer-input--name"
+            placeholder="Your name"
+            value="{{ preparer.name }}"
+            autocomplete="off"
+          />!
+        </p>
+
+        <p class="dashboard-subtitle">
+          <span class="irc-letter">I</span>ndividual
+          <span class="irc-cdot">·</span>
+          <span class="irc-letter">R</span>eport
+          <span class="irc-cdot">·</span>
+          <span class="irc-letter">C</span>ard
+        </p>
+
+        <input
+          type="text"
+          id="homePreparerPosition"
+          class="masthead-preparer-input masthead-preparer-input--position"
+          placeholder="Position"
+          value="{{ preparer.position }}"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="page-instruction">
+  Select a report card below or from the navigation bar above to get started.
+</p>
+
+<div class="content__body">
+  <div class="irc-cards-grid">
+    {% set card_colors = ['navy', 'gold', 'teal', 'violet'] %} {% for group in
+    groups %}
+    <div class="carousel-card card-color-{{ card_colors[loop.index0 % 4] }}">
+      <div class="carousel-card-body">
+        <p class="carousel-card__code">{{ group.code }}</p>
+        {# Single-report groups map 1:1 to one IRC, so the label can name that
+        specific report. Multi-report groups (1, 2, 8) cover more than one IRC
+        at once, so the generic group label stays here and each row below
+        carries its own specific description instead. #}
+        <p class="carousel-card__label">
+          {% if group.tabs|length == 1 %}{{ group.tabs[0].desc }}{% else %}{{
+          group.label }}{% endif %}
+        </p>
+      </div>
+
+      {% if group.tabs|length == 1 %} {# Single-report group: whole card is one
+      link #}
+      <a
+        href="{{ url_for('view_tab', tab_id=group.tabs[0].id) }}"
+        class="carousel-card__link"
+      ></a>
+      <i class="ti ti-arrow-right carousel-card__arrow" aria-hidden="true"></i>
+      {% else %} {# Multi-part group: one full-width row per sub-report #}
+      <div class="carousel-card__rows">
+        {% for tab in group.tabs %}
+        <a
+          href="{{ url_for('view_tab', tab_id=tab.id) }}"
+          class="carousel-card__row"
+          title="{{ tab.desc }}"
+        >
+          <span>{{ tab.short }}</span>
+          <i class="ti ti-chevron-right" aria-hidden="true"></i>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ================= Centralized Upload Section ================= -->
+<!-- The toggle button lives in the navbar (see base.html); hovering or
+     clicking it slides this panel in from the left edge of the screen. -->
+<div class="home-upload-hamburger-panel" id="homeUploadHamburgerPanel">
+  <!-- Monthly file manager: one fixed row per month of the current year.
+       The whole card doubles as the upload drop target now. -->
+  <div
+    class="home-uploads-card home-uploads-card--full"
+    id="homeUploadDropzone"
+  >
+    <div class="home-uploads-card-header">
+      <h3>Monthly Files</h3>
+      <div class="home-uploads-card-header-action">
+        <button
+          type="button"
+          class="home-upload-reset-btn"
+          id="homeUploadResetBtn"
+        >
+          <i class="ti ti-trash" style="margin-right: 6px"></i> Reset
+        </button>
+        <input
+          type="file"
+          id="homeUploadInput"
+          accept=".pdf"
+          style="display: none"
+        />
+        <button type="button" class="home-upload-btn" id="homeUploadBtn">
+          <i class="ti ti-upload" style="margin-right: 6px"></i> Upload PDF
+        </button>
+      </div>
+    </div>
+    <ul
+      id="homeMonthGrid"
+      class="home-month-grid"
+      data-year="{{ current_year }}"
+    >
+      {% for row in month_grid %}
+      <li
+        class="home-month-row{% if not row.file %} home-month-row--empty{% endif %}"
+        data-month-key="{{ row.month_key }}"
+        {%
+        if
+        row.file
+        %}data-file-id="{{ row.file.id }}"
+        {%
+        endif
+        %}
+      >
+        <span class="home-month-row-label">{{ row.month_label }}</span>
+        {% if row.file %}
+        <span
+          class="home-month-row-filename"
+          title="{{ row.file.original_filename }}"
+          >{{ row.file.original_filename }}</span
+        >
+        <button
+          type="button"
+          class="home-month-row-delete"
+          data-file-id="{{ row.file.id }}"
+          title="Delete this file and everything extracted from it"
+        >
+          <i class="ti ti-trash" aria-hidden="true"></i>
+        </button>
+        {% else %}
+        <span class="home-month-row-empty">No file uploaded yet</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<p id="homeUploadStatus" class="home-upload-status" hidden></p>
+
+<!-- One upload can feed several report cards at once (IRC1a ratings,
+     IRC1b customer count, IRC2a school list, ...). Each section found in
+     the PDF is shown here, editable, with its own include/skip toggle,
+     before anything is written to the database. Rendered as a modal so it
+     doesn't push the page layout around. -->
+<div class="home-upload-modal-overlay" id="homeUploadModalOverlay" hidden>
+  <div
+    class="home-upload-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="homeUploadModalTitle"
+  >
+    <div class="home-upload-modal-header">
+      <h2 id="homeUploadModalTitle">Review Extracted Data</h2>
+      <button
+        type="button"
+        class="home-upload-modal-close"
+        id="homeUploadModalClose"
+        aria-label="Close"
+      >
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="home-upload-modal-body">
+      <p id="homeUploadReviewHint" class="home-upload-review-hint"></p>
+      <div
+        id="homeUploadReviewSections"
+        class="home-upload-review-sections"
+      ></div>
+    </div>
+
+    <div class="home-upload-modal-footer">
+      <button
+        type="button"
+        class="home-upload-btn home-upload-btn--confirm"
+        id="homeUploadReviewConfirm"
+      >
+        Confirm Import
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESET-ALL CONFIRMATION MODAL ================= -->
+<!-- Same visual pattern/markup as IRC6's reset-confirmation modal (see
+     irc6.html) -- single scope, no options, since Reset here always
+     means "every uploaded file for this year". -->
+<div
+  id="homeUploadResetConfirmOverlay"
+  class="home-upload-reset-confirm-overlay"
+>
+  <div class="home-upload-reset-confirm-box">
+    <h4>Reset all monthly files?</h4>
+    <p>
+      This will delete every uploaded file for this year, along with everything
+      extracted from them (ratings, counts, and school statuses) across all 12
+      months. This cannot be undone.
+    </p>
+    <div class="home-upload-reset-confirm-actions">
+      <button
+        type="button"
+        id="homeUploadResetConfirmCancel"
+        class="home-upload-btn-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="homeUploadResetConfirmConfirm"
+        class="home-upload-btn-danger"
+      >
+        Yes, Reset
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script src="{{ url_for('static', filename='js/home_upload.js') }}"></script>
+{% endblock %}

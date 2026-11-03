@@ -1,0 +1,1672 @@
+/* IRC2b - Frequency of TA Provided to DEDP Priority Schools - CSS Stylesheet */
+/* Restyled to match IRC1a's analytics-first, guided-flow design language. */
+
+.irc2b-panel {
+  /* Local palette for this page — elementary/secondary scheme shared
+     between the stat cards, chart section, and line charts. */
+  --irc2b-elementary: rgb(180, 83, 9);
+  --irc2b-elementary-dark: rgb(140, 65, 7);
+  --irc2b-elementary-darker: rgb(74, 34, 4);
+  --irc2b-elementary-light: rgb(217, 119, 6);
+  --irc2b-elementary-hover: rgba(180, 83, 9, 0.08);
+  --irc2b-secondary: rgb(4, 120, 87);
+  --irc2b-secondary-dark: rgb(3, 90, 65);
+  --irc2b-secondary-darker: rgb(2, 46, 33);
+  --irc2b-secondary-light: rgb(5, 150, 105);
+  --irc2b-secondary-hover: rgba(4, 120, 87, 0.08);
+  --irc2b-gold: #fcd116;
+  /* Combined elem+secondary "overall" scope — neutral slate to match
+     the dark section-header color, since it represents the page's
+     combined totals rather than either individual level. */
+  --irc2b-overall: rgb(31, 41, 55);
+  --irc2b-overall-dark: rgb(17, 24, 39);
+  --irc2b-overall-light: rgb(75, 85, 99);
+}
+
+.irc2b-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #e0e0e0;
+}
+
+.irc2b-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.irc2b-header-title-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.irc2b-header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  background: var(--navy-deep, #001550);
+  border-radius: 10px;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.irc2b-header-badge-group {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.irc2b-header-badge-page {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.irc2b-header-divider {
+  width: 4px;
+  height: 54px;
+  background: var(--navy-deep, #001550);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.irc2b-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--navy-deep, #001550);
+  text-transform: uppercase;
+}
+
+.irc2b-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 760px;
+}
+
+.irc2b-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Save to PDF button — matches IRC1a's Save to PDF button styling */
+.irc2b-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  background: #fff;
+  color: #185fa5;
+  border: 1.5px solid #cfe0f2;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc2b-pdf-btn i {
+  font-size: 13px;
+}
+
+.irc2b-pdf-btn:hover {
+  background: #eaf2fb;
+  border-color: #185fa5;
+}
+
+.irc2b-pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---- Reset All Data — quiet by default, reads as destructive on hover ---- */
+/* Reset-all-data button — matches IRC1a's reset button styling */
+.irc2b-reset-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  appearance: none;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #dc2626;
+  background: #fff;
+  border: 1.5px solid #f3b4b4;
+  border-radius: 7px;
+  padding: 7px 14px;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.irc2b-reset-all-btn i {
+  font-size: 13px;
+}
+
+.irc2b-reset-all-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.irc2b-reset-all-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------------------
+   Guided Flow — numbered rail (1-2-3) tying the coverage dashboard,
+   Elementary section, and Secondary section together as a
+   top-to-bottom sequence.
+------------------------------------------------------------------ */
+
+.irc2b-flow {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 20px;
+  row-gap: 1.25rem;
+}
+
+.irc2b-flow-rail {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  position: relative;
+}
+
+.irc2b-flow-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--border-strong, #d0d5dd);
+  transform: translateX(-50%);
+}
+
+.irc2b-flow-badge {
+  align-self: start;
+  justify-self: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1f2937;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.irc2b-flow-section-1,
+.irc2b-flow-section-2,
+.irc2b-flow-section-3 {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.irc2b-flow-section-1 {
+  grid-row: 1;
+}
+
+.irc2b-flow-section-2 {
+  grid-row: 2;
+}
+
+.irc2b-flow-section-3 {
+  grid-row: 3;
+}
+
+.irc2b-flow-label {
+  margin: 20px 0 10px 2px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   Shared dark card header band — marks a card as "analytics/summary"
+   or as a section's title band, matching IRC1a's dark-header look.
+------------------------------------------------------------------ */
+
+.irc2b-dark-header {
+  background: linear-gradient(160deg, #1f2937 0%, #2d3f57 100%);
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc2b-dark-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #fff;
+}
+
+.irc2b-dark-header h3 i {
+  font-size: 16px;
+}
+
+.irc2b-subtitle-dark {
+  color: #9aa7b8;
+}
+
+.irc2b-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.irc2b-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.irc2b-confirm-overlay.visible {
+  display: flex;
+}
+
+.irc2b-confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.irc2b-confirm-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.irc2b-confirm-box p {
+  margin: 0 0 20px 0;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.irc2b-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.irc2b-btn-secondary,
+.irc2b-btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irc2b-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.irc2b-btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+.irc2b-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.irc2b-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ------------------------------------------------------------------
+   Dashboard — consolidated "TA Coverage Summary" card, styled after
+   IRC2a's coverage-row pattern: a big hero percentage with its label
+   underneath, paired with a thick bar sized to match the hero's own
+   line-height. Replaces the old pair of gradient stat cards + separate
+   bar-chart section, which repeated the same two percentages twice
+   over, and also replaces this card's own first draft (a compact
+   hero + thin progress rows), which under-emphasized the per-level
+   numbers relative to IRC2a's convention.
+------------------------------------------------------------------ */
+
+.irc2b-coverage-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.irc2b-coverage-card-body {
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.irc2b-coverage-row {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  padding: 6px 0;
+}
+
+/* ---- Hero: big % with its label centered underneath ---- */
+.irc2b-coverage-hero {
+  flex: 0 0 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.irc2b-coverage-hero-value {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.irc2b-coverage-hero-elementary .irc2b-coverage-hero-value {
+  color: var(--irc2b-elementary-dark);
+}
+
+.irc2b-coverage-hero-secondary .irc2b-coverage-hero-value {
+  color: var(--irc2b-secondary-dark);
+}
+
+.irc2b-coverage-hero-label {
+  font-size: 12.5px;
+  line-height: 16px;
+  color: #5b6b80;
+  margin-top: 6px;
+}
+
+/* ---- Thick bar: track stretches to fill the row's full height, with
+   a matching two-row count block (fraction / "Schools") to its right
+   that mirrors the hero's own value/label typography exactly. ---- */
+.irc2b-coverage-bar-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.irc2b-coverage-bar-track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.irc2b-coverage-bar-track-elementary {
+  background: rgba(180, 83, 9, 0.12);
+}
+
+.irc2b-coverage-bar-track-secondary {
+  background: rgba(4, 120, 87, 0.12);
+}
+
+.irc2b-coverage-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  min-width: 3px;
+  border-radius: 6px;
+  transition: width 0.25s ease;
+}
+
+.irc2b-coverage-bar-fill-elementary {
+  background: var(--irc2b-elementary);
+}
+
+.irc2b-coverage-bar-fill-secondary {
+  background: var(--irc2b-secondary);
+}
+
+.irc2b-coverage-bar-meta {
+  flex: 0 0 64px;
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.irc2b-coverage-bar-meta-value {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 40px;
+  white-space: nowrap;
+}
+
+.irc2b-coverage-bar-meta-elementary .irc2b-coverage-bar-meta-value {
+  color: var(--irc2b-elementary-dark);
+}
+
+.irc2b-coverage-bar-meta-secondary .irc2b-coverage-bar-meta-value {
+  color: var(--irc2b-secondary-dark);
+}
+
+.irc2b-coverage-bar-meta-label {
+  font-size: 12.5px;
+  line-height: 16px;
+  color: #5b6b80;
+  margin-top: 6px;
+}
+
+.irc2b-coverage-divider {
+  height: 1px;
+  background: #eee;
+  margin: 4px 0;
+}
+
+/* ---- Quiet overall summary line beneath both level rows ---- */
+.irc2b-coverage-overall {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.irc2b-coverage-overall-label {
+  font-size: 13px;
+  color: #5b6b80;
+}
+
+.irc2b-coverage-overall-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .irc2b-coverage-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .irc2b-coverage-hero {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .irc2b-coverage-bar-wrap {
+    justify-content: center;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Section cards — Elementary / Secondary: dark section header band
+   (icon + label + subtitle) wrapping that level's table and its own
+   retained trend chart, directly below the table, in one card.
+------------------------------------------------------------------ */
+
+.irc2b-section-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.irc2b-section-card-elementary .irc2b-dark-header {
+  background: linear-gradient(
+    160deg,
+    var(--irc2b-elementary-darker) 0%,
+    var(--irc2b-elementary-dark) 100%
+  );
+}
+
+.irc2b-section-card-secondary .irc2b-dark-header {
+  background: linear-gradient(
+    160deg,
+    var(--irc2b-secondary-darker) 0%,
+    var(--irc2b-secondary-dark) 100%
+  );
+}
+
+.irc2b-section-card-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.irc2b-section-card-body .irc2b-table-wrapper {
+  margin-bottom: 16px;
+}
+
+.irc2b-section-card-body .irc2b-linechart-wrapper {
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------
+   Main Table — dark header, quarter groups over month sub-columns
+------------------------------------------------------------------ */
+
+.irc2b-table-wrapper {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.irc2b-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.irc2b-table thead {
+  background: #1f2937;
+}
+
+.irc2b-table[data-section="elementary"] thead,
+.irc2b-table[data-section="elementary"] thead th {
+  background: var(--irc2b-elementary-darker);
+}
+
+.irc2b-table[data-section="secondary"] thead,
+.irc2b-table[data-section="secondary"] thead th {
+  background: var(--irc2b-secondary-darker);
+}
+
+.irc2b-table thead th {
+  padding: 10px 6px;
+  text-align: center;
+  font-weight: 600;
+  color: #f3f4f6;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1f2937;
+}
+
+.irc2b-quarter-row th {
+  padding-top: 12px;
+  padding-bottom: 8px;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+.irc2b-month-row {
+  border-bottom: 3px solid #4a6fa5;
+}
+
+.irc2b-table[data-section="elementary"] .irc2b-month-row {
+  border-bottom-color: var(--irc2b-elementary);
+}
+
+.irc2b-table[data-section="secondary"] .irc2b-month-row {
+  border-bottom-color: var(--irc2b-secondary);
+}
+
+.irc2b-month-row th {
+  padding-top: 6px;
+  padding-bottom: 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #d3d8e0;
+}
+
+.irc2b-table thead th:last-child {
+  border-right: none;
+}
+
+.irc2b-label-col {
+  width: 240px;
+  text-align: left !important;
+  padding-left: 14px !important;
+}
+
+/* ---- Total column header: clickable to toggle Quarters/Months ---- */
+.irc2b-total-col {
+  width: 92px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.irc2b-total-col-clickable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+.irc2b-total-col-clickable:hover {
+  background: #2d3947;
+}
+
+.irc2b-total-col-clickable:active {
+  background: #35455a;
+}
+
+.irc2b-total-header-label {
+  display: block;
+}
+
+.irc2b-total-mode-text {
+  color: var(--irc2b-gold);
+}
+
+.irc2b-total-toggle-hint {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 400;
+  color: #7c8797;
+  margin-top: 3px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Icon swap: two stacked icons crossfade on hover, rather than just
+   rotating one — the shape change itself signals "this does something". */
+.irc2b-total-toggle-icon-wrap {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 5px auto 0;
+}
+
+.irc2b-total-toggle-icon-wrap i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 13px;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.irc2b-total-toggle-icon-default {
+  color: #9aa5b1;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.irc2b-total-toggle-icon-hover {
+  color: var(--irc2b-gold);
+  opacity: 0;
+  transform: scale(0.6) rotate(-25deg);
+}
+
+.irc2b-total-col-clickable:hover .irc2b-total-toggle-icon-default {
+  opacity: 0;
+  transform: scale(0.6) rotate(25deg);
+}
+
+.irc2b-total-col-clickable:hover .irc2b-total-toggle-icon-hover {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.irc2b-table th:not(.irc2b-label-col):not(.irc2b-total-col),
+.irc2b-table td:not(.irc2b-label-col):not(.irc2b-total-cell) {
+  width: 56px;
+}
+
+/* Thicker divider marking the end of each quarter's 3 months */
+.irc2b-quarter-end {
+  border-right: 2px solid #4a6fa5 !important;
+}
+
+.irc2b-table tbody td.irc2b-quarter-end {
+  border-right: 2px solid #c9d6e8 !important;
+}
+
+.irc2b-school-num {
+  color: #999;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.irc2b-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.15s ease;
+}
+
+.irc2b-table tbody tr:nth-child(odd) {
+  background: #fafbfc;
+}
+
+.irc2b-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.irc2b-table tbody tr:hover {
+  background: #f0f5ff;
+}
+
+.irc2b-table[data-section="elementary"] tbody tr:hover {
+  background: var(--irc2b-elementary-hover);
+}
+
+.irc2b-table[data-section="secondary"] tbody tr:hover {
+  background: var(--irc2b-secondary-hover);
+}
+
+.irc2b-table tbody td {
+  padding: 9px 6px;
+  border-right: 1px solid #e8e8e8;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.irc2b-table tbody td:last-child {
+  border-right: none;
+}
+
+/* Checkboxes */
+.irc2b-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4a6fa5;
+}
+
+/* Total — pill badge, same treatment as irc1b */
+.irc2b-total-cell {
+  text-align: center;
+}
+
+.irc2b-row-total {
+  display: inline-block;
+  font-weight: 600;
+  color: #185fa5;
+  background: #e6f1fb;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  min-width: 20px;
+}
+
+/* ------------------------------------------------------------------
+   Footer row — per-quarter and grand totals across all schools
+------------------------------------------------------------------ */
+
+.irc2b-table tfoot {
+  background: #1f2937;
+}
+
+.irc2b-table[data-section="elementary"] tfoot {
+  background: var(--irc2b-elementary-darker);
+}
+
+.irc2b-table[data-section="secondary"] tfoot {
+  background: var(--irc2b-secondary-darker);
+}
+
+.irc2b-footer-row td {
+  border-top: 3px solid #4a6fa5;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 6px;
+  background: #1f2937;
+}
+
+.irc2b-table[data-section="elementary"] .irc2b-footer-row td {
+  border-top-color: var(--irc2b-elementary);
+  background: var(--irc2b-elementary-darker);
+}
+
+.irc2b-table[data-section="secondary"] .irc2b-footer-row td {
+  border-top-color: var(--irc2b-secondary);
+  background: var(--irc2b-secondary-darker);
+}
+
+.irc2b-footer-row td:last-child {
+  border-right: none;
+}
+
+.irc2b-footer-label {
+  text-align: left !important;
+  padding-left: 14px !important;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: #f3f4f6;
+}
+
+.irc2b-footer-cell {
+  text-align: center;
+}
+
+.irc2b-quarter-footer-total {
+  display: inline-block;
+  font-weight: 700;
+  color: #dce6f5;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  min-width: 20px;
+}
+
+.irc2b-footer-grand-total {
+  display: inline-block;
+  font-weight: 700;
+  color: #1f2937;
+  background: #ffd75e;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  min-width: 20px;
+}
+
+/* ------------------------------------------------------------------
+   Monthly/Quarterly line chart — one per section, below its table
+------------------------------------------------------------------ */
+
+.irc2b-linechart-wrapper {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-left: 4px solid #57534e;
+  border-radius: 12px;
+  padding: 14px 20px 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.irc2b-linechart-wrapper-elementary {
+  border-left-color: var(--irc2b-elementary);
+}
+
+.irc2b-linechart-wrapper-secondary {
+  border-left-color: var(--irc2b-secondary);
+}
+
+.irc2b-linechart-wrapper-overall {
+  border-left-color: var(--irc2b-overall);
+}
+
+.irc2b-linechart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 8px;
+}
+
+.irc2b-linechart-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.irc2b-linechart-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.irc2b-linechart-title i {
+  font-size: 15px;
+}
+
+.irc2b-linechart-title-elementary i {
+  color: var(--irc2b-elementary);
+}
+
+.irc2b-linechart-title-secondary i {
+  color: var(--irc2b-secondary);
+}
+
+.irc2b-linechart-title-overall i {
+  color: var(--irc2b-overall);
+}
+
+.irc2b-linechart-caption {
+  font-size: 11.5px;
+  color: #888;
+}
+
+/* ---- Monthly/Quarterly segmented toggle ---- */
+.irc2b-chart-toggle {
+  display: inline-flex;
+  background: #f1f2f4;
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.irc2b-chart-toggle-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 5px 13px;
+  border-radius: 999px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.irc2b-chart-toggle-btn:hover {
+  color: #374151;
+}
+
+.irc2b-chart-toggle-btn-active {
+  background: #1f2937;
+  color: #fff;
+}
+
+.irc2b-chart-toggle-btn-active:hover {
+  color: #fff;
+}
+
+.irc2b-linechart-wrapper-elementary .irc2b-chart-toggle-btn-active {
+  background: var(--irc2b-elementary);
+}
+
+.irc2b-linechart-wrapper-secondary .irc2b-chart-toggle-btn-active {
+  background: var(--irc2b-secondary);
+}
+
+.irc2b-linechart-wrapper-overall .irc2b-chart-toggle-btn-active {
+  background: var(--irc2b-overall);
+}
+
+.irc2b-linechart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.irc2b-linechart-grid {
+  stroke: #eef0f2;
+  stroke-width: 1;
+}
+
+.irc2b-linechart-axis {
+  stroke: #d6dbe1;
+  stroke-width: 1.2;
+}
+
+.irc2b-linechart-axis-label {
+  font-size: 11.5px;
+  fill: #9aa5b1;
+}
+
+.irc2b-linechart-x-label {
+  font-size: 11.5px;
+  fill: #8a93a0;
+  text-anchor: middle;
+}
+
+.irc2b-linechart-path {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 0.25s ease;
+}
+
+.irc2b-linechart-path-elementary {
+  stroke: var(--irc2b-elementary);
+}
+
+.irc2b-linechart-path-secondary {
+  stroke: var(--irc2b-secondary);
+}
+
+.irc2b-linechart-path-overall {
+  stroke: var(--irc2b-overall);
+}
+
+.irc2b-linechart-area-elementary {
+  fill: rgba(180, 83, 9, 0.09);
+  stroke: none;
+}
+
+.irc2b-linechart-area-secondary {
+  fill: rgba(4, 120, 87, 0.09);
+  stroke: none;
+}
+
+.irc2b-linechart-area-overall {
+  fill: rgba(31, 41, 55, 0.09);
+  stroke: none;
+}
+
+.irc2b-linechart-point {
+  fill: #fff;
+  stroke-width: 2.1;
+}
+
+.irc2b-linechart-point-elementary {
+  stroke: var(--irc2b-elementary);
+}
+
+.irc2b-linechart-point-secondary {
+  stroke: var(--irc2b-secondary);
+}
+
+.irc2b-linechart-point-overall {
+  stroke: var(--irc2b-overall);
+}
+
+.irc2b-linechart-point-val {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.irc2b-linechart-point-val-elementary {
+  fill: var(--irc2b-elementary-dark);
+}
+
+.irc2b-linechart-point-val-secondary {
+  fill: var(--irc2b-secondary-dark);
+}
+
+.irc2b-linechart-point-val-overall {
+  fill: var(--irc2b-overall-dark);
+}
+
+/* Responsive: only guard against very narrow windows since this is a
+   PC/laptop-only tool — no phone-sized breakpoints needed. The
+   .irc2b-coverage-row / .irc2b-coverage-hero narrow-screen behavior is
+   handled by the (max-width: 620px) rule alongside those classes above. */
+
+@media (max-width: 900px) {
+  .irc2b-header h2 {
+    font-size: 24px;
+  }
+
+  .irc2b-header-badge {
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .irc2b-header-badge-group {
+    font-size: 9px;
+  }
+
+  .irc2b-header-badge-page {
+    font-size: 15px;
+  }
+
+  .irc2b-header-divider {
+    height: 44px;
+  }
+
+  .irc2b-header-actions {
+    width: 100%;
+  }
+
+  .irc2b-pdf-btn,
+  .irc2b-reset-all-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .irc2b-dark-header,
+  .irc2b-card-body,
+  .irc2b-coverage-card-body,
+  .irc2b-section-card-body {
+    padding: 14px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Print / Save-to-PDF
+   Triggered by #irc2b-pdf-btn -> window.print() (see irc2b.js). Only
+   ever active on this page since irc2b.css is only loaded here, so
+   these rules can safely target the shared <header>/<nav> from
+   base.html without leaking into other tabs. Mirrors IRC1a's own
+   "Print / Save-to-PDF" block (irc1a.css) -- same paper size, same
+   unclip/color-adjust/scrollbar resets, same badge<->label alignment
+   technique -- adapted for this page's coverage dashboard + two
+   checklist tables instead of a single ratings table.
+------------------------------------------------------------------ */
+
+@media print {
+  /* "Long" bond paper, as requested -- 8.5in x 13in. */
+  @page {
+    size: 8.5in 13in;
+    margin: 0.5in;
+  }
+
+  /* base.css pins header+nav and makes .content the sole scrolling
+     element via overflow-y: auto + a flexed height. Printing engines
+     honor that overflow/height the same way screens do, which would
+     clip everything past one viewport-tall "page" of .content --
+     so it all has to be forced back to natural, unclipped flow here. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Logo bar + navbar (base.html) and this page's own header action
+     buttons (Save to PDF / Reset) -- none of these belong in a
+     printed report. */
+  header,
+  nav,
+  .irc2b-header-actions {
+    display: none !important;
+  }
+
+  /* Belt-and-suspenders: only ever visible via a ".visible" class
+     toggle and defaults to display:none already, but force it off in
+     case a print is triggered while it's open. */
+  #irc2b-reset-confirm-overlay {
+    display: none !important;
+  }
+
+  .content {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* Horizontally-scrolling tables need to render in full instead of
+     scrolling. */
+  .irc2b-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .scroll-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Scrollbars never belong in a printed/PDF page. Most browsers omit
+     them for print automatically, but this removes any doubt. */
+  * {
+    scrollbar-width: none !important;
+  }
+
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Chrome/Edge/Safari drop background colors on print by default
+     unless told otherwise, which is why the dark section headers, the
+     elementary/secondary accent colors, and the checked checkboxes'
+     accent-color were all coming out flat/white. This forces every
+     background to print as it looks on screen. "Background graphics"
+     still needs to be left ON in the print dialog -- this can't
+     override that toggle, only make sure nothing here fights it. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Header scale-down. IRC2b's header shares IRC1a's exact base
+     values (54px badge, 32px h2, 14px subtitle, etc.), so the same
+     print sizes apply here unchanged.
+  --------------------------------------------------------------- */
+
+  .irc2b-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .irc2b-header-badge {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .irc2b-header-badge-group {
+    font-size: 8px;
+  }
+
+  .irc2b-header-badge-page {
+    font-size: 13px;
+  }
+
+  .irc2b-header-divider {
+    height: 38px;
+  }
+
+  .irc2b-header h2 {
+    font-size: 18px;
+  }
+
+  .irc2b-subtitle {
+    font-size: 10px;
+  }
+
+  /* -----------------------------------------------------------------
+     Guided-flow numbering: the on-screen design ties badge<->label
+     together via a shared CSS Grid rail (.irc2b-flow-rail) that spans
+     all 3 rows as one tall grid item, with the vertical connecting
+     line drawn down its own height. That works fine in a single
+     continuous viewport, but this page's Elementary section (19
+     schools + its own chart) routinely runs past one printed page on
+     its own -- and a paginated browser has to fragment that one tall
+     rail item across the resulting page break. Each fragment gets
+     repositioned independently by the print engine, which is what was
+     landing badge "3" near the tail end of Elementary's carried-over
+     chart on page 2 instead of next to the actual "Secondary" label
+     further down that same page -- a real Chromium print-pagination
+     bug, not a sizing mismatch, and not something any amount of
+     height/margin tuning on the shared rail can fix.
+
+     For print only, the shared rail is dropped in favor of numbering
+     each label in place: the badge circle is drawn as a ::before on
+     .irc2b-flow-label itself via a CSS counter, so the number and its
+     label are permanently the same fragment and can never separate
+     across a page break, no matter where either one falls.
+
+     The connecting line is kept, but -- for the same reason the old
+     shared rail broke -- it can no longer be one element spanning all
+     3 sections. Instead each section draws its own short line, from
+     its own badge down to its own bottom edge, via a ::after on that
+     section's label positioned against that one section only
+     (.irc2b-flow-section-N as the containing block). Scoped this way,
+     a line never has to reposition itself relative to a *different*
+     section's content the way the old cross-section rail did -- at
+     worst, a line that happens to run through a page break just
+     continues on the next page along with the rest of that section,
+     which is ordinary, well-supported print fragmentation rather than
+     the multi-row subgrid-item bug above. */
+  .irc2b-flow {
+    display: block !important;
+    counter-reset: irc2b-flow-step;
+  }
+
+  .irc2b-flow-rail {
+    display: none !important;
+  }
+
+  .irc2b-flow-section-1,
+  .irc2b-flow-section-2,
+  .irc2b-flow-section-3 {
+    grid-column: auto;
+    position: relative;
+  }
+
+  .irc2b-flow-label {
+    counter-increment: irc2b-flow-step;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    height: auto !important;
+    margin: 0 0 6px 0 !important;
+    font-size: 10px;
+  }
+
+  .irc2b-flow-section-1 .irc2b-flow-label {
+    margin-top: 0 !important;
+  }
+
+  .irc2b-flow-section-2 .irc2b-flow-label,
+  .irc2b-flow-section-3 .irc2b-flow-label {
+    margin-top: 14px !important;
+  }
+
+  .irc2b-flow-label::before {
+    content: counter(irc2b-flow-step);
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1f2937;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* The connecting line -- starts just below the badge (18px badge +
+     its own 6px bottom margin) and runs to the bottom of this section
+     only, centered under the 18px-wide badge. */
+  .irc2b-flow-label::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 24px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-strong, #d0d5dd);
+    z-index: 0;
+  }
+
+  /* The last section has nothing further down the page for its line
+     to connect to, so it's dropped there -- matching the on-screen
+     rail, whose own line already stops 20px short of the last badge. */
+  .irc2b-flow-section-3 .irc2b-flow-label::after {
+    display: none;
+  }
+
+  /* Everything below the label (the coverage/section cards, the
+     overall trend chart) needs to clear the connecting line the same
+     way the on-screen design clears its separate 40px rail column --
+     otherwise, sitting flush with the section's left edge like the
+     label's own badge does, they'd run right through the line instead
+     of alongside it. 35px gives the line a bit more breathing room
+     past the label's text than a bare 18px badge + 8px gap would. */
+  .irc2b-flow-section-1 > *:not(.irc2b-flow-label),
+  .irc2b-flow-section-2 > *:not(.irc2b-flow-label),
+  .irc2b-flow-section-3 > *:not(.irc2b-flow-label) {
+    margin-left: 50px !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Remove interactive-only affordances that don't belong in a
+     printed report: the Monthly/Quarterly chart toggles (3x, one per
+     chart) and the Total column's hover-swap toggle icon. The Total
+     column itself, and whatever mode each chart/table was left in on
+     screen, still prints -- only the controls for changing that mode
+     are removed.
+  --------------------------------------------------------------- */
+
+  .irc2b-chart-toggle,
+  .irc2b-total-toggle-icon-wrap {
+    display: none !important;
+  }
+
+  .irc2b-total-col-clickable {
+    cursor: default;
+  }
+
+  /* ---------------------------------------------------------------
+     Coverage summary card -- scaled down a notch further than the
+     other cards since its hero numbers (36px/30px on screen) are the
+     single largest text on the page.
+  --------------------------------------------------------------- */
+
+  .irc2b-coverage-card {
+    margin-bottom: 10px !important;
+  }
+
+  .irc2b-dark-header,
+  .irc2b-card-body,
+  .irc2b-section-card-body {
+    padding: 8px 10px !important;
+  }
+
+  .irc2b-coverage-card-body {
+    padding: 5px 8px !important;
+  }
+
+  .irc2b-coverage-row {
+    gap: 8px;
+    padding: 2px 0;
+  }
+
+  .irc2b-coverage-hero {
+    flex: 0 0 50px;
+  }
+
+  .irc2b-coverage-hero-value {
+    font-size: 15px !important;
+    line-height: 18px !important;
+  }
+
+  .irc2b-coverage-hero-label {
+    font-size: 7.5px !important;
+    margin-top: 1px;
+  }
+
+  .irc2b-coverage-bar-meta {
+    flex: 0 0 32px;
+    width: 32px;
+  }
+
+  .irc2b-coverage-bar-meta-value {
+    font-size: 11px !important;
+    line-height: 14px !important;
+  }
+
+  .irc2b-coverage-bar-meta-label {
+    font-size: 7.5px !important;
+    margin-top: 1px;
+  }
+
+  .irc2b-coverage-divider {
+    margin: 1px 0;
+  }
+
+  .irc2b-coverage-overall {
+    padding-top: 1px;
+  }
+
+  .irc2b-coverage-overall-label,
+  .irc2b-coverage-overall-value {
+    font-size: 8.5px !important;
+  }
+
+  .irc2b-dark-header h3 {
+    font-size: 11px !important;
+  }
+
+  .irc2b-subtitle-dark {
+    font-size: 9px !important;
+  }
+
+  .irc2b-coverage-row {
+    gap: 14px;
+    padding: 4px 0;
+  }
+
+  .irc2b-coverage-hero {
+    flex: 0 0 70px;
+  }
+
+  .irc2b-coverage-hero-value {
+    font-size: 22px !important;
+    line-height: 26px !important;
+  }
+
+  .irc2b-coverage-hero-label {
+    font-size: 9px !important;
+    margin-top: 3px;
+  }
+
+  .irc2b-coverage-bar-meta {
+    flex: 0 0 44px;
+    width: 44px;
+  }
+
+  .irc2b-coverage-bar-meta-value {
+    font-size: 16px !important;
+    line-height: 20px !important;
+  }
+
+  .irc2b-coverage-bar-meta-label {
+    font-size: 9px !important;
+    margin-top: 3px;
+  }
+
+  .irc2b-coverage-overall-label,
+  .irc2b-coverage-overall-value {
+    font-size: 10px !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Section cards (Elementary / Secondary) + line charts
+  --------------------------------------------------------------- */
+
+  .irc2b-section-card {
+    margin-bottom: 10px !important;
+  }
+
+  .irc2b-section-card-body .irc2b-table-wrapper,
+  .irc2b-linechart-wrapper {
+    margin-bottom: 10px !important;
+  }
+
+  .irc2b-linechart-wrapper {
+    padding: 8px 10px 6px !important;
+  }
+
+  .irc2b-linechart-title {
+    font-size: 10.5px !important;
+  }
+
+  .irc2b-linechart-title i {
+    font-size: 11px !important;
+  }
+
+  .irc2b-linechart-caption {
+    font-size: 8.5px !important;
+  }
+
+  .irc2b-linechart-axis-label,
+  .irc2b-linechart-x-label,
+  .irc2b-linechart-point-val {
+    font-size: 8px !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Tables: shrink type/padding to a print-appropriate scale, and
+     collapse the on-screen fixed-px column widths (240px label col +
+     92px total col + 12 x 56px month cols = 1004px, meant to scroll
+     inside .irc2b-table-wrapper on screen) down to percentages that
+     always sum to exactly 100% of the page's printable width -- with
+     no horizontal scrollbar available on a printed page, the fixed
+     widths would otherwise run every table off the right edge.
+  --------------------------------------------------------------- */
+
+  .irc2b-table-wrapper {
+    font-size: 8px !important;
+  }
+
+  .irc2b-table,
+  .irc2b-table thead th,
+  .irc2b-table tbody td,
+  .irc2b-table tfoot td,
+  .irc2b-school-num,
+  .irc2b-row-total,
+  .irc2b-total-header-label,
+  .irc2b-quarter-footer-total,
+  .irc2b-footer-grand-total,
+  .irc2b-footer-label {
+    font-size: 8px !important;
+  }
+
+  .irc2b-table thead th {
+    padding: 4px 2px !important;
+  }
+
+  .irc2b-quarter-row th {
+    padding-top: 5px;
+    padding-bottom: 3px;
+  }
+
+  .irc2b-month-row th {
+    padding-top: 2px;
+    padding-bottom: 4px;
+  }
+
+  .irc2b-table tbody td {
+    padding: 3px 2px !important;
+  }
+
+  .irc2b-footer-row td {
+    padding: 4px 2px !important;
+  }
+
+  .irc2b-label-col {
+    width: 24% !important;
+    padding-left: 6px !important;
+  }
+
+  .irc2b-total-col {
+    width: 8% !important;
+  }
+
+  .irc2b-table th:not(.irc2b-label-col):not(.irc2b-total-col),
+  .irc2b-table td:not(.irc2b-label-col):not(.irc2b-total-cell) {
+    width: 5.667% !important;
+  }
+
+  .irc2b-row-total,
+  .irc2b-quarter-footer-total,
+  .irc2b-footer-grand-total {
+    padding: 1px 5px !important;
+  }
+
+  /* Native checkboxes read fine in print as-is (the checked accent
+     color is preserved by the color-adjust rule above); just shrink
+     them to match the narrowed month columns. */
+  .irc2b-table input[type="checkbox"] {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  /* Avoid splitting a table row, or a bounded-height summary/chart
+     card, awkwardly across a page break. The section cards themselves
+     (table + chart together) are left out on purpose -- they're
+     taller than a page, so forcing them whole would just push blank
+     space instead of flowing naturally. */
+  .irc2b-table tr,
+  .irc2b-coverage-card,
+  .irc2b-linechart-wrapper {
+    break-inside: avoid;
+  }
+}
