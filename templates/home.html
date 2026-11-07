@@ -30,27 +30,8 @@ block extra_css %}
       />
       <div class="masthead-divider"></div>
 
-      <!-- Grid so each preparer field's bottom edge lines up exactly with
-           the title-block row it sits beside: row 1 = title / greeting,
-           row 2 = subtitle / position (see .masthead-row-grid, home.css). -->
       <div class="masthead-row-grid">
         <h1 class="dashboard-title">Project IRC</h1>
-
-        <!-- "Prepared by" name, shown at the bottom of every IRC1a-IRC9
-             page (see base.html). Saved automatically as the user types
-             (see index.js) -- no Save button, and untouched by every
-             page's own Reset. -->
-        <p class="masthead-preparer-greeting">
-          Welcome,
-          <input
-            type="text"
-            id="homePreparerName"
-            class="masthead-preparer-input masthead-preparer-input--name"
-            placeholder="Your name"
-            value="{{ preparer.name }}"
-            autocomplete="off"
-          />!
-        </p>
 
         <p class="dashboard-subtitle">
           <span class="irc-letter">I</span>ndividual
@@ -59,15 +40,6 @@ block extra_css %}
           <span class="irc-cdot">·</span>
           <span class="irc-letter">C</span>ard
         </p>
-
-        <input
-          type="text"
-          id="homePreparerPosition"
-          class="masthead-preparer-input masthead-preparer-input--position"
-          placeholder="Position"
-          value="{{ preparer.position }}"
-          autocomplete="off"
-        />
       </div>
     </div>
   </div>

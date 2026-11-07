@@ -68,12 +68,7 @@
   flex-shrink: 0;
 }
 
-/* Title block (col 1) and "Prepared by" block (col 2) share this grid so
-   each preparer field's bottom edge lines up exactly with the title-block
-   row beside it: row 1 = title + greeting, row 2 = subtitle + position.
-   align-items: end does the alignment -- each row's height is set by its
-   tallest cell (the title, the subtitle), and align-items pins every
-   other cell in that row to its bottom edge. */
+/* Title block: row 1 = title, row 2 = subtitle. */
 .masthead-row-grid {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -105,60 +100,6 @@
   font-weight: 500;
 }
 
-/* ── "Prepared by" greeting, right side of the title row ─────────────────── */
-.masthead-preparer-greeting {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
-  font-size: 1.3rem;
-  color: var(--text-light);
-  margin: 0;
-  white-space: nowrap;
-}
-
-.masthead-preparer-input {
-  border: none;
-  border-bottom: 1.5px solid var(--border);
-  background: transparent;
-  outline: none;
-  font-family: inherit;
-  padding: 0 2px 1px;
-  transition:
-    border-color 0.15s ease,
-    width 0.1s ease;
-}
-
-.masthead-preparer-input:focus {
-  border-bottom-color: var(--navy);
-}
-
-/* Width is set inline by index.js (autoSizeInput) so both fields grow
-   with whatever's typed -- the widths here are just the JS's clamp
-   bounds expressed as a CSS fallback for the instant before JS runs. */
-.masthead-preparer-input--name {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--navy);
-  width: 150px;
-  min-width: 150px;
-  max-width: 480px;
-  text-align: right;
-}
-
-.masthead-preparer-input--position {
-  grid-column: 2;
-  grid-row: 2;
-  justify-self: end;
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--text-light);
-  width: 190px;
-  min-width: 100px;
-  max-width: 380px;
-  text-align: right;
-  border-bottom-style: dashed;
-}
-
 @media (max-width: 640px) {
   .dashboard-title {
     font-size: 2.2rem;
@@ -182,26 +123,6 @@
 
   .dashboard-subtitle {
     grid-row: 2;
-  }
-
-  .masthead-preparer-greeting,
-  .masthead-preparer-input--position {
-    grid-column: 1;
-    justify-self: start;
-  }
-
-  .masthead-preparer-greeting {
-    grid-row: 3;
-  }
-
-  .masthead-preparer-input--position {
-    grid-row: 4;
-  }
-
-  .masthead-preparer-input--name,
-  .masthead-preparer-input--position {
-    text-align: left;
-    max-width: 100%;
   }
 }
 

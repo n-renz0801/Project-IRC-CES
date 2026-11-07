@@ -606,7 +606,9 @@
             <span class="irc8a-label">Objective ${escapeHtml(code)}</span>
             <h3>${title ? escapeHtml(title) : "Untitled objective"}</h3>
           </div>
-          <div class="irc8a-obj-actions">${objActions}</div>
+          <div class="irc8a-obj-actions">
+            <span class="irc8a-obj-score" title="Weighted average for this objective"><span class="irc8a-obj-score-k">Weighted score</span><span class="irc8a-obj-score-v${score === null ? " is-empty" : ""}">${score === null ? "—" : fmt3(score)}</span></span>${objActions}
+          </div>
         </div>
 
         <div class="irc8a-group irc8a-group--plan">

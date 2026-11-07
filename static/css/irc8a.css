@@ -1260,7 +1260,7 @@ textarea.irc8a-input {
 /* ---------- Evaluation ---------- */
 .irc8a-eval {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 16px;
   row-gap: 0;
 }
@@ -1301,14 +1301,17 @@ textarea.irc8a-input {
 }
 .irc8a-mov-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
 }
 .irc8a-mov-link {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
+  flex: 1 1 auto;
+  max-width: 100%;
   min-width: 0;
+  padding-top: 4px; /* centres the first line on the 26px icon buttons */
   font-size: 13px;
   color: var(--e1-accent);
   text-decoration: none;
@@ -1317,11 +1320,13 @@ textarea.irc8a-input {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+  margin-top: 2px; /* keep the icon on the first line of wrapped text */
 }
 .irc8a-mov-link span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere; /* long URLs have no spaces, so break anywhere */
+  word-break: break-word;
 }
 .irc8a-mov-link:hover span {
   text-decoration: underline;
@@ -1689,4 +1694,70 @@ textarea.irc8a-input {
 .irc8a-fact-value,
 .irc8a-level-text {
   white-space: pre-line;
+}
+
+/* =====================================================================
+   LAYOUT REFINEMENTS (screen only)
+   Structure, legibility and ergonomics only. The dark-header visual
+   language shared with the other pages is deliberately left as it was.
+   ===================================================================== */
+@media screen {
+  /* 1. Weighted score in the objective header, so the result is visible
+        while rating. Text is tinted from the header's hue, not grey. */
+  .irc8a-obj-score {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.15;
+    margin-right: 6px;
+    padding-right: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .irc8a-obj-score:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: 0;
+  }
+  .irc8a-obj-score-k {
+    font-size: 11px;
+    color: #d3dcec;
+  }
+  .irc8a-obj-score-v {
+    font-size: 17px;
+    font-weight: 700;
+    color: #f0cf7d;
+    font-variant-numeric: tabular-nums;
+  }
+  .irc8a-obj-score-v.is-empty {
+    color: #d3dcec;
+    font-weight: 500;
+  }
+
+  /* 2. Unchosen rating levels were ~2.5:1 contrast; keep them readable. */
+  .irc8a-levels.has-selection .irc8a-level:not(.is-selected) {
+    opacity: 0.82;
+  }
+  .irc8a-level-name {
+    color: #4d5968;
+  }
+  .irc8a-level-actions {
+    gap: 4px; /* Delete no longer sits flush against Edit */
+  }
+
+  /* 3. Long text can never push the layout wider. */
+  .irc8a-box {
+    overflow-wrap: anywhere;
+  }
+
+  /* 4. Touch: larger hit targets for icon buttons. */
+  @media (pointer: coarse) {
+    .irc8a-icon-btn {
+      width: 40px;
+      height: 40px;
+    }
+    .irc8a-icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }

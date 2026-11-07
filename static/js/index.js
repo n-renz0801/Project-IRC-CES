@@ -53,95 +53,60 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // ---------- Report Prepared By ----------
-  // Two jobs, guarded independently so this runs harmlessly on every page:
-  //   1. Home page only: auto-save the Name/Position inputs (in the title
-  //      row's "Welcome, ___!" greeting) to POST /api/preparer as the user
-  //      types -- no Save button. Debounced on input, flushed immediately
-  //      on blur so navigating away never drops the last keystrokes.
-  //   2. IRC1a-IRC8d pages only: fetch GET /api/preparer and fill in the
-  //      "Prepared by" name/position in base.html's report-signatory
-  //      footer (see base.html, static/css/base.css).
-  var preparerNameInput = document.getElementById("homePreparerName");
-  var preparerPositionInput = document.getElementById("homePreparerPosition");
-  var preparerSaveTimer = null;
-
-  // Grows/shrinks an input to fit whatever's typed in it, by measuring the
-  // text against a hidden same-font span. Keeps the visible box snug to a
-  // long name instead of either truncating it or sitting at a fixed width
-  // that's mostly empty for a short one.
-  function autoSizeInput(input, minWidth, maxWidth) {
-    if (!input) return;
-    var sizer = document.createElement("span");
-    sizer.style.position = "absolute";
-    sizer.style.left = "-9999px";
-    sizer.style.top = "0";
-    sizer.style.visibility = "hidden";
-    sizer.style.whiteSpace = "pre";
-    sizer.style.font = window.getComputedStyle(input).font;
-    document.body.appendChild(sizer);
-
-    function resize() {
-      sizer.textContent = input.value || input.placeholder || "";
-      var width = sizer.getBoundingClientRect().width + 14; // caret + border room
-      width = Math.max(minWidth, Math.min(width, maxWidth));
-      input.style.width = width + "px";
-    }
-
-    input.addEventListener("input", resize);
-    resize();
-  }
-
-  autoSizeInput(preparerNameInput, 150, 480);
-  autoSizeInput(preparerPositionInput, 100, 380);
-
-  function savePreparer() {
-    fetch("/api/preparer", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: preparerNameInput.value.trim(),
-        position: preparerPositionInput.value.trim(),
-      }),
-    }).catch(() => {
-      /* Best-effort, same convention as irc1b's manual-count autosave. */
-    });
-  }
-
-  function schedulePreparerSave() {
-    clearTimeout(preparerSaveTimer);
-    preparerSaveTimer = setTimeout(savePreparer, 600);
-  }
-
-  function flushPreparerSave() {
-    clearTimeout(preparerSaveTimer);
-    savePreparer();
-  }
-
-  if (preparerNameInput && preparerPositionInput) {
-    [preparerNameInput, preparerPositionInput].forEach(function (input) {
-      input.addEventListener("input", schedulePreparerSave);
-      input.addEventListener("blur", flushPreparerSave);
-    });
-  }
-
   var preparedByNameEl = document.getElementById("reportPreparedByName");
   var preparedByPositionEl = document.getElementById(
     "reportPreparedByPosition",
   );
 
-  if (preparedByNameEl && document.body.dataset.activeTab !== "irc8c") {
-    fetch("/api/preparer")
+  // ---------- Report footer: "Checked by" name (IRC1a-IRC7) ----------
+  // One shared value (GET/POST /api/checked-by), so editing it on any page
+  // shows up on every other page. Same debounce-on-input / flush-on-blur
+  // convention as the other autosaving fields. No-op where the input
+  // isn't rendered.
+  var checkedByInput = document.getElementById("reportCheckedByNameInput");
+
+  if (checkedByInput) {
+    var checkedBySaveTimer = null;
+
+    function saveCheckedBy() {
+      fetch("/api/checked-by", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: checkedByInput.value.trim() }),
+      }).catch(() => {
+        /* Best-effort, same convention as the preparer autosave above. */
+      });
+    }
+
+    checkedByInput.addEventListener("input", function () {
+      var s = checkedByInput.selectionStart;
+      var e = checkedByInput.selectionEnd;
+      checkedByInput.value = checkedByInput.value.toUpperCase();
+      try {
+        checkedByInput.setSelectionRange(s, e);
+      } catch (err) {
+        /* not supported */
+      }
+      clearTimeout(checkedBySaveTimer);
+      checkedBySaveTimer = setTimeout(saveCheckedBy, 600);
+    });
+    checkedByInput.addEventListener("blur", function () {
+      clearTimeout(checkedBySaveTimer);
+      saveCheckedBy();
+    });
+    checkedByInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") checkedByInput.blur();
+    });
+
+    fetch("/api/checked-by")
       .then(function (res) {
         return res.json();
       })
       .then(function (data) {
-        preparedByNameEl.textContent = data.name || "\u00A0";
-        preparedByPositionEl.textContent = data.position || "";
+        checkedByInput.value = data.name || "";
       })
       .catch(function () {
-        preparedByNameEl.textContent = "\u00A0";
-        preparedByPositionEl.textContent = "";
+        /* leave the field blank on failure */
       });
   }
 

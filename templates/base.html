@@ -116,6 +116,7 @@
           <span>Report signatories</span>
         </div>
         <div class="report-signatory-grid">
+          <!-- Prepared by: fixed, not editable -->
           <div class="report-signatory-block">
             <p class="report-signatory-label">Prepared by</p>
             <div class="report-signatory-person">
@@ -123,17 +124,14 @@
                 <i class="ti ti-user"></i>
               </span>
               <div class="report-signatory-info">
-                <p class="report-signatory-name" id="reportPreparedByName">
-                  &nbsp;
-                </p>
-                <p
-                  class="report-signatory-position"
-                  id="reportPreparedByPosition"
-                ></p>
+                <p class="report-signatory-name">DR. JONATHAN P. DOMINGO</p>
+                <p class="report-signatory-position">SGOD Chief</p>
                 {{ signatory_date('prepared_by', 'Prepared by') }}
               </div>
             </div>
           </div>
+          <!-- Checked by: name editable (one shared value for IRC1a-IRC7,
+               loaded/saved by index.js via /api/checked-by), position fixed -->
           <div class="report-signatory-block">
             <p class="report-signatory-label">Checked by</p>
             <div class="report-signatory-person">
@@ -141,8 +139,17 @@
                 <i class="ti ti-user"></i>
               </span>
               <div class="report-signatory-info">
-                <p class="report-signatory-name">DR. JONATHAN P. DOMINGO</p>
-                <p class="report-signatory-position">SGOD Chief</p>
+                <input
+                  type="text"
+                  class="report-signatory-name-input"
+                  id="reportCheckedByNameInput"
+                  placeholder="Full name"
+                  autocomplete="off"
+                  aria-label="Checked by name"
+                />
+                <p class="report-signatory-position">
+                  Assistant Schools Division Superintendent
+                </p>
                 {{ signatory_date('checked_by', 'Checked by') }}
               </div>
             </div>
