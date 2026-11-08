@@ -53,96 +53,106 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
+  // ---------- Report Prepared By ----------
+  // Two jobs, guarded independently so this runs harmlessly on every page:
+  //   1. Home page only: auto-save the Name/Position inputs (in the title
+  //      row's "Welcome, ___!" greeting) to POST /api/preparer as the user
+  //      types -- no Save button. Debounced on input, flushed immediately
+  //      on blur so navigating away never drops the last keystrokes.
+  //   2. IRC1a-IRC9 pages only: fetch GET /api/preparer and fill in the
+  //      "Prepared by" name/position in base.html's report-signatory
+  //      footer (see base.html, static/css/base.css).
+  var preparerNameInput = document.getElementById("homePreparerName");
+  var preparerPositionInput = document.getElementById("homePreparerPosition");
+  var preparerSaveTimer = null;
+
+  // Grows/shrinks an input to fit whatever's typed in it, by measuring the
+  // text against a hidden same-font span. Keeps the visible box snug to a
+  // long name instead of either truncating it or sitting at a fixed width
+  // that's mostly empty for a short one.
+  function autoSizeInput(input, minWidth, maxWidth) {
+    if (!input) return;
+    var sizer = document.createElement("span");
+    sizer.style.position = "absolute";
+    sizer.style.left = "-9999px";
+    sizer.style.top = "0";
+    sizer.style.visibility = "hidden";
+    sizer.style.whiteSpace = "pre";
+    sizer.style.font = window.getComputedStyle(input).font;
+    document.body.appendChild(sizer);
+
+    function resize() {
+      sizer.textContent = input.value || input.placeholder || "";
+      var width = sizer.getBoundingClientRect().width + 14; // caret + border room
+      width = Math.max(minWidth, Math.min(width, maxWidth));
+      input.style.width = width + "px";
+    }
+
+    input.addEventListener("input", resize);
+    resize();
+  }
+
+  autoSizeInput(preparerNameInput, 150, 480);
+  autoSizeInput(preparerPositionInput, 100, 380);
+
+  function savePreparer() {
+    fetch("/api/preparer", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: preparerNameInput.value.trim(),
+        position: preparerPositionInput.value.trim(),
+      }),
+    }).catch(() => {
+      /* Best-effort, same convention as irc1b's manual-count autosave. */
+    });
+  }
+
+  function schedulePreparerSave() {
+    clearTimeout(preparerSaveTimer);
+    preparerSaveTimer = setTimeout(savePreparer, 600);
+  }
+
+  function flushPreparerSave() {
+    clearTimeout(preparerSaveTimer);
+    savePreparer();
+  }
+
+  if (preparerNameInput && preparerPositionInput) {
+    [preparerNameInput, preparerPositionInput].forEach(function (input) {
+      input.addEventListener("input", schedulePreparerSave);
+      input.addEventListener("blur", flushPreparerSave);
+    });
+  }
+
+  // First visit: if nothing has been saved yet, persist the default
+  // name/position so the report footers pick them up too.
+  if (
+    preparerNameInput &&
+    preparerPositionInput &&
+    preparerNameInput.value.trim() &&
+    preparerPositionInput.value.trim()
+  ) {
+    savePreparer();
+  }
+
   var preparedByNameEl = document.getElementById("reportPreparedByName");
   var preparedByPositionEl = document.getElementById(
     "reportPreparedByPosition",
   );
 
-  // ---------- Report footer: "Checked by" name (IRC1a-IRC7) ----------
-  // One shared value (GET/POST /api/checked-by), so editing it on any page
-  // shows up on every other page. Same debounce-on-input / flush-on-blur
-  // convention as the other autosaving fields. No-op where the input
-  // isn't rendered.
-  var checkedByInput = document.getElementById("reportCheckedByNameInput");
-
-  if (checkedByInput) {
-    var checkedBySaveTimer = null;
-
-    function saveCheckedBy() {
-      fetch("/api/checked-by", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: checkedByInput.value.trim() }),
-      }).catch(() => {
-        /* Best-effort, same convention as the preparer autosave above. */
-      });
-    }
-
-    checkedByInput.addEventListener("input", function () {
-      var s = checkedByInput.selectionStart;
-      var e = checkedByInput.selectionEnd;
-      checkedByInput.value = checkedByInput.value.toUpperCase();
-      try {
-        checkedByInput.setSelectionRange(s, e);
-      } catch (err) {
-        /* not supported */
-      }
-      clearTimeout(checkedBySaveTimer);
-      checkedBySaveTimer = setTimeout(saveCheckedBy, 600);
-    });
-    checkedByInput.addEventListener("blur", function () {
-      clearTimeout(checkedBySaveTimer);
-      saveCheckedBy();
-    });
-    checkedByInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") checkedByInput.blur();
-    });
-
-    fetch("/api/checked-by")
+  if (preparedByNameEl) {
+    fetch("/api/preparer")
       .then(function (res) {
         return res.json();
       })
       .then(function (data) {
-        checkedByInput.value = data.name || "";
-      })
-      .catch(function () {
-        /* leave the field blank on failure */
-      });
-  }
-
-  // ---------- IRC8C: "Name of Employee" / "Name of Superior" ----------
-  // IRC8C (Summary of Ratings) renders its own Ratee-Rater Agreement card
-  // instead of the footer. Both names are read-only here and come live from
-  // IRC8A > Form details ("Name of employee" / "Name of rater"); the
-  // Home page's preparer is only a fallback for the employee, matching
-  // what irc8c.js prints.
-  var raterNameEl = document.getElementById("reportRaterName");
-  if (raterNameEl && preparedByNameEl) {
-    Promise.all([
-      fetch("/api/irc8a/report-header").then(function (res) {
-        return res.json();
-      }),
-      fetch("/api/preparer")
-        .then(function (res) {
-          return res.json();
-        })
-        .catch(function () {
-          return {};
-        }),
-    ])
-      .then(function (results) {
-        var header = results[0] || {};
-        var preparer = results[1] || {};
-        var employee = header.nameOfEmployee || preparer.name || "";
-        preparedByNameEl.textContent = employee.toUpperCase() || "\u00A0";
-        preparedByPositionEl.textContent =
-          header.positionOfEmployee || preparer.position || "";
-        raterNameEl.textContent =
-          (header.nameOfRater || "").toUpperCase() || "\u00A0";
+        preparedByNameEl.textContent = data.name || "\u00A0";
+        preparedByPositionEl.textContent = data.position || "";
       })
       .catch(function () {
         preparedByNameEl.textContent = "\u00A0";
-        raterNameEl.textContent = "\u00A0";
+        preparedByPositionEl.textContent = "";
       });
   }
 
@@ -202,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ---------- Report Signatory: per-page date pickers ----------
   // One of these renders under each signatory's position on every
-  // IRC1a-IRC8d page (Prepared by / Checked by, plus Approving Authority
+  // IRC1a-IRC9 page (Prepared by / Checked by, plus Approving Authority
   // on irc8a only -- see the signatory_date() macro in base.html). Unlike
   // the preparer name/position above, this date is scoped to BOTH the
   // current tab (read off <body data-active-tab>, set by view_tab() in
