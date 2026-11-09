@@ -589,37 +589,6 @@ def save_preparer():
     return jsonify({"name": preparer.name, "position": preparer.position}), 200
 
 
-# "Checked by" name shown in the report-signatory footer of IRC1a-IRC7. One
-# global value shared by every page, kept in a small JSON file next to the
-# database (no schema change needed). Blank by default.
-def _checked_by_path():
-    return os.path.join(INSTANCE_DIR, "checked_by.json")
-
-
-def _read_checked_by():
-    try:
-        with open(_checked_by_path(), "r", encoding="utf-8") as f:
-            return (json.load(f).get("name") or "").strip()
-    except (OSError, ValueError, AttributeError):
-        return ""
-
-
-@app.route("/api/checked-by", methods=["GET"])
-def get_checked_by():
-    return jsonify({"name": _read_checked_by()}), 200
-
-
-@app.route("/api/checked-by", methods=["POST"])
-def save_checked_by():
-    data = request.get_json(silent=True) or {}
-    name = (data.get("name") or "").strip().upper()
-    tmp = _checked_by_path() + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump({"name": name}, f)
-    os.replace(tmp, _checked_by_path())
-    return jsonify({"name": name}), 200
-
-
 @app.route("/api/irc8a/approving-authority", methods=["GET"])
 def get_irc8a_approving_authority():
     """Read-only fetch used by base.html's report-signatory footer, on the

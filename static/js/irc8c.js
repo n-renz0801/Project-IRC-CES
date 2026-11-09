@@ -12,6 +12,10 @@
   const overallEl = document.getElementById("irc8c-overall-score");
   const pmesNumericalEl = document.getElementById("irc8c-pmes-numerical");
   const pmesAdjectivalEl = document.getElementById("irc8c-pmes-adjectival");
+  const scaleSegs = document.querySelectorAll("#irc8c-scale [data-band]");
+  const emptyEl = document.getElementById("irc8c-empty");
+  const sub1El = document.getElementById("irc8c-sub-1");
+  const sub2El = document.getElementById("irc8c-sub-2");
 
   // Part II-A / II-B each count for 2.5% of the final score: the section
   // average x 0.025 -- same constant irc8b.js uses for its
@@ -135,16 +139,27 @@
       scoreEls[key].textContent = fmtScore(scores[key]);
     });
 
+    // Part subtotals.
+    const subtotal = (keys) => {
+      const vals = keys.map((k) => scores[k]).filter((v) => v !== null);
+      return vals.length ? vals.reduce((a, b) => a + b, 0) : null;
+    };
+    sub1El.textContent = fmtScore(subtotal(["1a", "1b", "1c"]));
+    sub2El.textContent = fmtScore(subtotal(["2a", "2b"]));
+
     const present = Object.values(scores).filter((v) => v !== null);
-    pmesNumericalEl.className = "irc8c-center irc8c-pmes";
-    pmesAdjectivalEl.className = "irc8c-center irc8c-pmes";
+
+    scaleSegs.forEach((seg) => seg.classList.remove("is-active"));
 
     if (present.length === 0) {
-      overallEl.textContent = "—";
-      pmesNumericalEl.textContent = "";
+      overallEl.textContent = "\u2014";
       pmesAdjectivalEl.textContent = "";
+      pmesNumericalEl.textContent = "";
+      emptyEl.hidden = false;
       return;
     }
+
+    emptyEl.hidden = true;
 
     const overall = present.reduce((sum, v) => sum + v, 0);
     overallEl.textContent = fmtScore(overall);
@@ -152,17 +167,18 @@
     const band = pmesBand(overall);
     printState.overall = overall;
     printState.band = band;
-    pmesNumericalEl.textContent = String(band.numerical);
     pmesAdjectivalEl.textContent = band.label;
-    pmesNumericalEl.classList.add("irc8c-pmes--" + band.cls);
-    pmesAdjectivalEl.classList.add("irc8c-pmes--" + band.cls);
+    pmesNumericalEl.textContent = "Rating " + band.numerical;
+    scaleSegs.forEach((seg) => {
+      if (seg.dataset.band === band.cls) seg.classList.add("is-active");
+    });
   }
 
   function showError(message) {
     const errBox = document.createElement("div");
     errBox.className = "irc8c-load-error";
     errBox.textContent = "Couldn't load this report: " + message;
-    const flow = document.querySelector(".irc8c-flow");
+    const flow = document.querySelector(".irc8c-body");
     flow.parentNode.insertBefore(errBox, flow);
   }
 

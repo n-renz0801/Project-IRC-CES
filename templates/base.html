@@ -15,6 +15,32 @@
     />
     <!-- Page-specific styles (inserted by child templates) -->
     {% block extra_css %}{% endblock %}
+    <!-- Signatory name inputs fill the full width of their block so long
+         names are never clipped (applies to every page, incl. OPCRF I-IV). -->
+    <style>
+      .report-signatory-person {
+        min-width: 0;
+      }
+      .report-signatory-person .report-signatory-info {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .report-signatory-info .report-signatory-name-input {
+        display: block;
+        box-sizing: border-box;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0;
+        text-overflow: ellipsis;
+      }
+      .report-signatory-block {
+        min-width: 0;
+      }
+      .report-signatory-info .report-signatory-name,
+      .report-signatory-info .report-signatory-position {
+        overflow-wrap: anywhere;
+      }
+    </style>
   </head>
   <body data-active-tab="{{ active_tab.id if active_tab else '' }}">
     <!-- ===== HEADER: Logos ===== -->
@@ -85,8 +111,7 @@
            `signatories` macro in _macros.html. Hidden on Home, which has no report to
            sign. "Prepared by" is populated client-side from /api/preparer
            (see index.js) so it always reflects whatever was last saved on
-           the Home page. "Checked by" never changes, so it's hardcoded
-           here. -->
+           the Home page. "Checked by" is the shared Rater name, edited in place. -->
       {% if active_tab and active_tab.id not in ['irc8a', 'irc8b', 'irc8c',
       'irc8d'] %}
       <!-- Small reusable snippet for the calendar-date control shown under
@@ -130,8 +155,10 @@
               </div>
             </div>
           </div>
-          <!-- Checked by: name editable (one shared value for IRC1a-IRC7,
-               loaded/saved by index.js via /api/checked-by), position fixed -->
+          <!-- Checked by: name editable. It is the same record as the Rater
+               name on OPCRF I-IV (IRC8AReportHeader.name_of_rater), loaded
+               and saved by signatories.js via /api/irc8a/report-header
+               (data-sig="rater-name"). Position is fixed. -->
           <div class="report-signatory-block">
             <p class="report-signatory-label">Checked by</p>
             <div class="report-signatory-person">
@@ -143,6 +170,7 @@
                   type="text"
                   class="report-signatory-name-input"
                   id="reportCheckedByNameInput"
+                  data-sig="rater-name"
                   placeholder="Full name"
                   autocomplete="off"
                   aria-label="Checked by name"
@@ -156,6 +184,7 @@
           </div>
         </div>
       </div>
+      <script src="{{ url_for('static', filename='js/signatories.js') }}"></script>
       {% endif %}
     </main>
 

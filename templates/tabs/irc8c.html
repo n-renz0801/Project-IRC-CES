@@ -35,172 +35,101 @@
     </div>
   </div>
 
-  <p class="irc8c-form-ref">DepEd OPCRF (ver.Feb2025), page 3 of 4</p>
-
-  <!-- ================= GUIDED FLOW: 1. Summary of ratings -> 2. PMES rating table -> 3. Ratee-Rater Agreement ================= -->
-  <div class="irc8c-flow">
-    <div class="irc8c-flow-rail" aria-hidden="true">
-      <span class="irc8c-flow-badge">1</span>
-      <span class="irc8c-flow-badge">2</span>
-      <span class="irc8c-flow-badge">3</span>
-    </div>
-
-    <!-- 1. SUMMARY OF RATINGS: obtained scores pulled live from Part I / II -->
-    <div class="irc8c-flow-section irc8c-flow-section-1">
-      <p class="irc8c-flow-label">Summary of ratings</p>
-      <div class="irc8c-card">
-        <div class="irc8c-card-header">
-          <h3>PART III: SUMMARY OF RATINGS</h3>
-        </div>
-        <div class="irc8c-table-wrap">
-          <table class="irc8c-table" id="irc8c-summary-table">
-            <thead>
-              <tr>
-                <th rowspan="2" colspan="2">Final Performance Components</th>
-                <th rowspan="2">Weight Allocation</th>
-                <th rowspan="2">Obtained Score</th>
-                <th rowspan="2">Overall Score</th>
-                <th colspan="2">PMES Rating</th>
-              </tr>
-              <tr>
-                <th>Numerical Rating</th>
-                <th>Adjectival Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th rowspan="3" class="irc8c-part-cell">PART I</th>
-                <td class="irc8c-component">
-                  A. Commitment to Organizational Outcomes
-                </td>
-                <td class="irc8c-center">60%</td>
-                <td class="irc8c-center irc8c-score" id="irc8c-score-1a">
-                  &mdash;
-                </td>
-                <td
-                  rowspan="5"
-                  class="irc8c-center irc8c-overall"
-                  id="irc8c-overall-score"
-                >
-                  &mdash;
-                </td>
-                <td
-                  rowspan="5"
-                  class="irc8c-center irc8c-pmes"
-                  id="irc8c-pmes-numerical"
-                ></td>
-                <td
-                  rowspan="5"
-                  class="irc8c-center irc8c-pmes"
-                  id="irc8c-pmes-adjectival"
-                ></td>
-              </tr>
-              <tr>
-                <td class="irc8c-component">
-                  B. Innovating and Intervening Accomplishments
-                </td>
-                <td class="irc8c-center">20%</td>
-                <td class="irc8c-center irc8c-score" id="irc8c-score-1b">
-                  &mdash;
-                </td>
-              </tr>
-              <tr>
-                <td class="irc8c-component">C. Organizational Effectiveness</td>
-                <td class="irc8c-center">15%</td>
-                <td class="irc8c-center irc8c-score" id="irc8c-score-1c">
-                  &mdash;
-                </td>
-              </tr>
-              <tr>
-                <th rowspan="2" class="irc8c-part-cell">PART II</th>
-                <td class="irc8c-component">A. Leadership Competencies</td>
-                <td class="irc8c-center">2.5% (0.125)</td>
-                <td class="irc8c-center irc8c-score" id="irc8c-score-2a">
-                  &mdash;
-                </td>
-              </tr>
-              <tr>
-                <td class="irc8c-component">
-                  B. Core Behavioural Competencies
-                </td>
-                <td class="irc8c-center">2.5% (0.125)</td>
-                <td class="irc8c-center irc8c-score" id="irc8c-score-2b">
-                  &mdash;
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="irc8c-body">
+    <!-- Result: overall score, its PMES rating, and where it sits on the scale -->
+    <section class="irc8c-result" aria-label="Overall result">
+      <div class="irc8c-result-main" aria-live="polite">
+        <span class="irc8c-overall" id="irc8c-overall-score">&mdash;</span>
+        <span class="irc8c-pmes-line">
+          <span class="irc8c-pmes-label" id="irc8c-pmes-adjectival"></span>
+          <span class="irc8c-pmes-num" id="irc8c-pmes-numerical"></span>
+        </span>
       </div>
+      <div class="irc8c-scale" id="irc8c-scale" aria-hidden="true">
+        <span class="irc8c-seg" data-band="poor"></span>
+        <span class="irc8c-seg" data-band="unsatisfactory"></span>
+        <span class="irc8c-seg" data-band="satisfactory"></span>
+        <span class="irc8c-seg" data-band="very-satisfactory"></span>
+        <span class="irc8c-seg" data-band="outstanding"></span>
+      </div>
+      <div class="irc8c-scale-ends" aria-hidden="true">
+        <span>1 Poor</span><span>5 Outstanding</span>
+      </div>
+      <p class="irc8c-empty" id="irc8c-empty" hidden>
+        No ratings yet. Scores appear here once you rate objectives in OPCRF
+        Part I and Part II.
+      </p>
+    </section>
+
+    <!-- Components: obtained scores pulled live from Part I / II. -->
+    <div class="irc8c-components" id="irc8c-summary-table">
+      <section class="irc8c-group" aria-label="Part I">
+        <header class="irc8c-group-head">
+          <h3>Part I</h3>
+          <span class="irc8c-head-label">Weight</span>
+          <span class="irc8c-head-label">Score</span>
+        </header>
+        <ul class="irc8c-rows">
+          <li class="irc8c-row">
+            <span class="irc8c-row-name"
+              >Commitment to organizational outcomes</span
+            >
+            <span class="irc8c-row-weight">60%</span>
+            <span class="irc8c-score" id="irc8c-score-1a">&mdash;</span>
+          </li>
+          <li class="irc8c-row">
+            <span class="irc8c-row-name"
+              >Innovating and intervening accomplishments</span
+            >
+            <span class="irc8c-row-weight">20%</span>
+            <span class="irc8c-score" id="irc8c-score-1b">&mdash;</span>
+          </li>
+          <li class="irc8c-row">
+            <span class="irc8c-row-name">Organizational effectiveness</span>
+            <span class="irc8c-row-weight">15%</span>
+            <span class="irc8c-score" id="irc8c-score-1c">&mdash;</span>
+          </li>
+          <li class="irc8c-row irc8c-row--total">
+            <span class="irc8c-row-name">Part I subtotal</span>
+            <span></span>
+            <span class="irc8c-score" id="irc8c-sub-1">&mdash;</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="irc8c-group" aria-label="Part II">
+        <header class="irc8c-group-head">
+          <h3>Part II</h3>
+          <span class="irc8c-head-label">Weight</span>
+          <span class="irc8c-head-label">Score</span>
+        </header>
+        <ul class="irc8c-rows">
+          <li class="irc8c-row">
+            <span class="irc8c-row-name">Leadership competencies</span>
+            <span class="irc8c-row-weight">2.5%</span>
+            <span class="irc8c-score" id="irc8c-score-2a">&mdash;</span>
+          </li>
+          <li class="irc8c-row">
+            <span class="irc8c-row-name">Core behavioural competencies</span>
+            <span class="irc8c-row-weight">2.5%</span>
+            <span class="irc8c-score" id="irc8c-score-2b">&mdash;</span>
+          </li>
+          <li class="irc8c-row irc8c-row--total">
+            <span class="irc8c-row-name">Part II subtotal</span>
+            <span></span>
+            <span class="irc8c-score" id="irc8c-sub-2">&mdash;</span>
+          </li>
+        </ul>
+      </section>
     </div>
 
-    <!-- 2. PMES RATING TABLE: its own step, used to read the Overall Score -->
-    <div class="irc8c-flow-section irc8c-flow-section-2">
-      <p class="irc8c-flow-label">Rating table</p>
-      <div class="irc8c-card">
-        <div class="irc8c-table-wrap">
-          <table class="irc8c-table irc8c-table--ref">
-            <thead>
-              <tr>
-                <th colspan="3">PMES Rating Table</th>
-              </tr>
-              <tr>
-                <th>Range</th>
-                <th>Numerical Rating</th>
-                <th>Adjectival Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="irc8c-center">4.500-5.000</td>
-                <td class="irc8c-center">5</td>
-                <td class="irc8c-center">Outstanding</td>
-              </tr>
-              <tr>
-                <td class="irc8c-center">3.500-4.499</td>
-                <td class="irc8c-center">4</td>
-                <td class="irc8c-center">Very Satisfactory</td>
-              </tr>
-              <tr>
-                <td class="irc8c-center">2.500-3.499</td>
-                <td class="irc8c-center">3</td>
-                <td class="irc8c-center">Satisfactory</td>
-              </tr>
-              <tr>
-                <td class="irc8c-center">1.500-2.499</td>
-                <td class="irc8c-center">2</td>
-                <td class="irc8c-center">Unsatisfactory</td>
-              </tr>
-              <tr>
-                <td class="irc8c-center">1.000-1.499</td>
-                <td class="irc8c-center">1</td>
-                <td class="irc8c-center">Poor</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. RATEE-RATER AGREEMENT
-         Employee = the fixed ratee; Superior = the Rater (editable, shared
-         with the other OPCRF pages). Rendered by the `signatories` macro. -->
-    <div class="irc8c-flow-section irc8c-flow-section-3">
-      <p class="irc8c-flow-label">Sign-off</p>
-      <div class="irc8c-card">
-        <div class="irc8c-card-header">
-          <h3>Ratee-Rater Agreement</h3>
-          <p class="irc8c-subtitle-dark">
-            The signatures below confirm that the employee and his/her superior
-            have agreed to the contents of the performance as captured in this
-            form.
-          </p>
-        </div>
-        {{ macros.signatories(['ratee', 'rater'], {'ratee': 'Name of Employee:',
-        'rater': 'Name of Superior:'}, false) }}
-      </div>
-    </div>
-    <!-- /.irc8c-flow -->
+    <!-- Sign-off: Employee = the ratee; Superior = the Rater (editable, shared
+         with the other OPCRF pages). Rendered by the `signatories` macro. The
+         agreement wording is printed in the PDF only (see irc8c.js). -->
+    <section class="irc8c-sign" aria-label="Ratee-rater agreement">
+      {{ macros.signatories(['ratee', 'rater'], {'ratee': 'Employee', 'rater':
+      'Superior'}, false) }}
+    </section>
   </div>
 </section>
 
