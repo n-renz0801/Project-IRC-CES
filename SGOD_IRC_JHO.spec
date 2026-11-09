@@ -33,7 +33,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='SGOD_IRC_JHO',
+    name='Project-IRC-CES',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
