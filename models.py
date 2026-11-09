@@ -1,5 +1,5 @@
 """
-SGOD_PMES -- Database Models
+Project-IRC-CES -- Database Models
 =============================
 SQLAlchemy models for IRC1a through IRC4, IRC5, IRC6, IRC7, and IRC8b, plus
 the central `UploadedFile` table that every PDF-extracted record links

@@ -1,5 +1,5 @@
 """
-SGOD_PMES -- File Storage Helpers
+Project-IRC-CES -- File Storage Helpers
 ====================================
 Centralized upload pipeline. Every accepted upload is saved under:
 
