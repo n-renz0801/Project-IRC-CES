@@ -39,4 +39,4 @@ Project-IRC-CES.exe
 
 ## Compile Command
 
-- python -m PyInstaller --clean --onefile --windowed --name SGOD_IRC_JHO --icon="static/images/Project_IRC.ico" --add-data "templates;templates" --add-data "static;static" --hidden-import webview --collect-all pdfplumber --collect-all pdfminer --collect-all pypdfium2 main.py
+- python -m PyInstaller --clean --onefile --windowed --name Project-IRC-CES --icon="static/images/Project_IRC.ico" --add-data "templates;templates" --add-data "static;static" --hidden-import webview --collect-all pdfplumber --collect-all pdfminer --collect-all pypdfium2 main.py
