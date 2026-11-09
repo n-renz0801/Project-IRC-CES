@@ -1,6 +1,6 @@
-# SGOD PMES
+# Project IRC CES
 
-**SGOD PMES** is a desktop-based application designed to assist with the processing, management, and generation of **School Governance and Operations Division (SGOD)** documents and reports.
+**Project IRC CES** is a desktop-based application designed to assist with the processing, management, and generation of **School Governance and Operations Division (SGOD)** documents and reports.
 
 The application provides a centralized interface for working with report cards, forms, and related documents.
 
@@ -20,12 +20,12 @@ The application provides a centralized interface for working with report cards, 
 
 ## Download
 
-The latest compiled version of SGOD PMES is available through the project's **GitHub Releases**.
+The latest compiled version of Project IRC CES is available through the project's **GitHub Releases**.
 
 Download the latest:
 
 ```text
-SGOD_PMES.exe
+Project-IRC-CES.exe
 ```
 
 ## Technologies
