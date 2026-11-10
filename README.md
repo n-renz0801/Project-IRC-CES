@@ -1,42 +1,24 @@
 # Project IRC CES
 
-**Project IRC CES** is a desktop-based application designed to assist with the processing, management, and generation of **School Governance and Operations Division (SGOD)** documents and reports.
+**A desktop app that helps you process, manage, and create School Governance and Operations Division (SGOD) documents and reports.**
 
-The application provides a centralized interface for working with report cards, forms, and related documents.
+## What it does
+
+- Processes Individual Report Cards (IRC) and their different forms and sections
+- Lets you upload supported documents and reads them for you
+- Keeps your data saved on your own computer
+
+## How to get it
+
+1. Open the [Releases page](https://github.com/n-renz0801/Project-IRC-CES/releases/latest) and download the latest `.exe` file.
+2. Double-click it to start. Nothing else needs to be installed.
+
+If Windows or your antivirus shows a warning the first time, that is normal for small programs. Choose **More info**, then **Run anyway**, or ask your IT person to allow it.
+
+## Feedback
+
+Found a problem or have an idea? [Open an issue](https://github.com/n-renz0801/Project-IRC-CES/issues).
 
 ---
 
-## Features
-
-- **Individual Report Card (IRC)** processing
-- Support for multiple **IRC forms and sections**
-- **PMCF** and **TA Feedback Report** document processing
-- Upload and processing of supported documents
-- Local data storage using **SQLite**
-- Desktop application interface
-- No Python installation required when using the compiled Windows executable
-
----
-
-## Download
-
-The latest compiled version of Project IRC CES is available through the project's **GitHub Releases**.
-
-Download the latest:
-
-```text
-Project-IRC-CES.exe
-```
-
-## Technologies
-
-- **Python**
-- **Flask**
-- **PyWebView**
-- **SQLite**
-- **HTML / CSS / JavaScript**
-- **PyInstaller**
-
-## Compile Command
-
-- python -m PyInstaller --clean --onefile --windowed --name Project-IRC-CES --icon="static/images/Project_IRC.ico" --add-data "templates;templates" --add-data "static;static" --hidden-import webview --collect-all pdfplumber --collect-all pdfminer --collect-all pypdfium2 main.py
+Built with Python, Flask, and PyWebView.
