@@ -2,13 +2,14 @@
 __pycache__/
 *.py[cod]
 *.pyo
+*.egg-info/
 
-# Virtual environment
+# Virtual environments
 env/
 venv/
 .venv/
 
-# PyInstaller build files (keep the .spec file so builds are reproducible)
+# PyInstaller build output (the .spec file stays tracked so builds are reproducible)
 build/
 dist/
 
@@ -19,10 +20,15 @@ uploads/
 *.sqlite
 *.sqlite3
 
-# Reference / working files
+# Personal documents, reference and working files (do not track)
+docs/
 excel/
+reference/
 data/*.xlsx
 data/*.csv
+/*.xlsx
+/*.pdf
+/*.docx
 
 # Local Adobe Illustrator files
 adobe_illustrator/
